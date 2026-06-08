@@ -1,98 +1,94 @@
 import { Link } from "react-router-dom";
-
-import foodTable from "../assets/images/foodTable.webp";
-import Navbar from "../components/Navbar";
+import bgImage from "../assets/images/foodTable.webp";
 
 function Login() {
     return (
-        <>
-            <section className="custom-section position-relative">
+        <section
+            className="login-section"
+            style={{
+                backgroundImage: `url(${bgImage})`
+            }}
+        >
+            <div className="container-fluid h-100">
 
-                <img
-                    src={foodTable}
-                    className="w-100 h-100 object-fit-cover position-absolute top-0 start-0 z-n1"
-                    alt="background"
-                />
+                <div className="row h-100 align-items-center">
 
-                <div className="login-overlay"></div>
+                    <div className="col-lg-5 col-md-7 col-sm-10">
 
-                <div className="container h-100 d-flex align-items-center position-relative">
+                        <div className="login-card">
 
-                    <div className="row w-100">
+                            <h1 className="login-title">
+                                Welcome Back
+                            </h1>
 
-                        <div className="col-lg-5 col-md-7 col-sm-9 col-12">
+                            <p className="login-subtitle">
+                                Login to your Cravings account
+                            </p>
 
-                            <div className="login-card px-5 py-4 rounded-3 bg-light">
+                            <div className="mb-4">
 
-                                <h2 className="fw-bold text-center mb-1">
-                                    Welcome Back
-                                </h2>
-
-                                <p className="text-center text-muted mb-3">
-                                    Login to your Cravings account
-                                </p>
-
-                                <label className="form-label fw-bold">
+                                <label className="form-label">
                                     Email
                                 </label>
 
                                 <input
                                     type="email"
-                                    className="form-control mb-3 py-2"
+                                    className="form-control custom-input"
                                     placeholder="Enter your email"
                                 />
 
-                                <label className="form-label fw-bold">
+                            </div>
+
+                            <div className="mb-3">
+
+                                <label className="form-label">
                                     Password
                                 </label>
 
                                 <input
                                     type="password"
-                                    className="form-control mb-3 py-2"
+                                    className="form-control custom-input"
                                     placeholder="Enter your password"
                                 />
 
-                                <div className="d-flex justify-content-between align-items-center mb-3">
+                            </div>
 
-                                    <div>
-                                        <input type="checkbox" /> Remember
-                                    </div>
+                            <div className="d-flex justify-content-between mb-4">
 
-                                    <Link
-                                        to="/forgot-password"
-                                        className="text-decoration-none"
-                                    >
-                                        Forgot password?
-                                    </Link>
-
-                                </div>
-
-                                <button className="btn-register-login w-100 py-3 fw-bold">
-                                    Login
-                                </button>
-
-                                <div className="d-flex align-items-center my-3">
-
-                                    <hr className="flex-grow-1" />
-
-                                    <span className="mx-2 text-muted">
-                                        Don't have an account?
+                                <div>
+                                    <input type="checkbox" />
+                                    <span className="ms-2">
+                                        Remember me
                                     </span>
-
-                                    <hr className="flex-grow-1" />
-
                                 </div>
 
-                                <p className="text-center mb-0">
+                                <Link
+                                    to="/forgot-password"
+                                    className="forgot-link"
+                                >
+                                    Forgot Password?
+                                </Link>
 
-                                    <Link
-                                        to="/register"
-                                        className="fw-semibold text-decoration-none"
-                                    >
-                                        Create an account
-                                    </Link>
+                            </div>
 
-                                </p>
+                            <button className="login-btn-custom">
+                                Login
+                            </button>
+
+                            <div className="login-divider">
+                                <hr />
+                                <span>Don't have an account?</span>
+                                <hr />
+                            </div>
+
+                            <div className="text-center">
+
+                                <Link
+                                    to="/register"
+                                    className="create-account-link"
+                                >
+                                    Create an account
+                                </Link>
 
                             </div>
 
@@ -102,8 +98,8 @@ function Login() {
 
                 </div>
 
-            </section>
-        </>
+            </div>
+        </section>
     );
 }
 
