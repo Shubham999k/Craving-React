@@ -1,29 +1,31 @@
 import { Link } from "react-router-dom";
+import logo from "../assets/images/craveing logo.png";
 
 function Navbar() {
     return (
-        <nav className="navbar navbar-expand-lg navbar-custom">
-            <div className="container-fluid px-5">
+        <nav className="navbar-custom">
+            <div className="container-fluid px-5 d-flex justify-content-between align-items-center">
 
-                <Link
-                    to="/"
-                    className="navbar-brand text-white fw-bold"
-                >
-                    Cravings
+                <Link to="/">
+                    <img
+                        src={logo}
+                        alt="Cravings"
+                        className="logo-img"
+                    />
                 </Link>
 
-                <div className="ms-auto d-flex gap-3">
+                <div className="d-flex align-items-center gap-4">
 
                     <Link
                         to="/login"
-                        className="btn login-btn"
+                        className="login-btn text-decoration-none"
                     >
                         Login
                     </Link>
 
                     <Link
                         to="/register"
-                        className="btn register-btn"
+                        className="register-btn text-decoration-none"
                     >
                         Register
                     </Link>
