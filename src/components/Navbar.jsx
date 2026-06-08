@@ -14,7 +14,7 @@ function Navbar() {
                     />
                 </Link>
 
-                <div className="d-flex align-items-center gap-4">
+                <div className="d-flex align-items-center gap-2">
 
                     <Link
                         to="/login"
