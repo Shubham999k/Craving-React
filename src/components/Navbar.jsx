@@ -3,7 +3,7 @@ import logo from "../assets/images/craveing logo.png";
 
 function Navbar() {
     return (
-        <nav className="bg-[#c74a09] py-1">
+        <nav className="bg-[#c74a09] py-1 sticky top-0 z-50">
 
             <div className="container-fluid px-5">
 
