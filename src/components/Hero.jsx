@@ -67,7 +67,7 @@ function Hero() {
                         to your doorstep
                     </p>
 
-                    <div className="flex justify-center gap-4 mb-8">
+                    <div className="flex justify-center gap-4 mb-6">
 
                         <button className="bg-[#c74a09] hover:bg-[#b64307] px-8 py-3 rounded-md font-semibold">
                             Sign Up
