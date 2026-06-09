@@ -2,175 +2,170 @@ import { Link } from "react-router-dom";
 import footerLogo from "../assets/images/circleLogo-DpCri5UD.png";
 
 function Footer() {
+    const footerLink =
+        "text-gray-300 transition-colors duration-200 hover:text-orange-600";
+
+    const bottomLink =
+        "text-sm text-gray-400 transition-colors duration-200 hover:text-orange-600";
+
     return (
-        <footer className="footer-section py-4">
+        <footer className="bg-[#1f1f1f] py-8 text-white">
+            <div className="mx-auto max-w-7xl px-4">
 
-            <div className="container">
-
-                <p className="text-center fw-light mb-5 footer-top-text">
+                {/* Top Text */}
+                <p className="mb-10 text-center text-sm font-light text-gray-300">
                     --- Your favorite food delivery platform connecting customers
                     with restaurants and riders. ---
                 </p>
 
-                <div className="row text-md-start px-lg-4">
+                {/* Main Footer Content */}
+                <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
 
-                    <div className="col-lg-2 col-md-12 me-lg-4">
-
+                    {/* Logo */}
+                    <div>
                         <img
-                            className="footer-logo img-fluid mb-3"
                             src={footerLogo}
                             alt="Cravings Logo"
+                            className="mb-3 h-24 w-auto"
                         />
-
                     </div>
 
-                    <div className="col-lg-2 col-md-6 col-6">
-
-                        <h5 className="footer-heading">
+                    {/* Quick Links */}
+                    <div>
+                        <h5 className="mb-4 text-lg font-semibold">
                             Quick Links
                         </h5>
 
-                        <Link
-                            to="/"
-                            className="footer-link"
-                        >
-                            Home
-                        </Link>
+                        <div className="flex flex-col gap-2">
+                            <Link to="/" className={footerLink}>
+                                Home
+                            </Link>
 
-                        <Link
-                            to="/about"
-                            className="footer-link"
-                        >
-                            About
-                        </Link>
+                            <Link to="/about" className={footerLink}>
+                                About
+                            </Link>
 
-                        <Link
-                            to="/order"
-                            className="footer-link"
-                        >
-                            Order Now
-                        </Link>
-
+                            <Link to="/order" className={footerLink}>
+                                Order Now
+                            </Link>
+                        </div>
                     </div>
 
-                    <div className="col-lg-3 col-md-6 col-6">
-
-                        <h5 className="footer-heading">
+                    {/* Restaurants */}
+                    <div>
+                        <h5 className="mb-4 text-lg font-semibold">
                             For Restaurants
                         </h5>
 
-                        <Link
-                            to="/restaurant"
-                            className="footer-link"
-                        >
-                            Partner With Us
-                        </Link>
+                        <div className="flex flex-col gap-2">
+                            <Link
+                                to="/restaurant"
+                                className={footerLink}
+                            >
+                                Partner With Us
+                            </Link>
 
-                        <Link
-                            to="/restaurants-dashboard"
-                            className="footer-link"
-                        >
-                            Restaurant Dashboard
-                        </Link>
-
+                            <Link
+                                to="/restaurants-dashboard"
+                                className={footerLink}
+                            >
+                                Restaurant Dashboard
+                            </Link>
+                        </div>
                     </div>
 
-                    <div className="col-lg-2 col-md-6 col-6 mt-md-4 mt-lg-0">
-
-                        <h5 className="footer-heading">
+                    {/* Riders */}
+                    <div>
+                        <h5 className="mb-4 text-lg font-semibold">
                             For Riders
                         </h5>
 
-                        <Link
-                            to="/rider"
-                            className="footer-link"
-                        >
-                            Become a Rider
-                        </Link>
+                        <div className="flex flex-col gap-2">
+                            <Link
+                                to="/rider"
+                                className={footerLink}
+                            >
+                                Become a Rider
+                            </Link>
 
-                        <Link
-                            to="/riders-dashboard"
-                            className="footer-link"
-                        >
-                            Rider Dashboard
-                        </Link>
-
+                            <Link
+                                to="/riders-dashboard"
+                                className={footerLink}
+                            >
+                                Rider Dashboard
+                            </Link>
+                        </div>
                     </div>
 
-                    <div className="col-lg-2 col-md-6 col-6 mt-md-4 mt-lg-0">
-
-                        <h5 className="footer-heading">
+                    {/* Feedback & Support */}
+                    <div>
+                        <h5 className="mb-4 text-lg font-semibold">
                             Feedback & Support
                         </h5>
 
-                        <Link
-                            to="/feedback"
-                            className="footer-link"
-                        >
-                            Submit Feedback
-                        </Link>
+                        <div className="flex flex-col gap-2">
+                            <Link
+                                to="/feedback"
+                                className={footerLink}
+                            >
+                                Submit Feedback
+                            </Link>
 
-                        <Link
-                            to="/help-center"
-                            className="footer-link"
-                        >
-                            Help Center
-                        </Link>
+                            <Link
+                                to="/help-center"
+                                className={footerLink}
+                            >
+                                Help Center
+                            </Link>
 
-                        <Link
-                            to="/contact-us"
-                            className="footer-link"
-                        >
-                            Contact Us
-                        </Link>
-
+                            <Link
+                                to="/contact-us"
+                                className={footerLink}
+                            >
+                                Contact Us
+                            </Link>
+                        </div>
                     </div>
 
                 </div>
 
-                <div className="footer-border border-2 mt-4"></div>
+                {/* Divider */}
+                <div className="mt-8 border-t border-gray-700"></div>
 
-                <div className="row align-items-center mt-4">
+                {/* Bottom Footer */}
+                <div className="mt-6 flex flex-col items-center justify-between gap-4 md:flex-row">
 
-                    <div className="col-md-6 text-center text-md-start">
+                    <p className="text-sm text-gray-400">
+                        © 2026 Cravings. All rights reserved.
+                    </p>
 
-                        <p className="footer-copy mb-0">
-                            © 2026 Cravings. All rights reserved.
-                        </p>
-
-                    </div>
-
-                    <div className="col-md-6 text-center text-md-end mt-3 mt-md-0">
-
+                    <div className="flex flex-wrap justify-center gap-4">
                         <Link
                             to="/privacy-policy"
-                            className="footer-bottom-link me-4"
+                            className={bottomLink}
                         >
                             Privacy Policy
                         </Link>
 
                         <Link
                             to="/terms-services"
-                            className="footer-bottom-link me-4"
+                            className={bottomLink}
                         >
                             Terms of Service
                         </Link>
 
                         <Link
                             to="/site-map"
-                            className="footer-bottom-link"
+                            className={bottomLink}
                         >
                             Site Map
                         </Link>
-
                     </div>
 
                 </div>
-
             </div>
-
         </footer>
     );
 }
 
-export default Footer;
+export default Footer; 

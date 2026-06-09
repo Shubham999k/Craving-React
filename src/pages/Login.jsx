@@ -4,100 +4,98 @@ import bgImage from "../assets/images/foodTable.webp";
 function Login() {
     return (
         <section
-            className="login-section"
+            className="relative flex h-screen items-center px-6 bg-cover bg-center"
             style={{
-                backgroundImage: `url(${bgImage})`
+                backgroundImage: `url(${bgImage})`,
             }}
         >
-            <div className="container-fluid h-100">
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black/40"></div>
 
-                <div className="row h-100 align-items-center">
+            {/* Login Card */}
+            <div className="relative left-16 z-10 w-full lg:w-[30%]">
+                <div className="rounded-xl bg-white p-6 shadow-2xl">
 
-                    <div className="col-lg-5 col-md-7 col-sm-10">
+                    {/* Heading */}
+                    <h1 className="mb-2 text-center text-3xl font-bold">
+                        Welcome Back
+                    </h1>
 
-                        <div className="login-card">
+                    <p className="mb-6 text-center text-gray-500">
+                        Login to your Cravings account
+                    </p>
 
-                            <h1 className="login-title">
-                                Welcome Back
-                            </h1>
+                    {/* Email */}
+                    <div className="mb-4">
+                        <label className="mb-2 block font-medium">
+                            Email
+                        </label>
 
-                            <p className="login-subtitle">
-                                Login to your Cravings account
-                            </p>
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            className="w-full rounded-md border border-gray-300 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200"
+                        />
+                    </div>
 
-                            <div className="mb-4">
+                    {/* Password */}
+                    <div className="mb-4">
+                        <label className="mb-2 block font-medium">
+                            Password
+                        </label>
 
-                                <label className="form-label">
-                                    Email
-                                </label>
+                        <input
+                            type="password"
+                            placeholder="Enter your password"
+                            className="w-full rounded-md border border-gray-300 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200"
+                        />
+                    </div>
 
-                                <input
-                                    type="email"
-                                    className="form-control custom-input"
-                                    placeholder="Enter your email"
-                                />
+                    {/* Remember + Forgot */}
+                    <div className="mb-5 flex items-center justify-between text-sm">
 
-                            </div>
+                        <label className="flex items-center gap-2">
+                            <input
+                                type="checkbox"
+                                className="accent-orange-600"
+                            />
+                            <span>Remember me</span>
+                        </label>
 
-                            <div className="mb-3">
-
-                                <label className="form-label">
-                                    Password
-                                </label>
-
-                                <input
-                                    type="password"
-                                    className="form-control custom-input"
-                                    placeholder="Enter your password"
-                                />
-
-                            </div>
-
-                            <div className="d-flex justify-content-between mb-4">
-
-                                <div>
-                                    <input type="checkbox" />
-                                    <span className="ms-2">
-                                        Remember me
-                                    </span>
-                                </div>
-
-                                <Link
-                                    to="/forgot-password"
-                                    className="forgot-link"
-                                >
-                                    Forgot Password?
-                                </Link>
-
-                            </div>
-
-                            <button className="login-btn-custom">
-                                Login
-                            </button>
-
-                            <div className="login-divider">
-                                <hr />
-                                <span>Don't have an account?</span>
-                                <hr />
-                            </div>
-
-                            <div className="text-center">
-
-                                <Link
-                                    to="/register"
-                                    className="create-account-link"
-                                >
-                                    Create an account
-                                </Link>
-
-                            </div>
-
-                        </div>
+                        <Link
+                            to="/forgot-password"
+                            className="font-medium text-orange-600 transition hover:text-orange-700"
+                        >
+                            Forgot Password?
+                        </Link>
 
                     </div>
 
-                </div>
+                    {/* Login Button */}
+                    <button className="mb-5 w-full rounded-md bg-[#c74a09] py-3 font-semibold text-white transition hover:bg-[#b34006]">
+                        Login
+                    </button>
 
+                    {/* Divider */}
+                    <div className="mb-5 flex items-center gap-3">
+                        <hr className="flex-1 border-gray-300" />
+                        <span className="text-sm text-gray-500">
+                            Don't have an account?
+                        </span>
+                        <hr className="flex-1 border-gray-300" />
+                    </div>
+
+                    {/* Register Link */}
+                    <div className="text-center">
+                        <Link
+                            to="/register"
+                            className="font-semibold text-orange-600 transition hover:text-orange-700"
+                        >
+                            Create an account
+                        </Link>
+                    </div>
+
+                </div>
             </div>
         </section>
     );
