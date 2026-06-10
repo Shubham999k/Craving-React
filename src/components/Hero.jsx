@@ -1,92 +1,99 @@
+import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
 import bg1 from "../assets/images/bgImage1-BgVBBcls.jpg";
 import bg2 from "../assets/images/bgImage2-CSvQeVNX.jpg";
 import bg3 from "../assets/images/bgImage3-BTY6Sz_K.jpg";
 import bg4 from "../assets/images/bgImage4-L1QELaMd.jpg";
 
 function Hero() {
+    const images = [bg1, bg2, bg3, bg4];
+
     return (
-        <section className="relative">
+        <section className="relative h-[620px]">
 
-            <div
-                id="heroCarousel"
-                className="carousel slide carousel-fade"
-                data-bs-ride="carousel"
-                data-bs-interval="3000"
+            <Swiper
+                modules={[Autoplay, Pagination, Navigation]}
+                autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                }}
+                loop={true}
+                pagination={{ clickable: true }}
+                navigation
+                className="h-full"
             >
-
-                <div className="carousel-inner">
-
-                    <div className="carousel-item active">
+                {images.map((image, index) => (
+                    <SwiperSlide key={index}>
                         <img
-                            src={bg1}
-                            alt=""
-                            className="w-full h-[620px] object-cover"
+                            src={image}
+                            alt={`Slide ${index + 1}`}
+                            className="h-[620px] w-full object-cover"
                         />
-                    </div>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
 
-                    <div className="carousel-item">
-                        <img
-                            src={bg2}
-                            alt=""
-                            className="w-full h-[620px] object-cover"
-                        />
-                    </div>
+            {/* Overlay */}
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40">
 
-                    <div className="carousel-item">
-                        <img
-                            src={bg3}
-                            alt=""
-                            className="w-full h-[620px] object-cover"
-                        />
-                    </div>
+                <div className="max-w-5xl px-4 text-center text-white">
 
-                    <div className="carousel-item">
-                        <img
-                            src={bg4}
-                            alt=""
-                            className="w-full h-[620px] object-cover"
-                        />
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div className="absolute inset-0 bg-black/35 flex items-center justify-center z-10">
-
-                <div className="text-center text-white -translate-y-12 max-w-5xl px-4">
-
-                    <h1 className="text-5xl font-bold leading-tight mb-5">
-                        Your Favorite Food,
+                    <h1 className="mb-5 text-4xl font-bold leading-tight md:text-6xl">
+                        Your Favorite Food
                         <br />
                         Delivered Fast
                     </h1>
 
-                    <p className="text-xl mb-8">
+                    <p className="mb-8 text-lg md:text-xl">
                         Order from thousands of restaurants and get it delivered
                         to your doorstep
                     </p>
 
-                    <div className="flex justify-center gap-4 mb-6">
+                    <div className="mb-8 flex flex-wrap justify-center gap-4">
 
-                        <button className="bg-[#c74a09] hover:bg-[#b64307] px-8 py-3 rounded-md font-semibold">
+                        <Link
+                            to="/register"
+                            className="rounded-lg bg-[#c74a09] px-8 py-3 font-semibold transition hover:bg-[#b64307]"
+                        >
                             Sign Up
-                        </button>
+                        </Link>
 
-                        <button className="bg-white text-black px-8 py-3 rounded-md font-semibold">
+                        <Link
+                            to="/order"
+                            className="rounded-lg bg-white px-8 py-3 font-semibold text-black transition hover:bg-gray-100"
+                        >
                             Order Now
-                        </button>
+                        </Link>
 
                     </div>
 
-                    <div className="bg-white rounded-lg h-12 max-w-4xl mx-auto flex items-center px-4">
+                    <div className="mx-auto flex max-w-3xl items-center rounded-lg bg-white px-4 py-3">
 
-                        <i className="bi bi-search text-gray-500"></i>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            className="h-5 w-5 text-gray-500"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
+                            />
+                        </svg>
 
                         <input
                             type="text"
-                            placeholder="Search restaurants or dishes..."
-                            className="w-full ml-3 outline-none text-black"
+                            placeholder="Search restaurants or dishes"
+                            className="ml-3 w-full border-none text-black outline-none"
                         />
 
                     </div>
