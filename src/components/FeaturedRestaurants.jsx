@@ -3,7 +3,7 @@ import { restaurants } from "../data/restaurants";
 
 function FeaturedRestaurants() {
     return (
-        <section className="inset-0 bg-gradient-to-b from-orange-800/80 to-white/20 py-20 ">
+        <section className="inset-0 bg-linear-to-b from-orange-800/80 to-white/20 py-20 ">
 
             <div className="mx-auto max-w-7xl px-4">
 

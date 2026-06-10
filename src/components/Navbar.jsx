@@ -23,14 +23,14 @@ function Navbar() {
 
                         <Link
                             to="/login"
-                            className="text-white font-semibold px-3 py-1 rounded transition-all duration-300 hover:outline hover:outline-1 hover:outline-white"
+                            className="text-white font-semibold px-3 py-1 rounded transition-all duration-300 hover:outline-1 hover:outline-white"
                         >
                             Login
                         </Link>
 
                         <Link
                             to="/register"
-                            className="bg-white text-[#c74a09] font-semibold px-3 py-1 rounded transition-all duration-300 hover:bg-transparent hover:text-white hover:outline hover:outline-1 hover:outline-white"
+                            className="bg-white text-[#c74a09] font-semibold px-3 py-1 rounded transition-all duration-300 hover:bg-transparent hover:text-white hover:outline-1 hover:outline-white"
                         >
                             Register
                         </Link>
