@@ -7,7 +7,7 @@ function Navbar() {
 
             <div className="container-fluid px-5">
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mx-7">
 
                     <Link to="/">
 
@@ -23,7 +23,7 @@ function Navbar() {
 
                         <Link
                             to="/login"
-                            className="text-white font-semibold px-3 py-1 rounded transition-all duration-300 hover:outline-1 hover:outline-white"
+                            className="text-white font-medium px-3 py-1 rounded transition-all duration-300 hover:outline-1 hover:outline-white"
                         >
                             Login
                         </Link>

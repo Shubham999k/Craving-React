@@ -3,11 +3,11 @@ import { restaurants } from "../data/restaurants";
 
 function FeaturedRestaurants() {
     return (
-        <section className="inset-0 bg-linear-to-b from-orange-800/80 to-white/20 py-20 ">
+        <section className="inset-0 bg-linear-to-b from-orange-700/90 to-white/20 py-10 ">
 
             <div className="mx-auto max-w-7xl px-4">
 
-                <div className="mb-12">
+                <div className="mb-10 lg:mx-20 text-white">
 
                     <h2 className="text-4xl font-bold t">
                         Featured Restaurants
@@ -19,7 +19,7 @@ function FeaturedRestaurants() {
 
                 </div>
 
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:mx-20">
 
                     {restaurants.map((restaurant) => (
                         <RestaurantCard

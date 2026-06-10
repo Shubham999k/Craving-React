@@ -1,0 +1,75 @@
+function Statistics() {
+    const stats = [
+        {
+            value: "2.5M+",
+            title: "Successful Deliveries",
+            description: "Orders delivered with care and precision",
+            color: "text-orange-600",
+        },
+        {
+            value: "500K+",
+            title: "Happy Customers",
+            description: "Satisfied users enjoying delicious food",
+            color: "text-pink-500",
+        },
+        {
+            value: "5K+",
+            title: "Partner Restaurants",
+            description: "Restaurants serving amazing cuisine",
+            color: "text-orange-600",
+        },
+        {
+            value: "1K+",
+            title: "Active Delivery Partners",
+            description: "Riders ensuring quick and safe delivery",
+            color: "text-pink-500",
+        },
+    ];
+
+    return (
+        <section className="bg-[#FFF8F1] py-20">
+            <div className="mx-auto max-w-7xl px-4">
+
+                {/* Heading */}
+                <div className="mb-14 text-center">
+                    <h2 className="mb-3 text-4xl font-bold">
+                        Cravings by the Numbers
+                    </h2>
+
+                    <p >
+                        See why millions trust us for their daily food delivery needs
+                    </p>
+                </div>
+
+                {/* Cards */}
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:mx-20">
+
+                    {stats.map((item, index) => (
+                        <div
+                            key={index}
+                            className="rounded-md bg-white p-8 text-center shadow-lg transition duration-300 hover:shadow-xl"
+                        >
+                            <h3
+                                className={`mb-3 text-5xl font-extrabold ${item.color}`}
+                            >
+                                {item.value}
+                            </h3>
+
+                            <h4 className="mb-2 text-lg font-semibold">
+                                {item.title}
+                            </h4>
+
+                            <p className="text-sm text-gray-600">
+                                {item.description}
+                            </p>
+                        </div>
+                    ))}
+
+                </div>
+
+            </div>
+        </section>
+    );
+}
+
+export default Statistics;

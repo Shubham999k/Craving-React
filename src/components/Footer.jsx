@@ -9,7 +9,7 @@ function Footer() {
         "text-sm text-gray-400 transition-colors duration-200 hover:text-orange-600";
 
     return (
-        <footer className="bg-[#1f1f1f] py-8 text-white">
+        <footer className="bg-[#3F3F46] py-9 text-white">
             <div className="mx-auto max-w-7xl px-4">
 
                 {/* Top Text */}
@@ -26,7 +26,7 @@ function Footer() {
                         <img
                             src={footerLogo}
                             alt="Cravings Logo"
-                            className="mb-3 h-24 w-auto"
+                            className="mb-3 h-32 w-auto"
                         />
                     </div>
 
@@ -130,7 +130,7 @@ function Footer() {
                 </div>
 
                 {/* Divider */}
-                <div className="mt-8 border-t border-gray-700"></div>
+                <div className="mt-8 border-t border-white"></div>
 
                 {/* Bottom Footer */}
                 <div className="mt-6 flex flex-col items-center justify-between gap-4 md:flex-row">
