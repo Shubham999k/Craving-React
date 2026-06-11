@@ -9,7 +9,7 @@ function RestaurantSection() {
 
                 {/* Heading */}
 
-                <div className="mb-12 text-center">
+                <div className="mb-10 text-center">
 
                     <h2 className="mb-3 text-4xl font-bold text-white lg:text-5xl">
                         Featured Restaurants
