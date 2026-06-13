@@ -6,7 +6,7 @@ function FeaturedRestaurants() {
         <section className="inset-0 bg-linear-to-b from-orange-700/90 to-white/20 py-10 ">
 
             <div className="mx-auto max-w-7xl px-4">
-
+ 
                 <div className="mb-10 lg:mx-20 text-white">
 
                     <h2 className="text-4xl font-bold t">
