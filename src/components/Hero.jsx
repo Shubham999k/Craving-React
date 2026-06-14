@@ -87,7 +87,7 @@ function Hero() {
                             to="/order"
                             className="rounded-lg bg-white px-10 py-4 text-lg font-semibold text-black transition duration-300 hover:bg-gray-100"
                         >
-                            Order Now !
+                            Order Now 
                         </Link>
 
                     </div>
