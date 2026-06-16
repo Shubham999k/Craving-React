@@ -71,7 +71,7 @@ function Hero() {
 
                     <p className="mb-8 text-lg text-gray-100 lg:text-2xl">
                         Order from thousands of restaurants and get it delivered
-                        to your doorsteps
+                        to your doorstep
                     </p>
 
                     <div className="mb-8 flex flex-wrap justify-center gap-4">
