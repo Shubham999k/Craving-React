@@ -2,14 +2,13 @@ import { Link } from "react-router-dom";
 import footerLogo from "../assets/images/circleLogo-DpCri5UD.png";
 
 function Footer() {
-    const footerLink =
-        "text-gray-300 transition-colors duration-200 hover:text-orange-600";
-
+   const footerLink =
+    "text-[#d1d5db] hover:text-[#c74a09]";
     const bottomLink =
-        "text-sm text-gray-400 transition-colors duration-200 hover:text-orange-600";
+        "text-sm text-gray-400 no-underline transition-colors duration-200 hover:text-orange-600 hover:no-underline";
 
     return (
-        <footer className="bg-[#3F3F46] py-9 text-white">
+        <footer className="bg-[#43434d] py-9 text-white">
             <div className="mx-auto max-w-7xl px-4">
 
                 {/* Top Text */}
