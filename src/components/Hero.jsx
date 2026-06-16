@@ -66,7 +66,7 @@ function Hero() {
                     <h1 className="mb-4 text-3xl font-bold leading-tight lg:text-5xl">
                         Your Favorite Food,
                         <br />
-                        Delivered Fast
+                        Delivered Fast 
                     </h1>
 
                     <p className="mb-8 text-lg text-gray-100 lg:text-2xl">
