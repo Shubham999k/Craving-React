@@ -106,7 +106,7 @@ function ContactUs() {
                             <input
                                 type="text"
                                 name="phone"
-                                value={contactData.phone}
+                                value={contactData.phone} 
                                 onChange={handleChange}
                                 placeholder="Enter your phone number"
                                 className="w-full rounded-md border border-gray-300 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200"
