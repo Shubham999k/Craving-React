@@ -124,7 +124,7 @@ function ContactUs() {
                             />
                         </div>
 
-                        <div className="mb-3">
+                        <div className="mb-3"> 
                             <textarea
                                 rows={4}
                                 name="message"
