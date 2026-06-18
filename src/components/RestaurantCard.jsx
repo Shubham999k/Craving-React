@@ -21,7 +21,7 @@ function RestaurantCard({ restaurant }) {
             <div className="p-5">
 
                 <h3 className="mb-2 text-xl font-bold">
-                    {restaurant.name}
+                    {restaurant.name} 
                 </h3>
 
                 <p className="mb-4 text-sm text-gray-600">
