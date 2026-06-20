@@ -14,7 +14,7 @@ function PartnerSection() {
                     Grow your business with Cravings. Join thousands of
                     restaurants already delivering with us and reach more
                     customers every day.
-                </p>
+                </p> 
 
                 <Link
                     to="/restaurant"
