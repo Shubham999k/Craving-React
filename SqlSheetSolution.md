@@ -84,3 +84,59 @@ SELECT
 FROM sales S
 JOIN product P
 ON S.product_id = P.product_code;
+
+SELECT 
+    C.customer_name,
+    C.customer_type,
+    S.total_amount,
+    S.payment_mode
+FROM customer C
+JOIN sales S
+ON C.customer_code = S.customer_id
+WHERE S.payment_mode = 'Cash';
+
+SELECT 
+    P.product_category,
+    COUNT(S.product_id) AS products_sold
+FROM sales S
+JOIN product P
+ON S.product_id = P.product_code
+GROUP BY P.product_category
+ORDER BY products_sold DESC;
+
+SELECT 
+    S.order_number,
+    C.customer_name,
+    P.product_name,
+    S.payment_mode,
+    S.quantity
+FROM sales S
+JOIN customer C
+ON S.customer_id = C.customer_code
+JOIN product P
+ON S.product_id = P.product_code
+WHERE S.quantity > 2;
+
+SELECT 
+    C.customer_name,
+    P.product_name,
+    S.order_date,
+    S.total_amount,
+    C.customer_city,
+    P.product_sub_category
+    
+FROM sales S
+JOIN customer C
+ON S.customer_id = C.customer_code
+JOIN product P
+ON S.product_id = P.product_code
+WHERE C.customer_city = "Delhi"
+AND P.product_sub_category = "Accessories";
+
+
+
+   
+
+
+
+
