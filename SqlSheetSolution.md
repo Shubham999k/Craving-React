@@ -132,11 +132,3 @@ JOIN product P
 ON S.product_id = P.product_code
 WHERE C.customer_city = "Delhi"
 AND P.product_sub_category = "Accessories";
-
-
-
-   
-
-
-
-
