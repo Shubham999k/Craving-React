@@ -4,6 +4,10 @@ dotenv.config();
 import express from "express";
 import AuthRouter from "./src/routers/auth.route.js";
 import PublicRouter from "./src/routers/public.route.js";
+import connectDB from "./src/config/dbConnection.config.js";
+
+// Connect to Database
+connectDB();
 
 const app = express();
 
