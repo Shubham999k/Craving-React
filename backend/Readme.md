@@ -1,1 +1,1 @@
-# Backend reaady to develop
+# Backend is ready to develop
