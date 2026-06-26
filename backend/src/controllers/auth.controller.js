@@ -60,12 +60,12 @@ export const LoginUser = async (req, res, next) => {
             return next(err);
         }
 
-   
         if (password !== existingUser.password) {
             const err = new Error("Invalid Password");
             err.statusCode = 401;
             return next(err);
         }
+
         res.status(200).json({
             message: "Welcome Back!",
             data: existingUser
