@@ -4,8 +4,8 @@ import { LoginUser, LogoutUser, RegisterUser } from "../controllers/auth.control
 const router = express.Router();
 
 router.post("/login", LoginUser);
-router.post("/logout", LogoutUser);
 router.post("/register", RegisterUser);
+router.get("/logout", LogoutUser);
 
 export default router;
 
