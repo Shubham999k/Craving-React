@@ -10,6 +10,7 @@ export const RegisterUser = async (req, res, next) => {
             error.statusCode = 400;
             return next(error)
         }
+        console.log(req.body);
 
         const existingUser = await User.findOne({ email });
 
@@ -25,17 +26,22 @@ export const RegisterUser = async (req, res, next) => {
             url: photoUrl,
             publicId: null,
         };
+        const SALT = await bcrypt.genSalt(10);
+
+        const hashedPassword = await bcrypt.hash(password, SALT);
 
         //Create new User in database
         const user = await User.create({
             fullName,
             email,
-            password,
+            password: hashedPassword,
             dob,
             phone,
             gender,
-            profilePic
+            profilePic          
         });
+
+        console.log(user);
         res.status(201).json({ message: "User created successfully" })
     } catch (error) {
         console.log(error.message);
@@ -53,6 +59,7 @@ export const LoginUser = async (req, res, next) => {
             return next(err);
         }
 
+
         const existingUser = await User.findOne({ email });
         if (!existingUser) {
             const err = new Error("User Not Found");
@@ -60,10 +67,12 @@ export const LoginUser = async (req, res, next) => {
             return next(err);
         }
 
-        if (password !== existingUser.password) {
-            const err = new Error("Invalid Password");
-            err.statusCode = 401;
-            return next(err);
+
+        const isVarified = await bcrypt.compare(password, existingUser.password);
+        if (!isVarified) {
+            const error = new Error("Invalid Password");
+            error.statusCode = 401;
+            return next(error);
         }
 
         res.status(200).json({
@@ -73,7 +82,7 @@ export const LoginUser = async (req, res, next) => {
 
     } catch (error) {
         console.log(error.message);
-        next(error); 
+        next(error);
     }
 };
 
