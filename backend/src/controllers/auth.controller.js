@@ -73,7 +73,7 @@ export const LoginUser = async (req, res, next) => {
 
     } catch (error) {
         console.log(error.message);
-        next(error);
+        next(error); 
     }
 };
 
