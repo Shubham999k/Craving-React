@@ -16,7 +16,7 @@ app.use("/public", PublicRouter);
 
 app.get("/", (req, res) => {
     console.log("Default Get API hit");
-    res.json({ message: "Welcome to my first backend Project" });
+    res.json({ message: "Welcome to Cravings Project" });
 });
 
 //default Error Handler
