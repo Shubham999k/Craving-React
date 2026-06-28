@@ -77,7 +77,7 @@ function Register() {
             {/* Register Card */}
             <div className="relative z-10 w-full lg:w-[30%]">
                 <div className="rounded-xl bg-white px-5 py-8 shadow-2xl">
-                    <h2 className="mb-1 text-center text-2xl font-bold">
+                    <h2 className="mb-1 text-center text-2xl font-bold text-[#c74a09]">
                         Create Account
                     </h2>
 

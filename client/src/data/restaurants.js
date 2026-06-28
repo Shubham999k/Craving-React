@@ -12,7 +12,7 @@ export const restaurants = [
         image: mangoTree,
         rating: 3.6,
         description:
-            "Enjoy the thrill of grill and barbecue at Under The Mango Tree restaurant at Jehan Numa Palace.",
+            "Enjoy the thrill of grill Under The Mango Tree restaurant at Jehan Numa Palace.",
         tags: ["Indian", "Chinese", "Italian"],
     },
 

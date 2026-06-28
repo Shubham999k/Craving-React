@@ -54,7 +54,7 @@ function Login() {
             <div className="relative left-16 z-10 w-full md:w-[60%] lg:w-[30%]">
                 <div className="rounded-xl bg-white p-6 shadow-2xl">
                     {/* Heading */}
-                    <h1 className="mb-2 text-center text-3xl font-bold">
+                    <h1 className="mb-2 text-center text-3xl font-bold text-[#c74a09]">
                         Welcome Back
                     </h1>
 
