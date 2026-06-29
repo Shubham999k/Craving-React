@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import bgImage from "../assets/images/foodTable.webp";
+import api from "../config/api.config.js";
 
 function Register() {
     const [registerData, setRegisterData] = useState({
@@ -52,16 +53,34 @@ function Register() {
 
         const payload = {
             role: registerData.role,
-            fullName: registerData.fullName,
-            email: registerData.email.toLowerCase(),
-            phone: registerData.phone,
+            fullName: registerData.fullName.trim(),
+            email: registerData.email.toLowerCase().trim(),
+            phone: registerData.phone.trim(),
             password: registerData.password,
+            dob: new Date(),
+            gender: "Not specified",
         };
 
-        console.log("Register Data:", payload);
+        try {
+            const response = await api.post("/auth/register", payload);
+            alert(response?.data?.message || "Registration successful");
+            setRegisterData((prev) => ({
+                ...prev,
+                fullName: "",
+                email: "",
+                phone: "",
+                password: "",
+                confirmPassword: "",
+                termsAccepted: false,
+            }));
+        } catch (error) {
+            console.error(error);
+            setValidateError(
+                error?.response?.data?.message || "Registration failed. Please try again."
+            );
+        }
 
-        // API Call Here
-        // await registerUser(payload);
+        console.log("Register Data:", payload);
     };
 
     return (

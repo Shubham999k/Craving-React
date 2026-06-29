@@ -5,8 +5,8 @@ export const RegisterUser = async (req, res, next) => {
     try {
 
         const { fullName, email, password, dob, phone, gender } = req.body;
-        if (!fullName || !email || !password || !dob || !phone || !gender) {
-            const error = new Error("All Fields are required");
+        if (!fullName || !email || !password || !phone) {
+            const error = new Error("Full name, email, password, and phone are required");
             error.statusCode = 400;
             return next(error)
         }
@@ -35,9 +35,9 @@ export const RegisterUser = async (req, res, next) => {
             fullName,
             email,
             password: hashedPassword,
-            dob,
+            dob: dob || new Date(),
             phone,
-            gender,
+            gender: gender || "Not specified",
             profilePic          
         });
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import contactPage from "../assets/images/contactPage.jpg";
+import api from "../config/api.config.js";
 
 function ContactUs() {
     const [contactData, setContactData] = useState({
@@ -11,6 +12,7 @@ function ContactUs() {
     });
 
     const [validateError, setValidateError] = useState("");
+    const [submitMessage, setSubmitMessage] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,24 +40,32 @@ function ContactUs() {
         setValidateError("");
 
         const payload = {
-            fullName: contactData.fullName,
-            email: contactData.email.toLowerCase(),
-            phone: contactData.phone,
-            subject: contactData.subject,
-            message: contactData.message,
+            fullName: contactData.fullName.trim(),
+            email: contactData.email.toLowerCase().trim(),
+            phone: contactData.phone.trim(),
+            subject: contactData.subject.trim(),
+            message: contactData.message.trim(),
         };
 
-        console.log("Contact Form Data:", payload);
-
-        // API Call Here
-
-        setContactData({
-            fullName: "",
-            email: "",
-            phone: "",
-            subject: "",
-            message: "",
-        });
+        try {
+            const response = await api.post("/public/contact-us", payload);
+            setSubmitMessage(
+                response?.data?.message || "Your message was sent successfully."
+            );
+            setContactData({
+                fullName: "",
+                email: "",
+                phone: "",
+                subject: "",
+                message: "",
+            });
+        } catch (error) {
+            console.error(error);
+            setValidateError(
+                error?.response?.data?.message || "Failed to send your message. Please try again."
+            );
+            setSubmitMessage("");
+        }
     };
 
     return (
@@ -65,7 +75,7 @@ function ContactUs() {
                 backgroundImage: `url(${contactPage})`,
             }}
         >
-            {/* Overlay */}
+        
             <div className="absolute inset-0 bg-black/20"></div>
 
             {/* Content */}
@@ -138,6 +148,12 @@ function ContactUs() {
                         {validateError && (
                             <p className="mb-3 text-sm text-red-500">
                                 {validateError}
+                            </p>
+                        )}
+
+                        {submitMessage && (
+                            <p className="mb-3 text-sm text-green-600">
+                                {submitMessage}
                             </p>
                         )}
 
