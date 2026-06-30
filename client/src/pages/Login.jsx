@@ -48,7 +48,7 @@ function Login() {
             }}
         >
             {/* Overlay */}
-            <div className="absolute inset-0 bg-black/40"></div>
+            <div className="absolute inset-0 bg-black/30"></div>
 
             {/* Login Card */}
             <div className="relative left-16 z-10 w-full md:w-[60%] lg:w-[30%]">
