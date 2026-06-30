@@ -5,14 +5,16 @@ export const RegisterUser = async (req, res, next) => {
     try {
 
         const { fullName, email, password, dob, phone, gender } = req.body;
-        if (!fullName || !email || !password || !phone) {
+        const normalizedEmail = email?.toLowerCase().trim();
+
+        if (!fullName || !normalizedEmail || !password || !phone) {
             const error = new Error("Full name, email, password, and phone are required");
             error.statusCode = 400;
             return next(error)
         }
         console.log(req.body);
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ email: normalizedEmail });
 
         if (existingUser) {
             const error = new Error("User Already with same gmail");
@@ -33,7 +35,7 @@ export const RegisterUser = async (req, res, next) => {
         //Create new User in database
         const user = await User.create({
             fullName,
-            email,
+            email: normalizedEmail,
             password: hashedPassword,
             dob: dob || new Date(),
             phone,
@@ -52,15 +54,16 @@ export const RegisterUser = async (req, res, next) => {
 export const LoginUser = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+        const normalizedEmail = email?.toLowerCase().trim();
 
-        if (!email || !password) {
+        if (!normalizedEmail || !password) {
             const err = new Error("All fields are required");
             err.statusCode = 400;
             return next(err);
         }
 
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ email: normalizedEmail });
         if (!existingUser) {
             const err = new Error("User Not Found");
             err.statusCode = 404;

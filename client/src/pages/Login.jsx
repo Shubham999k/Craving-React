@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import bgImage from "../assets/images/foodTable.webp";
+import api from "../config/api.config.js";
+import {Toaster} from "react-hot-toast";
 
 function Login() {
+    const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
         email: "",
         password: "",
@@ -30,19 +34,29 @@ function Login() {
         setValidateError("");
 
         const payload = {
-            email: loginData.email.toLowerCase(),
+            email: loginData.email.toLowerCase().trim(),
             password: loginData.password,
         };
 
-        console.log("Login Data:", payload);
+        try {
+            const response = await api.post("/auth/login", payload);
+            const user = response?.data?.data;
 
-        // API Call Here
-        // await loginUser(payload);
+            localStorage.setItem("token", response?.data?.token || "demo-token");
+            localStorage.setItem("user", JSON.stringify(user || {}));
+
+            toast.success(response?.data?.message || "Login successful");
+            navigate("/");
+        } catch (error) {
+            toast.error(
+                error?.response?.data?.message || "Login failed. Please try again."
+            );
+        }
     };
 
     return (
         <section
-            className="relative flex h-screen items-center px-6 bg-cover bg-center"
+            className="relative flex h-[90vh] items-center px-6 bg-cover bg-center"
             style={{
                 backgroundImage: `url(${bgImage})`,
             }}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import bgImage from "../assets/images/foodTable.webp";
 import api from "../config/api.config.js";
 
@@ -63,7 +64,8 @@ function Register() {
 
         try {
             const response = await api.post("/auth/register", payload);
-            alert(response?.data?.message || "Registration successful");
+
+            toast.success(response?.data?.message || "Registration successful");
             setRegisterData((prev) => ({
                 ...prev,
                 fullName: "",
@@ -76,6 +78,9 @@ function Register() {
         } catch (error) {
             console.error(error);
             setValidateError(
+                error?.response?.data?.message || "Registration failed. Please try again."
+            );
+            toast.error(
                 error?.response?.data?.message || "Registration failed. Please try again."
             );
         }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import contactPage from "../assets/images/contactPage.jpg";
 import api from "../config/api.config.js";
 
@@ -12,7 +13,6 @@ function ContactUs() {
     });
 
     const [validateError, setValidateError] = useState("");
-    const [submitMessage, setSubmitMessage] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -49,7 +49,7 @@ function ContactUs() {
 
         try {
             const response = await api.post("/public/contact-us", payload);
-            setSubmitMessage(
+            toast.success(
                 response?.data?.message || "Your message was sent successfully."
             );
             setContactData({
@@ -61,10 +61,10 @@ function ContactUs() {
             });
         } catch (error) {
             console.error(error);
-            setValidateError(
-                error?.response?.data?.message || "Failed to send your message. Please try again."
-            );
-            setSubmitMessage("");
+            const errorMessage =
+                error?.response?.data?.message || "Failed to send your message. Please try again.";
+            setValidateError(errorMessage);
+            toast.error(errorMessage);
         }
     };
 
@@ -75,7 +75,7 @@ function ContactUs() {
                 backgroundImage: `url(${contactPage})`,
             }}
         >
-        
+
             <div className="absolute inset-0 bg-black/20"></div>
 
             {/* Content */}
@@ -116,7 +116,7 @@ function ContactUs() {
                             <input
                                 type="text"
                                 name="phone"
-                                value={contactData.phone} 
+                                value={contactData.phone}
                                 onChange={handleChange}
                                 placeholder="Enter your phone number"
                                 className="w-full rounded-md border border-gray-300 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200"
@@ -134,7 +134,7 @@ function ContactUs() {
                             />
                         </div>
 
-                        <div className="mb-3"> 
+                        <div className="mb-3">
                             <textarea
                                 rows={4}
                                 name="message"
@@ -148,12 +148,6 @@ function ContactUs() {
                         {validateError && (
                             <p className="mb-3 text-sm text-red-500">
                                 {validateError}
-                            </p>
-                        )}
-
-                        {submitMessage && (
-                            <p className="mb-3 text-sm text-green-600">
-                                {submitMessage}
                             </p>
                         )}
 
