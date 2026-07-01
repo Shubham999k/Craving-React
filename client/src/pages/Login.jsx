@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import bgImage from "../assets/images/foodTable.webp";
 import api from "../config/api.config.js";
-import {Toaster} from "react-hot-toast";
 
 function Login() {
     const navigate = useNavigate();
