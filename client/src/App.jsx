@@ -7,11 +7,20 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ContactUs from "./pages/ContactUs";
 import UserDashboard from "./pages/dashboard/UserDashboard";
-import { Toaster } from "react-hot-toast";
+import React, { useEffect } from "react";
+import toast, { Toaster, useToasterStore } from "react-hot-toast";
 
 function App() {
     const location = useLocation();
     const isDashboard = location.pathname.startsWith("/user/dashboard");
+
+    const { toasts } = useToasterStore();
+    useEffect(() => {
+        toasts
+            .filter((t) => t.visible)
+            .filter((_, i) => i >= 1) // limit to 1 active toast
+            .forEach((t) => toast.dismiss(t.id));
+    }, [toasts]);
 
     return (
         <>

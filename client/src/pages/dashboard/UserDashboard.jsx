@@ -121,7 +121,7 @@ const UserDashboard = () => {
   const [editName, setEditName] = useState('');
   const [editEmail, setEditEmail] = useState('');
   const [editPhone, setEditPhone] = useState('');
-  const [editAvatar, setEditAvatar] = useState('');
+  const [editAvatar, setEditAvatar] = useState(null);
   const [editBio, setEditBio] = useState('Food enthusiast | Always craving something delicious!');
 
   // Load User Data
@@ -157,12 +157,15 @@ const UserDashboard = () => {
 
   // Handle Cart Operations
   const addToCart = (item) => {
+    const existing = cart.find(i => i.id === item.id);
+    const newQty = existing ? existing.qty + 1 : 1;
+    toast.success(`${item.name} added to cart! (${newQty} in cart) 😋`);
+
     setCart(prevCart => {
-      const existing = prevCart.find(i => i.id === item.id);
-      if (existing) {
+      const exists = prevCart.find(i => i.id === item.id);
+      if (exists) {
         return prevCart.map(i => i.id === item.id ? { ...i, qty: i.qty + 1 } : i);
       }
-      toast.success(`${item.name} added to cart! 😋`);
       return [...prevCart, { ...item, qty: 1 }];
     });
   };
@@ -202,12 +205,12 @@ const UserDashboard = () => {
       return;
     }
     
-    // Animate loader
     const loadingToast = toast.loading("Confirming your order with restaurant...");
     setTimeout(() => {
       toast.dismiss(loadingToast);
       setOrderItems([...cart]);
       setCart([]);
+      setIsCartOpen(false);
       setCheckoutSuccess(true);
       setIsConfettiActive(true);
       setOrderStep(0);
@@ -222,6 +225,7 @@ const UserDashboard = () => {
 
   const goToTrackingFromSuccess = () => {
     setCheckoutSuccess(false);
+    setIsCartOpen(false);
     setActiveTab('tracking');
   };
 
@@ -240,6 +244,7 @@ const UserDashboard = () => {
     toast.success("Profile updated successfully!");
     // Dispatch auth-change to update Navbar
     window.dispatchEvent(new Event("auth-change"));
+    setActiveTab('overview');
   };
 
   // Mock analytics spend updates
@@ -268,11 +273,22 @@ const UserDashboard = () => {
           <div className="p-6 border-b border-slate-100 flex flex-col items-center text-center">
             <div className="relative group">
               <img
-                src={editAvatar}
+                src={editAvatar || null}
                 alt="Avatar"
                 className="w-20 h-20 rounded-full border-4 border-orange-500 shadow-md transform hover:rotate-6 transition duration-300"
               />
               <span className="absolute bottom-0 right-1 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></span>
+              {/* Pencil Edit Icon at right side of avatar */}
+              <button
+                onClick={() => {
+                  setActiveTab('profile');
+                  setIsCartOpen(false);
+                }}
+                className="absolute top-0 -right-2 bg-white text-slate-700 hover:text-orange-600 w-6 h-6 rounded-full flex items-center justify-center shadow-md border border-slate-200 hover:scale-110 transition cursor-pointer"
+                title="Edit Profile"
+              >
+                <i className="bi bi-pencil-fill text-[11px]"></i>
+              </button>
             </div>
             <h3 className="font-bold text-slate-800 text-lg mt-3">{user.name || "Loading..."}</h3>
             <p className="text-xs text-slate-500 font-medium">{user.email || "email@cravings.com"}</p>
@@ -287,14 +303,13 @@ const UserDashboard = () => {
               { id: 'overview', label: 'Overview', icon: 'bi-grid-1x2-fill' },
               { id: 'menu', label: 'Order Menu', icon: 'bi-egg-fried' },
               { id: 'tracking', label: 'Live Tracking', icon: 'bi-compass-fill', badge: orderItems.length > 0 && orderStep < 3 ? 'Live' : null },
-              { id: 'analytics', label: 'Spend & Insights', icon: 'bi-pie-chart-fill' },
-              { id: 'profile', label: 'Settings', icon: 'bi-gear-fill' }
+              { id: 'analytics', label: 'Spend & Insights', icon: 'bi-pie-chart-fill' }
             ].map(item => (
               <button
                 key={item.id}
                 onClick={() => {
                   setActiveTab(item.id);
-                  if (item.id === 'menu') setIsCartOpen(false);
+                  setIsCartOpen(false);
                 }}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-xl font-semibold text-sm transition-all duration-300 transform cursor-pointer ${
                   activeTab === item.id 
@@ -379,12 +394,12 @@ const UserDashboard = () => {
             {/* Quick Stats Grid */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: "Total Orders", value: "28", icon: "bi-bag-check-fill", gradient: "from-blue-500 to-indigo-600", lightBg: "bg-blue-50 text-blue-600" },
-                { title: "Amount Spent", value: "₹4,890", icon: "bi-wallet2", gradient: "from-emerald-500 to-teal-600", lightBg: "bg-emerald-50 text-emerald-600" },
-                { title: "Saved (Promo)", value: "₹1,240", icon: "bi-tag-fill", gradient: "from-rose-500 to-red-600", lightBg: "bg-rose-50 text-rose-600" },
-                { title: "Reward Points", value: "840 pts", icon: "bi-trophy-fill", gradient: "from-amber-500 to-orange-600", lightBg: "bg-amber-50 text-amber-600" }
+                { title: "Total Orders", value: "28", icon: "bi-bag-check-fill", gradient: "from-blue-500 to-indigo-600", lightBg: "bg-blue-50 text-blue-600", action: () => setActiveTab('menu') },
+                { title: "Amount Spent", value: "₹4,890", icon: "bi-wallet2", gradient: "from-emerald-500 to-teal-600", lightBg: "bg-emerald-50 text-emerald-600", action: () => setActiveTab('analytics') },
+                { title: "Saved (Promo)", value: "₹1,240", icon: "bi-tag-fill", gradient: "from-rose-500 to-red-600", lightBg: "bg-rose-50 text-rose-600", action: () => setActiveTab('analytics') },
+                { title: "Reward Points", value: "840 pts", icon: "bi-trophy-fill", gradient: "from-amber-500 to-orange-600", lightBg: "bg-amber-50 text-amber-600", action: () => toast.success("You have 840 Reward Points! Redeem them for discounts at checkout. 🏆") }
               ].map((stat, idx) => (
-                <div key={idx} className="group relative bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 overflow-hidden">
+                <div key={idx} onClick={stat.action} className="group relative bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 overflow-hidden cursor-pointer">
                   <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${stat.gradient} opacity-80`}></div>
                   <div className="flex justify-between items-center mb-4">
                     <span className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">{stat.title}</span>
@@ -457,7 +472,14 @@ const UserDashboard = () => {
                   )}
                 </div>
                 <button
-                  onClick={() => orderItems.length > 0 ? setActiveTab('tracking') : setActiveTab('menu')}
+                  onClick={() => {
+                    setIsCartOpen(false);
+                    if (orderItems.length > 0) {
+                      setActiveTab('tracking');
+                    } else {
+                      setActiveTab('menu');
+                    }
+                  }}
                   className="w-full mt-6 bg-orange-600 hover:bg-orange-500 text-white font-bold py-2 rounded-xl text-xs tracking-wider uppercase transition duration-200 cursor-pointer"
                 >
                   {orderItems.length > 0 ? "Track Live Order" : "Browse Food Menu"}
@@ -465,6 +487,63 @@ const UserDashboard = () => {
               </div>
 
             </div>
+
+            {/* Recommended Food Cards */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-black text-slate-800 flex items-center gap-2">
+                <i className="bi bi-heart-fill text-red-500"></i> Recommended for You
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {FOOD_ITEMS.filter(item => item.rating >= 4.8).slice(0, 3).map(item => (
+                  <div 
+                    key={item.id}
+                    onClick={() => addToCart(item)}
+                    className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group transform hover:-translate-y-1.5 cursor-pointer"
+                  >
+                    <div className="relative overflow-hidden aspect-[4/3] bg-slate-100">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition duration-500 ease-out"
+                      />
+                      <span className={`absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 backdrop-blur-md shadow-md ${
+                        item.type === 'veg' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'
+                      }`}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                        {item.type}
+                      </span>
+                      <span className="absolute top-4 right-4 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-full text-xs font-black text-slate-800 shadow-md flex items-center gap-1">
+                        <i className="bi bi-star-fill text-amber-500"></i>
+                        <span>{item.rating}</span>
+                      </span>
+                    </div>
+
+                    <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                      <div>
+                        <span className="text-[10px] font-extrabold text-orange-600 uppercase tracking-widest">{item.category}</span>
+                        <h4 className="font-extrabold text-slate-800 text-base mt-1 group-hover:text-[#c74a09] transition-colors line-clamp-1">{item.name}</h4>
+                        <p className="text-xs text-slate-400 mt-1 font-medium leading-relaxed line-clamp-2">{item.desc}</p>
+                      </div>
+
+                      <div className="flex justify-between items-center pt-4 border-t border-slate-100" onClick={e => e.stopPropagation()}>
+                        <div className="flex flex-col">
+                          <span className="text-xs text-slate-400 font-bold leading-none">Price</span>
+                          <span className="text-xl font-black text-slate-800">₹{item.price}</span>
+                        </div>
+                        <button
+                          onClick={() => addToCart(item)}
+                          className="bg-slate-900 hover:bg-[#c74a09] text-white font-extrabold text-xs py-3 px-5 rounded-2xl flex items-center gap-1.5 transition-all duration-300 shadow-md hover:shadow-orange-200 transform active:scale-95 cursor-pointer"
+                        >
+                          <i className="bi bi-plus-lg text-sm"></i>
+                          <span>Add to Cart</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
         )}
 
@@ -858,10 +937,10 @@ const UserDashboard = () => {
       {/* Floating Shopping Cart Drawer */}
       {isCartOpen && (
         <div className="fixed inset-0 z-40 flex justify-end">
-          {/* Backdrop blur overlay */}
+          {/* Transparent click-away backdrop (no blur or background color) */}
           <div 
             onClick={() => setIsCartOpen(false)}
-            className="absolute inset-0 bg-black/40 backdrop-blur-xs transition-opacity duration-300"
+            className="absolute inset-0 bg-transparent transition-opacity duration-300"
           ></div>
 
           {/* Drawer container */}
