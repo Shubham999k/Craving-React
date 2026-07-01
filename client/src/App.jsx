@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -10,6 +10,9 @@ import UserDashboard from "./pages/dashboard/UserDashboard";
 import { Toaster } from "react-hot-toast";
 
 function App() {
+    const location = useLocation();
+    const isDashboard = location.pathname.startsWith("/user/dashboard");
+
     return (
         <>
             <Toaster />
@@ -23,7 +26,7 @@ function App() {
                 <Route path="/user/dashboard" element={<UserDashboard />} />
             </Routes>
 
-            <Footer />
+            {!isDashboard && <Footer />}
         </>
     );
 }

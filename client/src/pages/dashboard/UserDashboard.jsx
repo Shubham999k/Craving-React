@@ -247,7 +247,7 @@ const UserDashboard = () => {
   const monthlySpendData = [1200, 1800, 2200, 1500, 2900, 3400]; // last 6 months
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row relative overflow-hidden">
+    <div className="min-h-[calc(100vh-64px)] md:h-[calc(100vh-64px)] bg-slate-50 flex flex-col md:flex-row relative overflow-hidden">
       
       {/* Confetti Animation overlay for checkout success */}
       {isConfettiActive && (
@@ -262,7 +262,7 @@ const UserDashboard = () => {
       )}
 
       {/* Left Sidebar Navigation */}
-      <aside className="w-full md:w-64 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0">
+      <aside className="w-full md:w-64 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 md:h-full md:overflow-y-auto">
         <div>
           {/* User Profile Summary */}
           <div className="p-6 border-b border-slate-100 flex flex-col items-center text-center">
@@ -334,7 +334,7 @@ const UserDashboard = () => {
       </aside>
 
       {/* Main Dashboard Area */}
-      <main className="flex-1 p-6 md:p-8 overflow-y-auto max-h-screen pb-24 md:pb-8">
+      <main className="flex-1 p-6 md:p-8 overflow-y-auto md:h-full pb-24 md:pb-8">
         
         {/* TOP BAR / GREETING */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -377,21 +377,25 @@ const UserDashboard = () => {
             </div>
 
             {/* Quick Stats Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: "Total Orders", value: "28", icon: "bi-bag-check-fill", color: "bg-blue-500 text-blue-500" },
-                { title: "Amount Spent", value: "₹4,890", icon: "bi-wallet2", color: "bg-emerald-500 text-emerald-500" },
-                { title: "Saved (Promo)", value: "₹1,240", icon: "bi-tag-fill", color: "bg-rose-500 text-rose-500" },
-                { title: "Reward Points", value: "840 pts", icon: "bi-trophy-fill", color: "bg-amber-500 text-amber-500" }
+                { title: "Total Orders", value: "28", icon: "bi-bag-check-fill", gradient: "from-blue-500 to-indigo-600", lightBg: "bg-blue-50 text-blue-600" },
+                { title: "Amount Spent", value: "₹4,890", icon: "bi-wallet2", gradient: "from-emerald-500 to-teal-600", lightBg: "bg-emerald-50 text-emerald-600" },
+                { title: "Saved (Promo)", value: "₹1,240", icon: "bi-tag-fill", gradient: "from-rose-500 to-red-600", lightBg: "bg-rose-50 text-rose-600" },
+                { title: "Reward Points", value: "840 pts", icon: "bi-trophy-fill", gradient: "from-amber-500 to-orange-600", lightBg: "bg-amber-50 text-amber-600" }
               ].map((stat, idx) => (
-                <div key={idx} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition duration-300 transform hover:-translate-y-1">
-                  <div className="flex justify-between items-center mb-3">
-                    <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{stat.title}</span>
-                    <div className={`p-2 rounded-xl bg-opacity-10 ${stat.color}`}>
+                <div key={idx} className="group relative bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 overflow-hidden">
+                  <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${stat.gradient} opacity-80`}></div>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">{stat.title}</span>
+                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${stat.lightBg}`}>
                       <i className={`bi ${stat.icon} text-lg`}></i>
                     </div>
                   </div>
-                  <h3 className="text-2xl font-black text-slate-800">{stat.value}</h3>
+                  <h3 className="text-2xl font-black text-slate-800 tracking-tight transition-colors duration-300">{stat.value}</h3>
+                  <div className="absolute -right-2 -bottom-2 opacity-5 text-6xl transform rotate-12 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-0">
+                    <i className={`bi ${stat.icon}`}></i>
+                  </div>
                 </div>
               ))}
             </div>
@@ -506,38 +510,47 @@ const UserDashboard = () => {
                 .map(item => (
                   <div 
                     key={item.id}
-                    className="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group transform hover:-translate-y-1"
+                    className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group transform hover:-translate-y-1.5"
                   >
                     <div className="relative overflow-hidden aspect-[4/3] bg-slate-100">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition duration-500 ease-out"
                       />
-                      <span className={`absolute top-3 left-3 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider flex items-center gap-1 ${
-                        item.type === 'veg' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                      {/* Veg / Non-Veg badge with premium styling */}
+                      <span className={`absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 backdrop-blur-md shadow-md ${
+                        item.type === 'veg' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'
                       }`}>
-                        <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
                         {item.type}
                       </span>
-                      <span className="absolute bottom-3 right-3 bg-white/95 px-2 py-0.5 rounded-full text-xs font-black text-slate-800 shadow-md">
-                        ★ {item.rating} ({item.reviews})
+                      {/* Rating Badge */}
+                      <span className="absolute top-4 right-4 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-full text-xs font-black text-slate-800 shadow-md flex items-center gap-1">
+                        <i className="bi bi-star-fill text-amber-500"></i>
+                        <span>{item.rating}</span>
+                        <span className="text-[10px] text-slate-400 font-medium">({item.reviews})</span>
                       </span>
                     </div>
 
-                    <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
+                    <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                       <div>
-                        <h4 className="font-extrabold text-slate-800 group-hover:text-[#c74a09] transition-colors">{item.name}</h4>
-                        <p className="text-xs text-slate-500 line-clamp-2">{item.desc}</p>
+                        <span className="text-[10px] font-extrabold text-orange-600 uppercase tracking-widest">{item.category}</span>
+                        <h4 className="font-extrabold text-slate-800 text-base mt-1 group-hover:text-[#c74a09] transition-colors line-clamp-1">{item.name}</h4>
+                        <p className="text-xs text-slate-400 mt-1 font-medium leading-relaxed line-clamp-2">{item.desc}</p>
                       </div>
 
-                      <div className="flex justify-between items-center pt-3 border-t border-slate-50">
-                        <span className="text-lg font-black text-slate-800">₹{item.price}</span>
+                      <div className="flex justify-between items-center pt-4 border-t border-slate-100">
+                        <div className="flex flex-col">
+                          <span className="text-xs text-slate-400 font-bold leading-none">Price</span>
+                          <span className="text-xl font-black text-slate-800">₹{item.price}</span>
+                        </div>
                         <button
                           onClick={() => addToCart(item)}
-                          className="bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs py-2 px-4 rounded-xl flex items-center gap-1 transition duration-200 transform active:scale-95 cursor-pointer"
+                          className="bg-slate-900 hover:bg-[#c74a09] text-white font-extrabold text-xs py-3 px-5 rounded-2xl flex items-center gap-1.5 transition-all duration-300 shadow-md hover:shadow-orange-200 transform active:scale-95 cursor-pointer"
                         >
-                          <i className="bi bi-plus-lg"></i> Add
+                          <i className="bi bi-plus-lg text-sm"></i>
+                          <span>Add to Cart</span>
                         </button>
                       </div>
                     </div>
