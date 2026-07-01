@@ -43,10 +43,16 @@ function Login() {
             const user = response?.data?.data;
 
             localStorage.setItem("token", response?.data?.token || "demo-token");
-            localStorage.setItem("user", JSON.stringify(user || {}));
+            localStorage.setItem("user", JSON.stringify(user || {
+                name: "Demo User",
+                email: payload.email,
+                phone: "+1 (555) 019-2834",
+                profilePicture: ""
+            }));
 
             toast.success(response?.data?.message || "Login successful");
-            navigate("/");
+            window.dispatchEvent(new Event("auth-change"));
+            navigate("/user/dashboard");
         } catch (error) {
             toast.error(
                 error?.response?.data?.message || "Login failed. Please try again."
