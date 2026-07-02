@@ -7,7 +7,7 @@ function PartnerSection() {
             <div className="mx-auto max-w-6xl px-4 text-center">
 
                 <h2 className="mb-4 text-4xl font-bold text-white">
-                    Become a Restaurant Partner 
+                    Become a Restaurant Partner !!!
                 </h2>
 
                 <p className="mx-auto mb-8 max-w-3xl text-lg text-orange-100">
