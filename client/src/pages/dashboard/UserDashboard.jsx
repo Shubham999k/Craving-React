@@ -124,6 +124,11 @@ const UserDashboard = () => {
   const [editAvatar, setEditAvatar] = useState(null);
   const [editBio, setEditBio] = useState('Food enthusiast | Always craving something delicious!');
 
+  // Analytics Chart States
+  const [selectedChart, setSelectedChart] = useState('line'); // 'line' or 'bar'
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [hoveredSlice, setHoveredSlice] = useState(null);
+
   // Load User Data
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user")) || {};
@@ -761,73 +766,315 @@ const UserDashboard = () => {
         {/* 4. ANALYTICS & INSIGHTS TAB */}
         {activeTab === 'analytics' && (
           <div className="space-y-8 animate-fadeIn duration-500">
-            <h2 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-              <i className="bi bi-pie-chart text-orange-600"></i> Spend Insights & Habits
-            </h2>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <h2 className="text-2xl font-black text-slate-800 flex items-center gap-2">
+                  <i className="bi bi-pie-chart text-orange-600"></i> Spend Insights & Habits
+                </h2>
+                <p className="text-xs text-slate-500 font-medium mt-0.5">Visualize your dining habits and monthly expenses</p>
+              </div>
+
+              {/* Chart Selector Segmented Control */}
+              <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+                <button
+                  onClick={() => setSelectedChart('line')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                    selectedChart === 'line'
+                      ? 'bg-white text-orange-600 shadow-sm'
+                      : 'text-slate-500 hover:text-slate-800'
+                  }`}
+                >
+                  <i className="bi bi-graph-up"></i> Area Flow
+                </button>
+                <button
+                  onClick={() => setSelectedChart('bar')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                    selectedChart === 'bar'
+                      ? 'bg-white text-orange-600 shadow-sm'
+                      : 'text-slate-500 hover:text-slate-800'
+                  }`}
+                >
+                  <i className="bi bi-bar-chart-line-fill"></i> Pillars
+                </button>
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               
               {/* Spend Chart SVG */}
-              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">
-                <div>
-                  <h3 className="font-extrabold text-slate-800">Monthly Spending (Last 6 Months)</h3>
-                  <p className="text-xs text-slate-500">Total spent this half-year: ₹14,990</p>
+              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-6 relative overflow-hidden group">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="font-black text-slate-800 text-lg">Monthly Spending</h3>
+                    <p className="text-xs text-slate-400 font-medium">Last 6 Months Trend</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs font-bold text-slate-400">Total Spent</span>
+                    <h4 className="text-xl font-black text-slate-800">₹14,990</h4>
+                  </div>
                 </div>
 
-                {/* SVG Graph */}
-                <div className="relative h-64 w-full bg-slate-50 rounded-2xl flex items-end p-4 border border-slate-100">
-                  <div className="absolute inset-0 flex flex-col justify-between p-4 pointer-events-none opacity-40">
-                    <span className="text-[10px] border-b border-dashed border-slate-300 w-full text-right font-semibold">₹4,000</span>
-                    <span className="text-[10px] border-b border-dashed border-slate-300 w-full text-right font-semibold">₹2,000</span>
-                    <span className="text-[10px] border-b border-dashed border-slate-300 w-full text-right font-semibold">₹0</span>
+                {/* SVG Graph Container */}
+                <div className="relative h-64 w-full bg-gradient-to-b from-slate-50 to-white rounded-2xl flex flex-col justify-between p-4 border border-slate-100/80 shadow-inner overflow-hidden">
+                  
+                  {/* Grid Lines */}
+                  <div className="absolute inset-0 flex flex-col justify-between p-4 py-8 pointer-events-none opacity-45">
+                    <div className="border-b border-dashed border-slate-200 w-full flex justify-between">
+                      <span></span>
+                      <span className="text-[9px] text-slate-400 font-semibold -mt-3.5">₹4,000</span>
+                    </div>
+                    <div className="border-b border-dashed border-slate-200 w-full flex justify-between">
+                      <span></span>
+                      <span className="text-[9px] text-slate-400 font-semibold -mt-3.5">₹2,000</span>
+                    </div>
+                    <div className="border-b border-dashed border-slate-200 w-full flex justify-between">
+                      <span></span>
+                      <span className="text-[9px] text-slate-400 font-semibold -mt-3.5">₹0</span>
+                    </div>
                   </div>
 
-                  <div className="relative flex justify-around items-end w-full h-44 z-10">
-                    {monthlySpendData.map((val, idx) => {
-                      const percentage = (val / 4000) * 100;
-                      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-                      return (
-                        <div key={idx} className="flex flex-col items-center group w-12 cursor-pointer">
-                          {/* Tooltip value */}
-                          <span className="opacity-0 group-hover:opacity-100 transition bg-slate-900 text-white text-[10px] px-2 py-1 rounded absolute -top-8 font-black shadow z-20">
-                            ₹{val}
+                  {/* Chart display logic */}
+                  {selectedChart === 'line' ? (
+                    <div className="relative w-full h-44 mt-auto">
+                      <svg className="w-full h-full overflow-visible" viewBox="0 0 500 150" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="chartAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#f97316" stopOpacity="0.4" />
+                            <stop offset="100%" stopColor="#f97316" stopOpacity="0.0" />
+                          </linearGradient>
+                          <linearGradient id="chartLineGrad" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stopColor="#ea580c" />
+                            <stop offset="50%" stopColor="#f97316" />
+                            <stop offset="100%" stopColor="#f59e0b" />
+                          </linearGradient>
+                          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#f97316" floodOpacity="0.3" />
+                          </filter>
+                        </defs>
+
+                        {/* Spline Area Path */}
+                        <path
+                          d="M 50,114 C 90,105 90,96 130,96 C 170,96 170,84 210,84 C 250,84 250,105 290,105 C 330,105 330,63 370,63 C 410,63 410,48 450,48 L 450,150 L 50,150 Z"
+                          fill="url(#chartAreaGrad)"
+                        />
+
+                        {/* Spline Line Path */}
+                        <path
+                          d="M 50,114 C 90,105 90,96 130,96 C 170,96 170,84 210,84 C 250,84 250,105 290,105 C 330,105 330,63 370,63 C 410,63 410,48 450,48"
+                          fill="none"
+                          stroke="url(#chartLineGrad)"
+                          strokeWidth="3.5"
+                          strokeLinecap="round"
+                          filter="url(#glow)"
+                        />
+
+                        {/* Chart Grid dots / interactive points */}
+                        {[
+                          { cx: 50, cy: 114, val: 1200 },
+                          { cx: 130, cy: 96, val: 1800 },
+                          { cx: 210, cy: 84, val: 2200 },
+                          { cx: 290, cy: 105, val: 1500 },
+                          { cx: 370, cy: 63, val: 2900 },
+                          { cx: 450, cy: 48, val: 3400 },
+                        ].map((pt, i) => (
+                          <g key={i} className="cursor-pointer" onMouseEnter={() => setHoveredIndex(i)} onMouseLeave={() => setHoveredIndex(null)}>
+                            {/* Inner Circle Glow */}
+                            <circle
+                              cx={pt.cx}
+                              cy={pt.cy}
+                              r={hoveredIndex === i ? 9 : 5}
+                              className="fill-orange-500 stroke-white stroke-2 transition-all duration-300"
+                            />
+                            {hoveredIndex === i && (
+                              <circle
+                                cx={pt.cx}
+                                cy={pt.cy}
+                                r="15"
+                                className="fill-transparent stroke-orange-500/30 stroke-1 animate-ping"
+                              />
+                            )}
+                          </g>
+                        ))}
+                      </svg>
+
+                      {/* Tooltip Overlay */}
+                      {hoveredIndex !== null && (
+                        <div
+                          className="absolute bg-slate-900 text-white px-3 py-1.5 rounded-xl text-xs font-black shadow-lg pointer-events-none transition-all duration-200 -translate-x-1/2 -translate-y-full border border-slate-800 flex flex-col items-center"
+                          style={{
+                            left: `${(hoveredIndex * 80) + 50}px`,
+                            top: `${(150 - (monthlySpendData[hoveredIndex] / 4000) * 120) - 20}px`
+                          }}
+                        >
+                          <span className="text-[10px] text-slate-400 uppercase font-bold">
+                            {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'][hoveredIndex]} Spend
                           </span>
-                          {/* Animated Pillar */}
-                          <div 
-                            className="bg-gradient-to-t from-orange-600 to-amber-400 w-8 rounded-t-lg transition-all duration-1000 group-hover:from-orange-700 group-hover:to-amber-500"
-                            style={{ height: `${percentage}%` }}
-                          ></div>
-                          <span className="text-[10px] font-black text-slate-600 mt-2">{months[idx]}</span>
+                          <span className="text-sm text-amber-400">₹{monthlySpendData[hoveredIndex]}</span>
                         </div>
-                      );
-                    })}
-                  </div>
+                      )}
+
+                      {/* X Axis labels */}
+                      <div className="absolute left-0 right-0 bottom-0 flex justify-between px-3 text-[10px] font-black text-slate-500 pointer-events-none">
+                        <span>Jan</span>
+                        <span>Feb</span>
+                        <span>Mar</span>
+                        <span>Apr</span>
+                        <span>May</span>
+                        <span>Jun</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="relative flex justify-around items-end w-full h-44 z-10">
+                      {monthlySpendData.map((val, idx) => {
+                        const percentage = (val / 4000) * 100;
+                        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+                        const isHovered = hoveredIndex === idx;
+                        return (
+                          <div
+                            key={idx}
+                            className="flex flex-col items-center group w-12 cursor-pointer relative"
+                            onMouseEnter={() => setHoveredIndex(idx)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                          >
+                            {/* Animated Tooltip */}
+                            <span className={`transition-all duration-300 bg-slate-950 text-white text-[10px] px-2.5 py-1.5 rounded-xl absolute -top-12 font-black shadow-lg z-20 flex flex-col items-center border border-slate-800 ${
+                              isHovered ? 'scale-100 opacity-100 translate-y-0' : 'scale-90 opacity-0 translate-y-2 pointer-events-none'
+                            }`}>
+                              <span className="text-[8px] text-slate-400 uppercase tracking-widest">{months[idx]}</span>
+                              <span className="text-amber-400 font-black">₹{val}</span>
+                            </span>
+
+                            {/* Animated Pillar with Glow */}
+                            <div 
+                              className={`w-8 rounded-t-xl transition-all duration-500 shadow-md ${
+                                isHovered 
+                                  ? 'bg-gradient-to-t from-orange-600 to-amber-500 scale-x-110 shadow-orange-200' 
+                                  : 'bg-gradient-to-t from-orange-500 to-amber-400'
+                              }`}
+                              style={{ height: `${percentage}%` }}
+                            ></div>
+                            <span className={`text-[10px] font-black mt-2 transition-colors duration-200 ${
+                              isHovered ? 'text-orange-600' : 'text-slate-500'
+                            }`}>{months[idx]}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
                 </div>
               </div>
 
-              {/* Pie Categories Ordered */}
+              {/* Pie/Donut Categories Ordered */}
               <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">
                 <div>
-                  <h3 className="font-extrabold text-slate-800">Favorite Food Categories</h3>
-                  <p className="text-xs text-slate-500">Based on your count of ordered dishes</p>
+                  <h3 className="font-black text-slate-800 text-lg">Category Distribution</h3>
+                  <p className="text-xs text-slate-400 font-medium">Favorite dishes based on orders count</p>
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center justify-around gap-6 py-4">
-                  {/* SVG Pie Representation */}
-                  <svg className="w-40 h-40 transform -rotate-90" viewBox="0 0 32 32">
-                    {/* Pizza: 3 (15%) */}
-                    <circle cx="16" cy="16" r="14" fill="transparent" stroke="#f97316" strokeWidth="4" strokeDasharray="15 85" strokeDashoffset="0" />
-                    {/* Burger: 5 (25%) */}
-                    <circle cx="16" cy="16" r="14" fill="transparent" stroke="#ef4444" strokeWidth="4" strokeDasharray="25 85" strokeDashoffset="-15" />
-                    {/* Biryani: 2 (10%) */}
-                    <circle cx="16" cy="16" r="14" fill="transparent" stroke="#3b82f6" strokeWidth="4" strokeDasharray="10 85" strokeDashoffset="-40" />
-                    {/* Desserts: 4 (20%) */}
-                    <circle cx="16" cy="16" r="14" fill="transparent" stroke="#10b981" strokeWidth="4" strokeDasharray="20 85" strokeDashoffset="-50" />
-                    {/* Beverages: 6 (30%) */}
-                    <circle cx="16" cy="16" r="14" fill="transparent" stroke="#f59e0b" strokeWidth="4" strokeDasharray="30 85" strokeDashoffset="-70" />
-                  </svg>
+                  {/* SVG Donut Representation */}
+                  <div className="relative w-40 h-40 flex items-center justify-center">
+                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                      {/* Grey Track */}
+                      <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#f1f5f9" strokeWidth="3" />
 
-                  <div className="space-y-2">
+                      {/* Pizza: 3 (15%) */}
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="15.915"
+                        fill="transparent"
+                        stroke="#f97316"
+                        strokeWidth={hoveredSlice === 'Pizza' ? "4.5" : "3.5"}
+                        strokeDasharray="15 85"
+                        strokeDashoffset="0"
+                        className="transition-all duration-300 cursor-pointer"
+                        onMouseEnter={() => setHoveredSlice('Pizza')}
+                        onMouseLeave={() => setHoveredSlice(null)}
+                      />
+                      {/* Burger: 5 (25%) */}
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="15.915"
+                        fill="transparent"
+                        stroke="#ef4444"
+                        strokeWidth={hoveredSlice === 'Burger' ? "4.5" : "3.5"}
+                        strokeDasharray="25 85"
+                        strokeDashoffset="-15"
+                        className="transition-all duration-300 cursor-pointer"
+                        onMouseEnter={() => setHoveredSlice('Burger')}
+                        onMouseLeave={() => setHoveredSlice(null)}
+                      />
+                      {/* Biryani: 2 (10%) */}
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="15.915"
+                        fill="transparent"
+                        stroke="#3b82f6"
+                        strokeWidth={hoveredSlice === 'Biryani' ? "4.5" : "3.5"}
+                        strokeDasharray="10 85"
+                        strokeDashoffset="-40"
+                        className="transition-all duration-300 cursor-pointer"
+                        onMouseEnter={() => setHoveredSlice('Biryani')}
+                        onMouseLeave={() => setHoveredSlice(null)}
+                      />
+                      {/* Desserts: 4 (20%) */}
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="15.915"
+                        fill="transparent"
+                        stroke="#10b981"
+                        strokeWidth={hoveredSlice === 'Desserts' ? "4.5" : "3.5"}
+                        strokeDasharray="20 85"
+                        strokeDashoffset="-50"
+                        className="transition-all duration-300 cursor-pointer"
+                        onMouseEnter={() => setHoveredSlice('Desserts')}
+                        onMouseLeave={() => setHoveredSlice(null)}
+                      />
+                      {/* Beverages: 6 (30%) */}
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="15.915"
+                        fill="transparent"
+                        stroke="#f59e0b"
+                        strokeWidth={hoveredSlice === 'Beverages' ? "4.5" : "3.5"}
+                        strokeDasharray="30 85"
+                        strokeDashoffset="-70"
+                        className="transition-all duration-300 cursor-pointer"
+                        onMouseEnter={() => setHoveredSlice('Beverages')}
+                        onMouseLeave={() => setHoveredSlice(null)}
+                      />
+                    </svg>
+
+                    {/* Donut Center Label */}
+                    <div className="absolute text-center flex flex-col items-center justify-center pointer-events-none">
+                      {hoveredSlice ? (
+                        <>
+                          <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">{hoveredSlice}</span>
+                          <span className="text-xl font-black text-slate-800">
+                            {hoveredSlice === 'Burger' && '25%'}
+                            {hoveredSlice === 'Beverages' && '30%'}
+                            {hoveredSlice === 'Desserts' && '20%'}
+                            {hoveredSlice === 'Pizza' && '15%'}
+                            {hoveredSlice === 'Biryani' && '10%'}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Total</span>
+                          <span className="text-xl font-black text-slate-800">20 Dishes</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Legends */}
+                  <div className="space-y-2.5">
                     {[
                       { cat: 'Burger', color: 'bg-red-500', count: 5, pct: '25%' },
                       { cat: 'Beverages', color: 'bg-yellow-500', count: 6, pct: '30%' },
@@ -835,9 +1082,20 @@ const UserDashboard = () => {
                       { cat: 'Pizza', color: 'bg-orange-500', count: 3, pct: '15%' },
                       { cat: 'Biryani', color: 'bg-blue-500', count: 2, pct: '10%' }
                     ].map((el, i) => (
-                      <div key={i} className="flex items-center gap-3 text-xs font-bold text-slate-700">
-                        <span className={`w-3 h-3 rounded-full ${el.color}`}></span>
-                        <span>{el.cat} ({el.count} times - {el.pct})</span>
+                      <div
+                        key={i}
+                        className={`flex items-center gap-3 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 transition cursor-pointer border ${
+                          hoveredSlice === el.cat
+                            ? 'bg-slate-50 border-slate-100 scale-105'
+                            : 'border-transparent hover:bg-slate-50'
+                        }`}
+                        onMouseEnter={() => setHoveredSlice(el.cat)}
+                        onMouseLeave={() => setHoveredSlice(null)}
+                      >
+                        <span className={`w-3 h-3 rounded-full shrink-0 ${el.color} ${
+                          hoveredSlice === el.cat ? 'ring-4 ring-offset-0 ring-slate-100' : ''
+                        }`}></span>
+                        <span>{el.cat} <b className="text-slate-400 font-medium">({el.count} - {el.pct})</b></span>
                       </div>
                     ))}
                   </div>
