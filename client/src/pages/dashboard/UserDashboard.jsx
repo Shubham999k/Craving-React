@@ -354,7 +354,7 @@ const UserDashboard = () => {
       </aside>
 
       {/* Main Dashboard Area */}
-      <main className="flex-1 p-6 md:p-8 overflow-y-auto md:h-full pb-24 md:pb-8">
+      <main className={`flex-1 p-6 md:p-8 md:h-full pb-24 md:pb-8 ${activeTab === 'tracking' ? 'overflow-hidden' : 'overflow-y-auto'}`}>
         
         {/* TOP BAR / GREETING */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -646,31 +646,319 @@ const UserDashboard = () => {
 
         {/* 3. LIVE ORDER TRACKING TAB */}
         {activeTab === 'tracking' && (
-          <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm max-w-3xl mx-auto animate-fadeIn duration-500 space-y-8">
-            <h2 className="text-2xl font-black text-slate-800 flex items-center gap-2">
+          <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm max-w-3xl mx-auto animate-fadeIn duration-500 space-y-4">
+            <h2 className="text-xl font-black text-slate-800 flex items-center gap-2">
               <i className="bi bi-compass text-orange-600"></i> Track Your Meal
             </h2>
 
             {orderItems.length > 0 ? (
-              <div className="space-y-8">
-                {/* Delivery Map Simulation / SVG */}
-                <div className="relative bg-slate-900 h-48 rounded-2xl overflow-hidden flex items-center justify-center text-white border border-slate-800 shadow-inner">
-                  <div className="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:16px_16px] opacity-30"></div>
-                  
-                  {/* SVG Roads & Map */}
-                  <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="10%" y1="10%" x2="90%" y2="80%" stroke="white" strokeWidth="4" strokeDasharray="5,5" />
-                    <line x1="80%" y1="20%" x2="20%" y2="70%" stroke="white" strokeWidth="4" />
-                    <circle cx="20%" cy="70%" r="8" fill="#f97316" />
-                    <circle cx="80%" cy="20%" r="8" fill="#f97316" />
-                  </svg>
+              <div className="space-y-4">
+                {/* Delivery Map Simulation / 3D Isometric Screen */}
+                <div className="relative bg-[#090d16] h-[250px] rounded-3xl overflow-hidden flex items-center justify-center text-white border border-slate-800 shadow-2xl">
+                  {/* CSS Styles injection for animations */}
+                  <style>{`
+                    @keyframes trackingScanline {
+                      0% { transform: translateY(-100%); }
+                      100% { transform: translateY(250px); }
+                    }
+                    @keyframes markerFloat {
+                      0%, 100% { transform: translate(-50%, -50%) translate3d(0, 0px, 0) rotateX(-55deg) rotateZ(25deg); }
+                      50% { transform: translate(-50%, -50%) translate3d(0, -8px, 0) rotateX(-55deg) rotateZ(25deg); }
+                    }
+                    @keyframes pulseRadar {
+                      0% { transform: scale(0.5); opacity: 0.8; }
+                      100% { transform: scale(2.5); opacity: 0; }
+                    }
+                    @keyframes laserDash {
+                      to { stroke-dashoffset: -40; }
+                    }
+                    @keyframes cameraOrbit {
+                      0%, 100% { transform: rotateX(54deg) rotateZ(-22deg) scale(0.96); }
+                      50% { transform: rotateX(58deg) rotateZ(-28deg) scale(0.93); }
+                    }
+                  `}</style>
 
-                  <div className="relative text-center z-10">
-                    <div className="inline-block animate-bounce mb-2">
-                      <i className="bi bi-geo-alt-fill text-red-500 text-4xl"></i>
+                  {/* Video Screening CRT Scanline & Glare Effect Overlay */}
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-500/10 via-transparent to-black/80 pointer-events-none z-20"></div>
+                  <div 
+                    className="absolute inset-0 w-full h-[2px] bg-gradient-to-r from-transparent via-teal-500/30 to-transparent pointer-events-none z-20"
+                    style={{ animation: 'trackingScanline 5s linear infinite' }}
+                  ></div>
+                  {/* Screen Glare Lines */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none z-20"></div>
+                  {/* Subtle Grid Lines Overlay */}
+                  <div className="absolute inset-0 bg-[linear-gradient(rgba(18,24,38,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(18,24,38,0.3)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none z-10"></div>
+
+                  {/* HUD / OSD Overlay Details */}
+                  <div className="absolute inset-6 pointer-events-none z-20 flex flex-col justify-between font-mono text-[10px] tracking-wider text-teal-400/90">
+                    {/* Top Row */}
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-2 w-2 relative">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
+                        </span>
+                        <span className="font-extrabold text-red-500 uppercase tracking-widest text-[9px] bg-red-500/10 px-1.5 py-0.5 rounded border border-red-500/20">LIVE CAMERA FEED</span>
+                      </div>
+                      <div className="text-right flex flex-col gap-0.5">
+                        <span>CAM-3D // DOWNTOWN</span>
+                        <span>GRID: 28.5283° N, 77.2190° E</span>
+                      </div>
                     </div>
-                    <h4 className="font-extrabold text-sm uppercase tracking-wider text-orange-400">Order Delivery Tracker</h4>
-                    <p className="text-xs text-slate-300 mt-1">Estimating arrival in <b className="text-white text-sm">{orderTimeRemaining} minutes</b></p>
+
+                    {/* Camera Corner Borders */}
+                    <div className="absolute inset-0 border border-teal-500/10">
+                      <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-teal-500/50"></div>
+                      <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-teal-500/50"></div>
+                      <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-teal-500/50"></div>
+                      <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-teal-500/50"></div>
+                    </div>
+
+                    {/* Bottom Row */}
+                    <div className="flex justify-between items-end">
+                      <div className="flex gap-4">
+                        <div>
+                          <span className="text-slate-500 block text-[8px]">ESTIMATED TIME</span>
+                          <span className="text-sm font-black text-white">{orderTimeRemaining} MINS</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block text-[8px]">STATUS</span>
+                          <span className="text-sm font-black text-amber-400">
+                            {['DISPATCHING', 'PREPARING', 'IN TRANSIT', 'ARRIVED'][orderStep]}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-slate-500 block text-[8px]">DRONE SIGNAL</span>
+                        <span className="text-teal-400 font-bold"><i className="bi bi-wifi mr-1"></i> 98.4% STABLE</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 3D Isometric Viewport Container */}
+                  <div 
+                    className="relative w-[500px] h-[210px] transition-all duration-700 ease-out"
+                    style={{
+                      perspective: '1200px',
+                      transformStyle: 'preserve-3d'
+                    }}
+                  >
+                    {/* The Tilted Ground Map Plane */}
+                    <div 
+                      className="absolute inset-0 border border-slate-700/40 rounded-2xl transition-all duration-500"
+                      style={{
+                        background: '#090d16',
+                        animation: 'cameraOrbit 20s ease-in-out infinite',
+                        boxShadow: '0 30px 60px -15px rgba(0,0,0,0.8), inset 0 0 40px rgba(6,182,212,0.15)',
+                        transformStyle: 'preserve-3d'
+                      }}
+                    >
+                      {/* Interactive Radar Ring sweep under map */}
+                      <div className="absolute top-1/2 left-1/2 w-36 h-36 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                        <div className="absolute inset-0 rounded-full border border-cyan-500/10 animate-[pulseRadar_4s_infinite]"></div>
+                        <div className="absolute inset-0 rounded-full border border-cyan-500/20 animate-[pulseRadar_4s_infinite_delay-2s]"></div>
+                      </div>
+
+                      {/* City Blueprint SVG - Road grid, blocks, river, park zones */}
+                      <svg className="absolute inset-0 w-full h-full opacity-60" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                          <pattern id="streetGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+                            <rect width="52" height="52" x="4" y="4" rx="6" fill="#0b0f19" stroke="#1e293b" strokeWidth="0.8" />
+                          </pattern>
+                        </defs>
+                        {/* City blocks layout */}
+                        <rect width="100%" height="100%" fill="url(#streetGrid)" />
+                        
+                        {/* Winding Blue River */}
+                        <path d="M 0,90 Q 120,80 200,150 T 400,200 T 500,160" fill="none" stroke="#0e3252" strokeWidth="20" strokeLinecap="round" opacity="0.4" />
+                        <path d="M 0,90 Q 120,80 200,150 T 400,200 T 500,160" fill="none" stroke="#0369a1" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+
+                        {/* Park Area */}
+                        <rect x="280" y="40" width="80" height="50" rx="10" fill="#064e3b" opacity="0.25" stroke="#059669" strokeWidth="0.5" strokeDasharray="3,3" />
+                        <text x="320" y="70" fill="#059669" fontSize="8" fontFamily="monospace" fontWeight="bold" textAnchor="middle" opacity="0.8">CENTRAL RESERVE</text>
+
+                        {/* Neighborhood labels */}
+                        <text x="70" y="80" fill="#475569" fontSize="8" fontFamily="monospace" fontWeight="bold" opacity="0.6">SECTOR 4 (BIZ HUB)</text>
+                        <text x="380" y="270" fill="#475569" fontSize="8" fontFamily="monospace" fontWeight="bold" opacity="0.6">RESIDENTIAL AREA B</text>
+
+                        {/* Road Names */}
+                        <text x="180" y="125" fill="#334155" fontSize="6" fontFamily="monospace" opacity="0.8" transform="rotate(-10 180 125)">BROADWAY BLVD</text>
+                        <text x="290" y="220" fill="#334155" fontSize="6" fontFamily="monospace" opacity="0.8">METRO DRIVE</text>
+
+                        {/* Main Laser Route (Broken into completed vs planned segments) */}
+                        {/* Completed Road Segment */}
+                        <path
+                          d="M 60,200 L 150,140 L 250,130 L 320,80 L 440,40"
+                          fill="none"
+                          stroke="#1e293b"
+                          strokeWidth="6"
+                          strokeLinecap="round"
+                        />
+                        {/* Base active trace path */}
+                        <path
+                          d="M 60,200 L 150,140 L 250,130 L 320,80 L 440,40"
+                          fill="none"
+                          stroke="#0284c7"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          className="opacity-20"
+                        />
+                        
+                        {/* Real-time segment highlighting */}
+                        {orderStep >= 2 ? (
+                          <>
+                            {/* Completed neon route */}
+                            <path
+                              d={orderStep === 3 
+                                ? "M 60,200 L 150,140 L 250,130 L 320,80 L 440,40" 
+                                : "M 60,200 L 150,140 L 250,130"
+                              }
+                              fill="none"
+                              stroke="#10b981"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              opacity="0.8"
+                            />
+                            {/* In-flight segment pulsing */}
+                            {orderStep === 2 && (
+                              <path
+                                d="M 250,130 L 320,80 L 440,40"
+                                fill="none"
+                                stroke="#f59e0b"
+                                strokeWidth="2.5"
+                                strokeLinecap="round"
+                                strokeDasharray="6 8"
+                                style={{ animation: 'laserDash 2s linear infinite' }}
+                              />
+                            )}
+                          </>
+                        ) : (
+                          /* Planned route dotted segment */
+                          <path
+                            d="M 60,200 L 150,140 L 250,130 L 320,80 L 440,40"
+                            fill="none"
+                            stroke="#06b6d4"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeDasharray="4 6"
+                          />
+                        )}
+                      </svg>
+
+                      {/* 1. RESTAURANT Node (Upright glassmorphism design) */}
+                      <div 
+                        className="absolute flex flex-col items-center"
+                        style={{
+                          left: '60px',
+                          top: '200px',
+                          transform: 'translate(-50%, -50%)',
+                          transformStyle: 'preserve-3d',
+                          animation: 'markerFloat 3s ease-in-out infinite'
+                        }}
+                      >
+                        {/* 3D Standing Card */}
+                        <div className="bg-slate-950/90 border border-orange-500/50 backdrop-blur-md px-2 py-1 rounded shadow-[0_4px_12px_rgba(249,115,22,0.15)] flex items-center gap-1.5 min-w-[70px] justify-center">
+                          <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+                          <span className="text-[8px] font-black tracking-wider text-slate-300 font-mono">RESTAURANT</span>
+                        </div>
+                        {/* Connector Pin Line */}
+                        <div className="w-0.5 h-6 bg-gradient-to-t from-orange-500/80 to-transparent"></div>
+                        {/* Pulse Ring on floor */}
+                        <div className="w-4 h-4 rounded-full bg-orange-500/10 border border-orange-500/40 flex items-center justify-center -mt-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                        </div>
+                      </div>
+
+                      {/* 2. RIDER / SCOOTER Drone Node */}
+                      {(() => {
+                        // Interpolate positions based on active phase
+                        let riderPos = { x: '60px', y: '200px', status: 'WAITING', color: 'border-orange-500/80', glow: 'rgba(249,115,22,0.25)', text: 'text-orange-400' };
+                        if (orderStep === 1) {
+                          riderPos = { x: '150px', y: '140px', status: 'PREPARING', color: 'border-amber-500/80', glow: 'rgba(245,158,11,0.25)', text: 'text-amber-400' };
+                        } else if (orderStep === 2) {
+                          riderPos = { x: '260px', y: '100px', status: 'IN ROUTE', color: 'border-cyan-400', glow: 'rgba(34,211,238,0.4)', text: 'text-cyan-400' };
+                        } else if (orderStep === 3) {
+                          riderPos = { x: '440px', y: '40px', status: 'DELIVERED', color: 'border-emerald-500', glow: 'rgba(16,185,129,0.3)', text: 'text-emerald-400' };
+                        }
+                        return (
+                          <>
+                            {/* 3D Camera Crosshair Tracker targeting the rider */}
+                            <div 
+                              className="absolute pointer-events-none transition-all duration-1000 ease-in-out flex items-center justify-center"
+                              style={{
+                                left: riderPos.x,
+                                top: riderPos.y,
+                                width: '60px',
+                                height: '60px',
+                                transform: 'translate(-50%, -50%)',
+                                transformStyle: 'preserve-3d',
+                              }}
+                            >
+                              <div className="absolute inset-0 border border-dashed border-teal-500/20 rounded-full animate-spin"></div>
+                              <div className="w-2 h-2 border-t border-l border-teal-400"></div>
+                              <div className="absolute w-2 h-2 border-b border-r border-teal-400 bottom-0 right-0"></div>
+                            </div>
+
+                            <div 
+                              className="absolute flex flex-col items-center z-30"
+                              style={{
+                                left: riderPos.x,
+                                top: riderPos.y,
+                                transform: 'translate(-50%, -50%)',
+                                transformStyle: 'preserve-3d',
+                                animation: 'markerFloat 2.2s ease-in-out infinite',
+                                transition: 'all 2s cubic-bezier(0.4, 0, 0.2, 1)'
+                              }}
+                            >
+                              {/* Sleek Glass HUD Tag */}
+                              <div className={`bg-slate-950/95 border-2 ${riderPos.color} px-2.5 py-1.5 rounded-lg shadow-[0_8px_16px_${riderPos.glow}] flex flex-col min-w-[95px] text-center`}>
+                                <div className="flex items-center gap-1 justify-center">
+                                  <span className="relative flex items-center justify-center w-4 h-4 mr-1">
+                                    <span className="text-xs animate-pulse">🛸</span>
+                                    <span className="absolute -top-1.5 left-[-2px] w-2 h-[1px] bg-cyan-400 opacity-90 animate-spin" style={{ transformOrigin: 'center', animationDuration: '0.2s' }}></span>
+                                    <span className="absolute -top-1.5 right-[-2px] w-2 h-[1px] bg-cyan-400 opacity-90 animate-spin" style={{ transformOrigin: 'center', animationDuration: '0.2s' }}></span>
+                                  </span>
+                                  <span className="text-[8px] font-black text-slate-300 font-mono tracking-wider">ACTIVE DRONE</span>
+                                </div>
+                                <span className={`text-[9px] font-black font-mono leading-none mt-1 uppercase ${riderPos.text}`}>
+                                  {riderPos.status}
+                                </span>
+                              </div>
+                              <div className="w-0.5 h-6 bg-gradient-to-t from-cyan-400/80 to-transparent"></div>
+                              <div className="w-5 h-5 rounded-full bg-cyan-400/10 border border-cyan-400/50 flex items-center justify-center -mt-2.5">
+                                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping absolute"></span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })()}
+
+                      {/* 3. HOME Node (Upright glassmorphism design) */}
+                      <div 
+                        className="absolute flex flex-col items-center"
+                        style={{
+                          left: '440px',
+                          top: '40px',
+                          transform: 'translate(-50%, -50%)',
+                          transformStyle: 'preserve-3d',
+                          animation: 'markerFloat 3.5s ease-in-out infinite'
+                        }}
+                      >
+                        {/* 3D Standing Card */}
+                        <div className="bg-slate-950/90 border border-emerald-500/50 backdrop-blur-md px-2 py-1 rounded shadow-[0_4px_12px_rgba(16,185,129,0.15)] flex items-center gap-1.5 min-w-[70px] justify-center">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                          <span className="text-[8px] font-black tracking-wider text-slate-300 font-mono">DESTINATION</span>
+                        </div>
+                        {/* Connector Pin Line */}
+                        <div className="w-0.5 h-6 bg-gradient-to-t from-emerald-500/80 to-transparent"></div>
+                        {/* Pulse Ring on floor */}
+                        <div className="w-4 h-4 rounded-full bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center -mt-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        </div>
+                      </div>
+
+                    </div>
                   </div>
                 </div>
 
