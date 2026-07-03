@@ -28,5 +28,4 @@ function PartnerSection() {
         </section>
     );
 }
-
 export default PartnerSection;

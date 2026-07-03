@@ -4,6 +4,7 @@ dotenv.config();
 import express from "express";
 import AuthRouter from "./src/routers/auth.route.js";
 import PublicRouter from "./src/routers/public.route.js";
+import OrderRouter from "./src/routers/order.route.js";
 import dbConnection from "./src/config/dbConnection.config.js";
 import morgan from "morgan";
 import cors from "cors";
@@ -16,6 +17,7 @@ app.use(morgan("dev"));
 
 app.use("/auth", AuthRouter);
 app.use("/public", PublicRouter);
+app.use("/orders", OrderRouter);
 
 app.get("/", (req, res) => {
     console.log("Default Get API hit");

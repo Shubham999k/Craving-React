@@ -6,6 +6,25 @@ import toast from "react-hot-toast";
 function Navbar() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    useEffect(() => {
+        setIsDarkMode(document.documentElement.classList.contains("dark"));
+    }, []);
+
+    const toggleTheme = () => {
+        if (document.documentElement.classList.contains("dark")) {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+            setIsDarkMode(false);
+            toast.success("Light mode enabled ☀️");
+        } else {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+            setIsDarkMode(true);
+            toast.success("Dark mode enabled 🌙");
+        }
+    };
 
     // Sync state with localStorage
     useEffect(() => {
@@ -59,6 +78,18 @@ function Navbar() {
                     </Link>
 
                     <div className="flex items-center gap-4">
+                        <button
+                            onClick={toggleTheme}
+                            className="text-white hover:text-orange-200 transition-all duration-300 p-2 rounded-full cursor-pointer flex items-center justify-center"
+                            aria-label="Toggle Theme"
+                        >
+                            {isDarkMode ? (
+                                <i className="bi bi-sun-fill text-xl"></i>
+                            ) : (
+                                <i className="bi bi-moon-fill text-xl"></i>
+                            )}
+                        </button>
+
                         {user ? (
                             <>
                                 <Link
