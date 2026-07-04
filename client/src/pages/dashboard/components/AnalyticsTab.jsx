@@ -78,22 +78,32 @@ const AnalyticsTab = ({
         </div>
 
         {/* Chart Selector Segmented Control */}
-        <div className="flex bg-slate-100 dark:bg-slate-900 p-1 rounded border border-slate-200 dark:border-slate-800">
+        <div className="relative flex bg-slate-100 dark:bg-slate-900 p-1 rounded border border-slate-200 dark:border-slate-800 w-[220px] select-none">
+          {/* Sliding Indicator */}
+          <div 
+            className="absolute top-1 bottom-1 left-1 bg-white dark:bg-slate-800 rounded-sm shadow-sm transition-all duration-300 ease-out z-0"
+            style={{
+              width: 'calc(50% - 4px)',
+              transform: selectedChart === 'bar' ? 'translateX(100%)' : 'translateX(0)'
+            }}
+          ></div>
+          
           <button
             onClick={() => setSelectedChart('line')}
-            className={`px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+            className={`relative z-10 w-1/2 py-1.5 rounded-sm text-xs font-bold transition-colors duration-300 flex items-center justify-center gap-1.5 cursor-pointer ${
               selectedChart === 'line'
-                ? 'bg-white dark:bg-slate-800 text-orange-600 dark:text-orange-500 shadow-sm'
+                ? 'text-orange-600 dark:text-orange-500'
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >
             <i className="bi bi-graph-up"></i> Area Flow
           </button>
+          
           <button
             onClick={() => setSelectedChart('bar')}
-            className={`px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+            className={`relative z-10 w-1/2 py-1.5 rounded-sm text-xs font-bold transition-colors duration-300 flex items-center justify-center gap-1.5 cursor-pointer ${
               selectedChart === 'bar'
-                ? 'bg-white dark:bg-slate-800 text-orange-600 dark:text-orange-500 shadow-sm'
+                ? 'text-orange-600 dark:text-orange-500'
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >

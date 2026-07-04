@@ -13,6 +13,7 @@ function Login() {
         password: "",
     });
 
+    const [rememberMe, setRememberMe] = useState(false);
     const [validateError, setValidateError] = useState("");
 
     const handleChange = (e) => {
@@ -73,13 +74,13 @@ function Login() {
 
             {/* Login Card */}
             <div className="relative left-16 z-10 w-full md:w-[60%] lg:w-[30%]">
-                <div className="rounded-xl bg-white p-6 shadow-2xl">
+                <div className="rounded-xl bg-white dark:bg-slate-900 border border-slate-100/50 dark:border-slate-800 p-6 shadow-2xl text-slate-800 dark:text-slate-100">
                     {/* Heading */}
                     <h1 className="mb-2 text-center text-3xl font-bold text-[#c74a09]">
                         Welcome Back
                     </h1>
 
-                    <p className="mb-6 text-center text-gray-500">
+                    <p className="mb-6 text-center text-gray-500 dark:text-slate-400">
                         Login to your Cravings account
                     </p>
 
@@ -87,7 +88,7 @@ function Login() {
                     <form onSubmit={handleSubmit}>
                         {/* Email */}
                         <div className="mb-4">
-                            <label className="mb-2 block font-medium">
+                            <label className="mb-2 block font-medium text-slate-700 dark:text-slate-300">
                                 Email
                             </label>
 
@@ -97,13 +98,13 @@ function Login() {
                                 value={loginData.email}
                                 onChange={handleChange}
                                 placeholder="Enter your email"
-                                className="w-full rounded-md border border-gray-300 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200"
+                                className="w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20"
                             />
                         </div>
 
                         {/* Password */}
                         <div className="mb-4">
-                            <label className="mb-2 block font-medium">
+                            <label className="mb-2 block font-medium text-slate-700 dark:text-slate-300">
                                 Password
                             </label>
 
@@ -113,7 +114,7 @@ function Login() {
                                 value={loginData.password}
                                 onChange={handleChange}
                                 placeholder="Enter your password"
-                                className="w-full rounded-md border border-gray-300 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200"
+                                className="w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20"
                             />
                         </div>
 
@@ -126,11 +127,20 @@ function Login() {
 
                         {/* Remember + Forgot */}
                         <div className="mb-5 flex items-center justify-between text-sm">
-                            <label className="flex items-center gap-2">
+                            <label className="flex items-center gap-2 text-slate-700 dark:text-slate-300 cursor-pointer select-none">
                                 <input
                                     type="checkbox"
-                                    className="accent-orange-600"
+                                    checked={rememberMe}
+                                    onChange={(e) => setRememberMe(e.target.checked)}
+                                    className="sr-only"
                                 />
+                                <div className={`w-4.5 h-4.5 rounded border flex items-center justify-center transition-all ${
+                                    rememberMe 
+                                        ? "bg-[#c74a09] border-white text-white animate-scaleUp" 
+                                        : "border-gray-300 dark:border-slate-750 bg-transparent"
+                                }`}>
+                                    {rememberMe && <i className="bi bi-check-lg" style={{ fontSize: '14px', WebkitTextStroke: '0.8px' }}></i>}
+                                </div>
                                 <span>Remember me</span>
                             </label>
 
@@ -153,11 +163,11 @@ function Login() {
 
                     {/* Divider */}
                     <div className="mb-5 flex items-center gap-3">
-                        <hr className="flex-1 border-gray-300" />
-                        <span className="text-sm text-gray-500">
+                        <hr className="flex-1 border-gray-300 dark:border-slate-850" />
+                        <span className="text-sm text-gray-500 dark:text-slate-400">
                             Don't have an account?
                         </span>
-                        <hr className="flex-1 border-gray-300" />
+                        <hr className="flex-1 border-gray-300 dark:border-slate-850" />
                     </div>
 
                     {/* Register Link */}

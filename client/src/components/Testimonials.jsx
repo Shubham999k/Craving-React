@@ -29,17 +29,17 @@ function Testimonials() {
     ];
 
     return (
-        <section className="bg-white py-20">
+        <section className="bg-white dark:bg-slate-950 py-20 transition-colors duration-300">
             <div className="mx-auto max-w-7xl px-4">
 
                 {/* Heading */}
                 <div className="mb-14 text-center">
 
-                    <h2 className="mb-3 text-4xl font-bold text-gray-900">
+                    <h2 className="mb-3 text-4xl font-bold text-gray-900 dark:text-slate-100">
                         What Our Customers Say
                     </h2>
 
-                    <p className="text-lg text-gray-500">
+                    <p className="text-lg text-gray-500 dark:text-slate-400">
                         Real feedback from real food lovers
                     </p>
 
@@ -52,7 +52,7 @@ function Testimonials() {
 
                         <div
                             key={index}
-                            className="rounded-lg border border-orange-100 bg-[#FFF8F1] p-7 shadow-md transition-all duration-300 hover:shadow-lg"
+                            className="rounded-lg border border-orange-100 dark:border-orange-950 bg-[#FFF8F1] dark:bg-slate-900 p-7 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-orange-500/10"
                         >
 
                             {/* Stars */}
@@ -61,12 +61,12 @@ function Testimonials() {
                             </div>
 
                             {/* Title */}
-                            <h3 className="mb-2 text-xl font-bold text-gray-900">
+                            <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-slate-100">
                                 {item.title}
                             </h3>
 
                             {/* Review */}
-                            <p className="mb-2 leading-7 text-gray-600">
+                            <p className="mb-2 leading-7 text-gray-650 dark:text-slate-350">
                                 {item.review}
                             </p>
 
@@ -85,11 +85,11 @@ function Testimonials() {
 
                                 <div>
 
-                                    <h4 className="font-semibold text-gray-900">
+                                    <h4 className="font-semibold text-gray-900 dark:text-slate-200">
                                         {item.name}
                                     </h4>
 
-                                    <p className="text-sm text-gray-500">
+                                    <p className="text-sm text-gray-500 dark:text-slate-400">
                                         Verified Buyer
                                     </p>
 

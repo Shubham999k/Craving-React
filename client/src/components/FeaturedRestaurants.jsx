@@ -1,7 +1,12 @@
 import RestaurantCard from "./RestaurantCard";
 import { restaurants } from "../data/restaurants";
 
-function FeaturedRestaurants() {
+function FeaturedRestaurants({ searchQuery }) {
+    const filteredRestaurants = restaurants.filter(restaurant => 
+        restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        restaurant.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+
     return (
         <section className="inset-0 bg-linear-to-b from-orange-700/90 to-white/20 py-10 ">
 
@@ -14,14 +19,14 @@ function FeaturedRestaurants() {
                     </h2>
 
                     <p className="mt-2">
-                        6 restaurants available
+                        {filteredRestaurants.length} {filteredRestaurants.length === 1 ? 'restaurant' : 'restaurants'} available
                     </p>
 
                 </div>
 
                 <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:mx-20">
 
-                    {restaurants.map((restaurant) => (
+                    {filteredRestaurants.map((restaurant) => (
                         <RestaurantCard
                             key={restaurant.id}
                             restaurant={restaurant}

@@ -40,10 +40,14 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
         {FOOD_ITEMS
           .filter(item => selectedCategory === 'All' || item.category === selectedCategory)
           .filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
-          .map(item => (
+          .map((item, index) => (
             <div 
               key={item.id}
-              className="bg-white dark:bg-slate-900 rounded-md overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group transform hover:-translate-y-1.5"
+              className="bg-white dark:bg-slate-900 rounded-md overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group transform hover:-translate-y-1.5 animate-fadeIn"
+              style={{
+                animationDelay: `${index * 80}ms`,
+                animationFillMode: 'both'
+              }}
             >
               <div className="relative overflow-hidden aspect-[4/3] bg-slate-100 dark:bg-slate-800">
                 <img

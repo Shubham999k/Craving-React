@@ -80,12 +80,12 @@ function ContactUs() {
 
             {/* Content */}
             <div className="relative z-10 w-full px-4 sm:px-6 lg:px-16">
-                <div className="max-w-md rounded-xl bg-white p-6 shadow-2xl">
+                <div className="max-w-md rounded-xl bg-white dark:bg-slate-900 p-6 shadow-2xl border border-slate-100/50 dark:border-slate-800">
                     <h2 className="mb-2 text-center text-3xl font-bold text-[#c74a09]">
                         Contact Us
                     </h2>
 
-                    <p className="mb-4 text-center text-gray-500">
+                    <p className="mb-4 text-center text-gray-500 dark:text-slate-400">
                         Have a question? We'd love to hear from you.
                     </p>
 
@@ -97,7 +97,7 @@ function ContactUs() {
                                 value={contactData.fullName}
                                 onChange={handleChange}
                                 placeholder="Enter your full name"
-                                className="w-full rounded-md border border-gray-300 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200"
+                                className="w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20"
                             />
                         </div>
 
@@ -108,7 +108,7 @@ function ContactUs() {
                                 value={contactData.email}
                                 onChange={handleChange}
                                 placeholder="Enter your email"
-                                className="w-full rounded-md border border-gray-300 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200"
+                                className="w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20"
                             />
                         </div>
 
@@ -119,7 +119,7 @@ function ContactUs() {
                                 value={contactData.phone}
                                 onChange={handleChange}
                                 placeholder="Enter your phone number"
-                                className="w-full rounded-md border border-gray-300 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200"
+                                className="w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20"
                             />
                         </div>
 
@@ -130,7 +130,7 @@ function ContactUs() {
                                 value={contactData.subject}
                                 onChange={handleChange}
                                 placeholder="What is this about?"
-                                className="w-full rounded-md border border-gray-300 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200"
+                                className="w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20"
                             />
                         </div>
 
@@ -141,7 +141,7 @@ function ContactUs() {
                                 value={contactData.message}
                                 onChange={handleChange}
                                 placeholder="Write your message here..."
-                                className="w-full rounded-md border border-gray-300 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200"
+                                className="w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20"
                             ></textarea>
                         </div>
 

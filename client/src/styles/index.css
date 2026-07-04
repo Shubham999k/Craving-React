@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+@variant dark (.dark &);
+
+/* Prevent chrome browser autofill from making input backgrounds white */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    transition: background-color 5000000s ease-in-out 0s;
+    -webkit-text-fill-color: #1e293b !important;
+}
+
+/* Dark mode text fill override for autofill */
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover, 
+.dark input:-webkit-autofill:focus, 
+.dark input:-webkit-autofill:active {
+    -webkit-text-fill-color: #f8fafc !important;
+}
+
+/* Custom Thin Scrollbars matching light/dark themes */
+html::-webkit-scrollbar,
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+/* Light mode track and thumb */
+html::-webkit-scrollbar-track,
+::-webkit-scrollbar-track {
+    background: #f8fafc; /* Slate-50 */
+}
+
+html::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1; /* Slate-300 */
+    border-radius: 9999px;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8; /* Slate-400 */
+}
+
+/* Dark mode track and thumb */
+.dark ::-webkit-scrollbar-track,
+.dark::-webkit-scrollbar-track {
+    background: #090d16; /* Slate-950/Black area */
+}
+
+.dark ::-webkit-scrollbar-thumb,
+.dark::-webkit-scrollbar-thumb {
+    background: #334155; /* Slate-700 */
+    border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover,
+.dark::-webkit-scrollbar-thumb:hover {
+    background: #475569; /* Slate-600 */
+}
+
+/* Firefox compatibility */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.dark * {
+    scrollbar-color: #334155 #090d16;
+}
+
+/* Hide scrollbar utility class */
+.scrollbar-none::-webkit-scrollbar {
+    display: none !important;
+}
+.scrollbar-none {
+    -ms-overflow-style: none !important;  /* IE and Edge */
+    scrollbar-width: none !important;  /* Firefox */
+}

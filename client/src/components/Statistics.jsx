@@ -27,16 +27,16 @@ function Statistics() {
     ];
 
     return (
-        <section className="bg-[#FFF8F1] py-20">
+        <section className="bg-[#FFF8F1] dark:bg-slate-900/40 py-20 transition-colors duration-300">
             <div className="mx-auto max-w-7xl px-4">
 
                 {/* Heading */}
                 <div className="mb-14 text-center">
-                    <h2 className="mb-3 text-4xl font-bold">
+                    <h2 className="mb-3 text-4xl font-bold text-slate-800 dark:text-slate-100">
                         Cravings by the Numbers
                     </h2>
 
-                    <p >
+                    <p className="text-slate-600 dark:text-slate-400">
                         See why millions trust us for their daily food delivery needs
                     </p>
                 </div>
@@ -47,7 +47,7 @@ function Statistics() {
                     {stats.map((item, index) => (
                         <div
                             key={index}
-                            className="rounded-md bg-white p-8 text-center shadow-lg transition duration-300 hover:shadow-xl"
+                            className="rounded-md bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-8 text-center shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-orange-500/10 text-slate-800 dark:text-slate-100"
                         >
                             <h3
                                 className={`mb-3 text-5xl font-extrabold ${item.color}`}
@@ -55,11 +55,11 @@ function Statistics() {
                                 {item.value}
                             </h3>
 
-                            <h4 className="mb-2 text-lg font-semibold">
+                            <h4 className="mb-2 text-lg font-semibold text-slate-800 dark:text-slate-100">
                                 {item.title}
                             </h4>
 
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 dark:text-slate-400">
                                 {item.description}
                             </p>
                         </div>

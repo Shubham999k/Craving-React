@@ -1,10 +1,31 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
-const TrackingTab = ({ orderItems, orderStep, setOrderStep, orderTimeRemaining, setActiveTab }) => {
+const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemaining, setActiveTab }) => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
-  const displayItems = orderItems && orderItems.length > 0 ? orderItems : [{ name: 'Classic Pepperoni Pizza', qty: 1, price: 349 }];
-  const primaryItem = displayItems[0];
+  
+  if (!orderItems || orderItems.length === 0) {
+    return (
+      <div className="max-w-xl mx-auto bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-12 text-center shadow-xl space-y-6 animate-fadeIn text-slate-800 dark:text-slate-100 mt-10">
+        <div className="w-20 h-20 bg-orange-50 dark:bg-orange-950/20 text-[#c74a09] rounded-full flex items-center justify-center text-4xl mx-auto animate-bounce">
+          <i className="bi bi-geo-alt-fill"></i>
+        </div>
+        <div className="space-y-2">
+          <h3 className="text-2xl font-black text-slate-850 dark:text-slate-100">No Active Deliveries</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto">You do not have any active live tracking items right now. Select delicious food from our menu or featured restaurants to start tracking!</p>
+        </div>
+        <button
+          onClick={() => setActiveTab('menu')}
+          className="bg-[#c74a09] hover:bg-orange-700 text-white font-extrabold px-6 py-3 rounded-lg text-sm transition shadow-md hover:shadow-lg cursor-pointer"
+        >
+          Explore Menu & Order
+        </button>
+      </div>
+    );
+  }
+
+  const displayItems = orderItems;
+  const primaryItem = displayItems[0] || {};
   const dishName = primaryItem.name || 'Your Delicious Meal';
 
   return (
@@ -26,6 +47,13 @@ const TrackingTab = ({ orderItems, orderStep, setOrderStep, orderTimeRemaining, 
         @keyframes radarScan {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
+        }
+        @keyframes wiggle {
+          0%, 100% { transform: rotate(-6deg) translateY(0); }
+          50% { transform: rotate(6deg) translateY(-4px); }
+        }
+        .animate-wiggle {
+          animation: wiggle 0.6s ease-in-out infinite;
         }
       `}</style>
 
@@ -190,6 +218,68 @@ const TrackingTab = ({ orderItems, orderStep, setOrderStep, orderTimeRemaining, 
               </span>
             </div>
           </div>
+
+          {/* Unique Live Animated Status Visualizer Board */}
+          {(() => {
+            switch(orderStep) {
+              case 0:
+                return (
+                  <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4 flex flex-col items-center justify-center text-center space-y-3 relative overflow-hidden select-none">
+                    <div className="absolute inset-0 bg-gradient-to-t from-orange-500/5 via-transparent to-transparent"></div>
+                    <div className="text-4xl animate-bounce">📋</div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-mono tracking-widest text-orange-400 font-black uppercase animate-pulse">RECEIVING ORDER TICKET...</p>
+                      <p className="text-[9px] text-slate-500 font-mono">Connecting with the restaurant kitchen</p>
+                    </div>
+                    <div className="w-20 h-1 bg-slate-900 rounded overflow-hidden">
+                      <div className="w-1/2 h-full bg-orange-500 rounded animate-[lineDash_1.5s_linear_infinite]" style={{ transform: 'scaleX(2)' }}></div>
+                    </div>
+                  </div>
+                );
+              case 1:
+                return (
+                  <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4 flex flex-col items-center justify-center text-center space-y-3 relative overflow-hidden select-none">
+                    <div className="absolute inset-0 bg-gradient-to-t from-orange-500/5 via-transparent to-transparent"></div>
+                    <div className="flex items-center gap-3 text-4xl">
+                      <span className="inline-block animate-[spin_5s_linear_infinite]">🍳</span>
+                      <span className="animate-bounce">🔥</span>
+                      <span className="inline-block animate-pulse">🍲</span>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-mono tracking-widest text-orange-400 font-black uppercase animate-pulse">CHEF PREPARING DELICIOUS FOOD...</p>
+                      <p className="text-[9px] text-slate-500 font-mono">Baking pizza base & simmering sauces</p>
+                    </div>
+                  </div>
+                );
+              case 2:
+                return (
+                  <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4 flex flex-col items-center justify-center text-center space-y-3 relative overflow-hidden select-none">
+                    <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/5 via-transparent to-transparent"></div>
+                    <div className="flex items-center gap-1.5 text-4xl">
+                      <span className="inline-block animate-wiggle">🛵</span>
+                      <span className="text-xs text-cyan-400 font-mono font-black animate-pulse">&gt;&gt;&gt;</span>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-mono tracking-widest text-cyan-400 font-black uppercase animate-pulse">VALET IN TRANSIT...</p>
+                      <p className="text-[9px] text-slate-500 font-mono">Rider navigating traffic to your address</p>
+                    </div>
+                  </div>
+                );
+              case 3:
+                return (
+                  <div className="bg-slate-950/70 border border-emerald-800/30 rounded-xl p-4 flex flex-col items-center justify-center text-center space-y-3 relative overflow-hidden select-none">
+                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/10 via-transparent to-transparent"></div>
+                    <div className="text-4xl animate-bounce">🎉 🍕 🏡</div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-mono tracking-widest text-emerald-400 font-black uppercase">ORDER DELIVERED SUCCESSFULLY!</p>
+                      <p className="text-[9px] text-emerald-500 font-mono font-bold">Your fresh, hot meal is ready. Bon appétit!</p>
+                    </div>
+                  </div>
+                );
+              default:
+                return null;
+            }
+          })()}
 
           {/* Stepper Steps (swiggy/zomato style) */}
           <div className="space-y-3">

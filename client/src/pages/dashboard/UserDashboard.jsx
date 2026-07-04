@@ -572,7 +572,13 @@ export const PRESET_AVATARS = [
 ];
 
 const UserDashboard = () => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user")) || {};
+    } catch (e) {
+      return {};
+    }
+  });
   const [activeTab, setActiveTab] = useState('overview'); // overview, menu, tracking, analytics, profile, wishlist
   const [wishlist, setWishlist] = useState([]);
   const [cart, setCart] = useState([]);
@@ -590,10 +596,38 @@ const UserDashboard = () => {
   const [isConfettiActive, setIsConfettiActive] = useState(false);
 
   // Profile Edit fields
-  const [editName, setEditName] = useState('');
-  const [editEmail, setEditEmail] = useState('');
-  const [editPhone, setEditPhone] = useState('');
-  const [editAvatar, setEditAvatar] = useState(null);
+  const [editName, setEditName] = useState(() => {
+    try {
+      const u = JSON.parse(localStorage.getItem("user"));
+      return u?.name || 'Demo User';
+    } catch (e) {
+      return 'Demo User';
+    }
+  });
+  const [editEmail, setEditEmail] = useState(() => {
+    try {
+      const u = JSON.parse(localStorage.getItem("user"));
+      return u?.email || 'demo@example.com';
+    } catch (e) {
+      return 'demo@example.com';
+    }
+  });
+  const [editPhone, setEditPhone] = useState(() => {
+    try {
+      const u = JSON.parse(localStorage.getItem("user"));
+      return u?.phone || '+1 (555) 019-2834';
+    } catch (e) {
+      return '+1 (555) 019-2834';
+    }
+  });
+  const [editAvatar, setEditAvatar] = useState(() => {
+    try {
+      const u = JSON.parse(localStorage.getItem("user"));
+      return u?.profilePicture || PRESET_AVATARS[0];
+    } catch (e) {
+      return PRESET_AVATARS[0];
+    }
+  });
   const [editBio, setEditBio] = useState('Food enthusiast | Always craving something delicious!');
 
   // Analytics Chart States
@@ -602,14 +636,22 @@ const UserDashboard = () => {
   const [hoveredSlice, setHoveredSlice] = useState(null);
   const [orders, setOrders] = useState([]);
 
-  // Load User Data
+  // Load User Data & Trigger Cart
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("user")) || {};
-    setUser(userData);
-    setEditName(userData.name || 'Demo User');
-    setEditEmail(userData.email || 'demo@example.com');
-    setEditPhone(userData.phone || '+1 (555) 019-2834');
-    setEditAvatar(userData.profilePicture || PRESET_AVATARS[0]);
+    // Handle cart trigger from restaurant page redirect
+    const triggerCart = localStorage.getItem("dashboard_cart_trigger");
+    if (triggerCart) {
+      try {
+        const parsed = JSON.parse(triggerCart);
+        if (parsed && parsed.length > 0) {
+          setCart(parsed);
+          setIsCartOpen(true);
+        }
+      } catch (e) {
+        console.error("Error loading triggered cart:", e);
+      }
+      localStorage.removeItem("dashboard_cart_trigger");
+    }
   }, []);
 
   const fetchOrders = async (userId) => {
@@ -1049,16 +1091,16 @@ const UserDashboard = () => {
           ></div>
 
           {/* Drawer container */}
-          <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between animate-slideLeft">
+          <div className="relative w-full max-w-md bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 h-full shadow-2xl flex flex-col justify-between animate-slideLeft">
             
             {/* Header */}
-            <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-              <h3 className="text-xl font-black text-slate-800 flex items-center gap-2">
+            <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+              <h3 className="text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
                 <i className="bi bi-cart3 text-orange-600"></i> Selected Items
               </h3>
               <button 
                 onClick={() => setIsCartOpen(false)}
-                className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition cursor-pointer"
+                className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer"
               >
                 <i className="bi bi-x-lg"></i>
               </button>
@@ -1068,24 +1110,24 @@ const UserDashboard = () => {
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {cart.length > 0 ? (
                 cart.map(item => (
-                  <div key={item.id} className="flex gap-4 items-center bg-slate-50 p-3 rounded border border-slate-100">
+                  <div key={item.id} className="flex gap-4 items-center bg-slate-50 dark:bg-slate-800/50 p-3 rounded border border-slate-100 dark:border-slate-800">
                     <img src={item.image} alt={item.name} onError={(e) => { e.target.src = '/default-food.png'; e.target.onerror = null; }} className="w-16 h-16 rounded-sm object-cover" />
                     <div className="flex-1 space-y-1">
-                      <h4 className="font-extrabold text-sm text-slate-800 line-clamp-1">{item.name}</h4>
-                      <p className="text-xs font-bold text-slate-600">₹{item.price}</p>
+                      <h4 className="font-extrabold text-sm text-slate-800 dark:text-slate-100 line-clamp-1">{item.name}</h4>
+                      <p className="text-xs font-bold text-slate-600 dark:text-slate-450">₹{item.price}</p>
                       
                       {/* Quantity Selector */}
                       <div className="flex items-center gap-3 pt-1">
                         <button 
                           onClick={() => updateCartQty(item.id, -1)}
-                          className="w-6 h-6 rounded-sm bg-white border border-slate-200 flex items-center justify-center text-xs font-bold hover:bg-slate-100 cursor-pointer"
+                          className="w-6 h-6 rounded-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-750 cursor-pointer"
                         >
                           -
                         </button>
-                        <span className="text-xs font-black text-slate-800">{item.qty}</span>
+                        <span className="text-xs font-black text-slate-800 dark:text-slate-100">{item.qty}</span>
                         <button 
                           onClick={() => updateCartQty(item.id, 1)}
-                          className="w-6 h-6 rounded-sm bg-white border border-slate-200 flex items-center justify-center text-xs font-bold hover:bg-slate-100 cursor-pointer"
+                          className="w-6 h-6 rounded-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-750 cursor-pointer"
                         >
                           +
                         </button>
@@ -1096,15 +1138,15 @@ const UserDashboard = () => {
               ) : (
                 <div className="text-center py-12 space-y-3">
                   <div className="text-5xl">🛒</div>
-                  <h4 className="font-bold text-slate-500">Your cart is hungry!</h4>
-                  <p className="text-xs text-slate-400">Add dishes from our menu to fill it up.</p>
+                  <h4 className="font-bold text-slate-500 dark:text-slate-400">Your cart is hungry!</h4>
+                  <p className="text-xs text-slate-400 dark:text-slate-500">Add dishes from our menu to fill it up.</p>
                 </div>
               )}
             </div>
 
             {/* Promocode and Calculations */}
             {cart.length > 0 && (
-              <div className="p-6 border-t border-slate-100 bg-slate-50 space-y-4">
+              <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 space-y-4">
                 {/* Promocode Input */}
                 <div className="flex gap-2">
                   <input
@@ -1112,24 +1154,24 @@ const UserDashboard = () => {
                     placeholder="Enter promocode (CRAVING50)"
                     value={promoCode}
                     onChange={e => setPromoCode(e.target.value)}
-                    className="flex-1 bg-white border border-slate-200 px-3 py-2 rounded text-xs font-semibold focus:outline-none focus:border-orange-500"
+                    className="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-850 dark:text-slate-100 px-3 py-2 rounded text-xs font-semibold focus:outline-none focus:border-orange-500"
                   />
                   <button
                     onClick={handleApplyPromo}
-                    className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2 rounded cursor-pointer"
+                    className="bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold text-xs px-4 py-2 rounded cursor-pointer"
                   >
                     Apply
                   </button>
                 </div>
 
                 {/* Costs Detail */}
-                <div className="space-y-1.5 text-xs text-slate-600 font-bold">
+                <div className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400 font-bold">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
                     <span>₹{calculateSubtotal()}</span>
                   </div>
                   {appliedPromo && (
-                    <div className="flex justify-between text-green-600">
+                    <div className="flex justify-between text-green-600 dark:text-green-400">
                       <span>Promo Discount (50%)</span>
                       <span>-₹{calculateDiscount()}</span>
                     </div>
@@ -1142,7 +1184,7 @@ const UserDashboard = () => {
                     <span>Govt. Taxes</span>
                     <span>₹15</span>
                   </div>
-                  <div className="flex justify-between text-base font-black text-slate-800 pt-2 border-t border-slate-200">
+                  <div className="flex justify-between text-base font-black text-slate-800 dark:text-slate-100 pt-2 border-t border-slate-200 dark:border-slate-750">
                     <span>Grand Total</span>
                     <span>₹{calculateTotal()}</span>
                   </div>
@@ -1165,19 +1207,19 @@ const UserDashboard = () => {
       {/* Checkout Success Full Screen Modal */}
       {checkoutSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-          <div className="bg-white rounded-md p-6 md:p-8 max-w-sm w-full text-center space-y-6 shadow-2xl animate-scaleUp">
-            <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto animate-pulse">
+          <div className="bg-white dark:bg-slate-900 rounded-md p-6 md:p-8 max-w-sm w-full text-center space-y-6 shadow-2xl animate-scaleUp">
+            <div className="w-16 h-16 bg-green-100 dark:bg-green-950/50 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center text-3xl mx-auto animate-pulse">
               <i className="bi bi-patch-check-fill"></i>
             </div>
             
             <div className="space-y-2">
-              <h3 className="text-2xl font-black text-slate-800">Order Confirmed!</h3>
-              <p className="text-sm text-slate-500">Your delicious food is being prepared. You can track the delivery in real-time.</p>
+              <h3 className="text-2xl font-black text-slate-800 dark:text-slate-100">Order Confirmed!</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400">Your delicious food is being prepared. You can track the delivery in real-time.</p>
             </div>
 
             <button
               onClick={goToTrackingFromSuccess}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded transition cursor-pointer"
+              className="w-full bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold py-3 rounded transition cursor-pointer"
             >
               Track Live Order 🛵
             </button>

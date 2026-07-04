@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function RestaurantCard({ restaurant }) {
     return (
-        <div className="overflow-hidden rounded-xl bg-white shadow-md transition duration-300 hover:scale-105 hover:shadow-xl">
+        <div className="overflow-hidden rounded-xl bg-white dark:bg-slate-900 dark:border dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-md transition duration-300 hover:scale-105 hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-orange-500/10">
 
             <div className="relative">
 
@@ -20,11 +20,11 @@ function RestaurantCard({ restaurant }) {
 
             <div className="p-5"> 
 
-                <h3 className="mb-2 text-xl font-bold">
+                <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">
                     {restaurant.name} 
                 </h3> 
  
-                <p className="mb-4 text-sm text-gray-600">
+                <p className="mb-4 text-sm text-gray-600 dark:text-slate-400">
                     {restaurant.description}
                 </p>
 
@@ -33,7 +33,7 @@ function RestaurantCard({ restaurant }) {
                     {restaurant.tags.map((tag, index) => (
                         <span
                             key={index}
-                            className="rounded-full bg-orange-100 px-3 py-1 text-xs font-medium text-orange-700"
+                            className="rounded-full bg-orange-100 dark:bg-orange-950/50 px-3 py-1 text-xs font-medium text-orange-700 dark:text-orange-300"
                         >
                             {tag}
                         </span>
@@ -42,7 +42,7 @@ function RestaurantCard({ restaurant }) {
                 </div>
 
                 <Link
-                    to="/menu"
+                    to={`/restaurant/${restaurant.id}`}
                     className="block rounded-lg bg-[#c74a09] py-2 text-center font-semibold text-white transition hover:bg-[#b64307]"
                 >
                     Explore Menu
