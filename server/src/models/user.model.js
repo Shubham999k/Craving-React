@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
         url: { type: String },
         publicId: { type: String }
     },
+    publicId: { type: String },
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);
