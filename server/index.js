@@ -8,6 +8,7 @@ import OrderRouter from "./src/routers/order.route.js";
 import dbConnection from "./src/config/dbConnection.config.js";
 import morgan from "morgan";
 import cors from "cors";
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
