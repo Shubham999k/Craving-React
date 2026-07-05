@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { PRESET_AVATARS } from '../UserDashboard';
 
 const ProfileTab = ({

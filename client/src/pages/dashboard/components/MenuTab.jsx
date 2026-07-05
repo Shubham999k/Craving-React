@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FOOD_ITEMS } from '../UserDashboard';
 
 const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCategory, addToCart, wishlist = [], toggleWishlist }) => {

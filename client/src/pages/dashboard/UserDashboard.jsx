@@ -575,7 +575,7 @@ const UserDashboard = () => {
   const [user, setUser] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem("user")) || {};
-    } catch (e) {
+    } catch {
       return {};
     }
   });
@@ -600,7 +600,7 @@ const UserDashboard = () => {
     try {
       const u = JSON.parse(localStorage.getItem("user"));
       return u?.name || 'Demo User';
-    } catch (e) {
+    } catch {
       return 'Demo User';
     }
   });
@@ -608,7 +608,7 @@ const UserDashboard = () => {
     try {
       const u = JSON.parse(localStorage.getItem("user"));
       return u?.email || 'demo@example.com';
-    } catch (e) {
+    } catch {
       return 'demo@example.com';
     }
   });
@@ -616,7 +616,7 @@ const UserDashboard = () => {
     try {
       const u = JSON.parse(localStorage.getItem("user"));
       return u?.phone || '+1 (555) 019-2834';
-    } catch (e) {
+    } catch {
       return '+1 (555) 019-2834';
     }
   });
@@ -624,7 +624,7 @@ const UserDashboard = () => {
     try {
       const u = JSON.parse(localStorage.getItem("user"));
       return u?.profilePicture || PRESET_AVATARS[0];
-    } catch (e) {
+    } catch {
       return PRESET_AVATARS[0];
     }
   });

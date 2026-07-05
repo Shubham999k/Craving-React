@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { restaurants } from "../data/restaurants";
@@ -10,7 +10,6 @@ function RestaurantDetails() {
     const [restaurant, setRestaurant] = useState(null);
     const [menuItems, setMenuItems] = useState([]);
     const [cart, setCart] = useState([]);
-    const [isCartOpen, setIsCartOpen] = useState(false);
 
     // Find restaurant and its dynamic menu
     useEffect(() => {
@@ -56,7 +55,7 @@ function RestaurantDetails() {
         if (savedCart) {
             try {
                 setCart(JSON.parse(savedCart));
-            } catch (e) {
+            } catch {
                 setCart([]);
             }
         }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function BecomeRider() {
   const [formData, setFormData] = useState({

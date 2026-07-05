@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/images/craveing logo.png";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 function Navbar() {
@@ -34,7 +34,7 @@ function Navbar() {
             if (token && userData) {
                 try {
                     setUser(JSON.parse(userData));
-                } catch (e) {
+                } catch {
                     setUser(null);
                 }
             } else {

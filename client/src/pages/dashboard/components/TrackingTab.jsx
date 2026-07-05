@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemaining, setActiveTab }) => {
@@ -25,8 +25,6 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
   }
 
   const displayItems = orderItems;
-  const primaryItem = displayItems[0] || {};
-  const dishName = primaryItem.name || 'Your Delicious Meal';
 
   return (
     <div className="max-w-6xl mx-auto bg-slate-900 rounded-md border border-slate-800 shadow-2xl overflow-hidden animate-fadeIn text-slate-100">

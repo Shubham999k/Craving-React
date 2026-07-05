@@ -1,8 +1,8 @@
-import React from 'react';
+
 import toast from 'react-hot-toast';
 import { FOOD_ITEMS } from '../UserDashboard';
 
-const OverviewTab = ({ user, orderItems, orderStep, addToCart, setSelectedCategory, setActiveTab, totalOrders = 0, totalSpent = 0 }) => {
+const OverviewTab = ({ orderItems, orderStep, addToCart, setSelectedCategory, setActiveTab, totalOrders = 0, totalSpent = 0 }) => {
   return (
     <div className="space-y-8 animate-fadeIn duration-500">
       

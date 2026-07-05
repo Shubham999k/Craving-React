@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import bgImage from "../assets/images/foodTable.webp";

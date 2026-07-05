@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import bgImage from "../assets/images/foodTable.webp";
 import api from "../config/api.config.js";
-import { useAuth } from "../context/AuthContext.jsx";
 
 function Login() {
-    const {user,setIsLoggedIn} = useAuth();
     const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
         email: "",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function Feedback() {
   const [rating, setRating] = useState(5);
