@@ -28,10 +28,10 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
   const isDelivered = orderStep === 3;
 
   return (
-    <div className="max-w-6xl mx-auto bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden relative shadow-lg flex flex-col md:flex-row h-[700px] md:h-[650px] font-sans">
+    <div className="max-w-6xl mx-auto bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden shadow-lg flex flex-col md:flex-row font-sans">
       
-      {/* MAP AREA (Background on mobile, Left pane on desktop) */}
-      <div className="absolute inset-0 md:relative md:w-[55%] h-full bg-[#f1f3f4] overflow-hidden">
+      {/* MAP AREA (Top on mobile, Left pane on desktop) */}
+      <div className="w-full md:w-[55%] h-[350px] md:h-auto min-h-[400px] bg-[#f1f3f4] relative overflow-hidden flex-shrink-0">
         {/* Simple Google Maps-like styling */}
         <div className="absolute inset-0 opacity-50 pointer-events-none">
            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -114,15 +114,10 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
         )}
       </div>
 
-      {/* FOREGROUND PANEL (Bottom sheet on mobile, Right pane on desktop) */}
-      <div className="absolute bottom-0 left-0 right-0 md:relative md:w-[45%] h-[60%] md:h-full bg-white md:rounded-none rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.08)] md:shadow-none flex flex-col z-30 transition-transform duration-300 border-l border-gray-100">
+      {/* RIGHT PANEL */}
+      <div className="w-full md:w-[45%] bg-white flex flex-col z-30 border-t md:border-t-0 md:border-l border-gray-100">
         
-        {/* Mobile Drag Handle */}
-        <div className="w-full flex justify-center py-3 md:hidden">
-          <div className="w-12 h-1.5 bg-gray-200 rounded-full"></div>
-        </div>
-
-        <div className="flex-1 overflow-y-auto px-6 md:px-8 pb-24 md:pb-6 custom-scrollbar">
+        <div className="flex-1 px-6 md:px-8 py-6 md:py-8">
           
           {/* Header & ETA */}
           <div className="pt-2 md:pt-8 pb-6 border-b border-gray-100">
@@ -253,8 +248,8 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
           </div>
         </div>
 
-        {/* Sticky Action Footer */}
-        <div className="absolute md:relative bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 flex gap-3 z-40 shadow-[0_-4px_15px_rgba(0,0,0,0.02)]">
+        {/* Action Footer */}
+        <div className="bg-white border-t border-gray-100 p-4 flex gap-3 z-40 shadow-[0_-4px_15px_rgba(0,0,0,0.02)] mt-auto">
           <button 
             onClick={() => {
               if (orderStep < 3) {
