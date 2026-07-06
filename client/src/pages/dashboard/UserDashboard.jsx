@@ -815,21 +815,48 @@ const UserDashboard = () => {
   };
 
   // Update Profile
-  const handleUpdateProfile = (e) => {
+  const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    const updatedUser = {
-      ...user,
-      name: editName,
-      email: editEmail,
-      phone: editPhone,
-      profilePicture: editAvatar
-    };
-    localStorage.setItem("user", JSON.stringify(updatedUser));
-    setUser(updatedUser);
-    toast.success("Profile updated successfully!");
-    // Dispatch auth-change to update Navbar
-    window.dispatchEvent(new Event("auth-change"));
-    setActiveTab('overview');
+    
+    if (!user || !user._id) {
+      toast.error("User not found in session");
+      return;
+    }
+
+    const loadingToast = toast.loading("Updating profile...");
+    
+    try {
+      const payload = {
+        userId: user._id,
+        fullName: editName,
+        phone: editPhone,
+        profilePicture: editAvatar
+      };
+
+      const response = await api.put("/auth/update-profile", payload);
+      
+      const updatedUser = {
+        ...user,
+        name: editName,
+        email: editEmail,
+        phone: editPhone,
+        profilePicture: response.data.data.profilePic?.url || editAvatar
+      };
+      
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      toast.dismiss(loadingToast);
+      toast.success("Profile updated successfully!");
+      
+      // Dispatch auth-change to update Navbar
+      window.dispatchEvent(new Event("auth-change"));
+      setActiveTab('overview');
+      
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      console.error("Profile update error:", error);
+      toast.error(error.response?.data?.message || "Failed to update profile");
+    }
   };
 
   // Dynamic analytics spend updates calculated from real order history

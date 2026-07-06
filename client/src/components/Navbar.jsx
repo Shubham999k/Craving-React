@@ -96,7 +96,11 @@ function Navbar() {
                                     to="/user/dashboard"
                                     className="text-white hover:text-orange-200 font-semibold px-3 py-1.5 rounded transition-all duration-300 flex items-center gap-2"
                                 >
-                                    <i className="bi bi-speedometer2"></i>
+                                    {user.profilePicture ? (
+                                        <img src={user.profilePicture} alt="Avatar" className="w-8 h-8 rounded-full object-cover border-2 border-white/50" />
+                                    ) : (
+                                        <i className="bi bi-person-circle text-xl"></i>
+                                    )}
                                     <span>Dashboard ({user.name || "User"})</span>
                                 </Link>
                                 <button

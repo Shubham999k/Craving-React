@@ -1,5 +1,5 @@
-
 import { PRESET_AVATARS } from '../UserDashboard';
+import toast from 'react-hot-toast';
 
 const ProfileTab = ({
   handleUpdateProfile,
@@ -14,6 +14,24 @@ const ProfileTab = ({
   editBio,
   setEditBio
 }) => {
+  const handleCustomImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error("Image size must be less than 2MB");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditAvatar(reader.result);
+        toast.success("Custom image loaded!");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const isCustom = editAvatar && !PRESET_AVATARS.includes(editAvatar);
+
   return (
     <div className="max-w-2xl mx-auto bg-white dark:bg-slate-900 p-6 rounded-md border border-slate-100 dark:border-slate-800 shadow-sm animate-fadeIn duration-500 space-y-6">
       <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
@@ -23,8 +41,38 @@ const ProfileTab = ({
       <form onSubmit={handleUpdateProfile} className="space-y-6">
         {/* Avatar Selector */}
         <div>
-          <label className="block text-sm font-bold text-slate-600 dark:text-slate-400 mb-2">Choose Avatar Profile</label>
-          <div className="flex gap-4 overflow-x-auto py-2">
+          <label className="block text-sm font-bold text-slate-600 dark:text-slate-400 mb-2">Choose Avatar or Upload Custom Image</label>
+          <div className="flex gap-4 items-center overflow-x-auto py-2">
+            {/* Custom Image Upload Button */}
+            <label className="flex flex-col items-center justify-center w-16 h-16 rounded border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-orange-500 dark:hover:border-orange-500 transition-all duration-200 cursor-pointer shrink-0 bg-slate-50 dark:bg-slate-800/50">
+              <div className="flex flex-col items-center justify-center text-slate-400 hover:text-orange-500">
+                <i className="bi bi-cloud-arrow-up text-xl"></i>
+                <span className="text-[10px] font-bold">Upload</span>
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleCustomImageUpload}
+              />
+            </label>
+
+            {/* Custom Image Option preview if uploaded */}
+            {isCustom && (
+              <div className="relative shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setEditAvatar(editAvatar)}
+                  className={`p-1.5 rounded border-4 transition-all duration-200 cursor-pointer ${
+                    editAvatar === editAvatar ? 'border-orange-500 scale-105 bg-orange-50 dark:bg-orange-950/20' : 'border-transparent'
+                  }`}
+                >
+                  <img src={editAvatar} alt="Custom Profile" className="w-16 h-16 rounded-sm object-cover bg-slate-100 dark:bg-slate-800" />
+                </button>
+                <span className="absolute -top-1.5 -right-1.5 bg-orange-500 text-white text-[8px] font-extrabold px-1 rounded shadow">Custom</span>
+              </div>
+            )}
+
             {PRESET_AVATARS.map((avatar, idx) => (
               <button
                 key={idx}

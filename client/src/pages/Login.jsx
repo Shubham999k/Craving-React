@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import bgImage from "../assets/images/foodTable.webp";
@@ -13,6 +13,19 @@ function Login() {
 
     const [rememberMe, setRememberMe] = useState(false);
     const [validateError, setValidateError] = useState("");
+
+    useEffect(() => {
+        const savedEmail = localStorage.getItem("rememberedEmail");
+        const savedPassword = localStorage.getItem("rememberedPassword");
+        if (savedEmail) {
+            setLoginData((prev) => ({ 
+                ...prev, 
+                email: savedEmail,
+                password: savedPassword || ""
+            }));
+            setRememberMe(true);
+        }
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -42,13 +55,27 @@ function Login() {
             const response = await api.post("/auth/login", payload);
             const user = response?.data?.data;
 
-            localStorage.setItem("token", response?.data?.token || "demo-token");
-            localStorage.setItem("user", JSON.stringify(user || {
+            const mappedUser = user ? {
+                ...user,
+                name: user.fullName || user.name || "Demo User",
+                profilePicture: user.profilePic?.url || user.profilePicture || ""
+            } : {
                 name: "Demo User",
                 email: payload.email,
                 phone: "+1 (555) 019-2834",
                 profilePicture: ""
-            }));
+            };
+
+            localStorage.setItem("token", response?.data?.token || "demo-token");
+            localStorage.setItem("user", JSON.stringify(mappedUser));
+
+            if (rememberMe) {
+                localStorage.setItem("rememberedEmail", payload.email);
+                localStorage.setItem("rememberedPassword", payload.password);
+            } else {
+                localStorage.removeItem("rememberedEmail");
+                localStorage.removeItem("rememberedPassword");
+            }
 
             toast.success(response?.data?.message || "Login successful");
             window.dispatchEvent(new Event("auth-change"));
