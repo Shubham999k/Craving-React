@@ -6,284 +6,255 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
   
   if (!orderItems || orderItems.length === 0) {
     return (
-      <div className="max-w-xl mx-auto bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-12 text-center shadow-xl space-y-6 animate-fadeIn text-slate-800 dark:text-slate-100 mt-10">
-        <div className="w-24 h-24 bg-orange-50 dark:bg-orange-950/30 text-[#c74a09] rounded-full flex items-center justify-center text-5xl mx-auto animate-bounce shadow-sm">
-          <i className="bi bi-geo-alt-fill"></i>
+      <div className="max-w-xl mx-auto bg-white rounded-2xl border border-gray-100 p-12 text-center shadow-xl space-y-6 mt-10">
+        <div className="w-24 h-24 bg-red-50 text-red-600 rounded-full flex items-center justify-center text-5xl mx-auto shadow-sm">
+          <i className="bi bi-basket-fill"></i>
         </div>
         <div className="space-y-2">
-          <h3 className="text-3xl font-extrabold text-slate-800 dark:text-slate-100">No Active Deliveries</h3>
-          <p className="text-base text-slate-500 dark:text-slate-400 max-w-sm mx-auto font-medium">You don't have any live orders right now. Pick something delicious from our menu and we'll track it right here!</p>
+          <h3 className="text-2xl font-bold text-gray-800">No Active Orders</h3>
+          <p className="text-gray-500 max-w-sm mx-auto">Looks like you haven't ordered anything yet. Let's fix that!</p>
         </div>
         <button
           onClick={() => setActiveTab('menu')}
-          className="bg-orange-600 hover:bg-orange-700 text-white font-extrabold px-8 py-3.5 rounded-full text-sm transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
+          className="bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 rounded-xl transition-all shadow-md"
         >
-          Explore Menu
+          Browse Menu
         </button>
       </div>
     );
   }
 
   const displayItems = orderItems;
-  
-  // Progress Calculation
-  const progressPercentage = orderStep === 0 ? 15 : orderStep === 1 ? 40 : orderStep === 2 ? 75 : 100;
+  const isDelivered = orderStep === 3;
 
   return (
-    <div className="max-w-5xl mx-auto bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-2xl overflow-hidden animate-fadeIn text-slate-800 dark:text-slate-100 flex flex-col lg:flex-row transition-colors duration-300">
+    <div className="max-w-6xl mx-auto bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden relative shadow-lg flex flex-col md:flex-row h-[700px] md:h-[650px] font-sans">
       
-      {/* CSS Keyframes for scooter moving */}
-      <style>{`
-        @keyframes scooterMove {
-          0% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-3px) rotate(2deg); }
-          100% { transform: translateY(0px) rotate(0deg); }
-        }
-        .animate-scooter {
-          animation: scooterMove 1s ease-in-out infinite;
-        }
-        @keyframes dashMove {
-          to { stroke-dashoffset: -20; }
-        }
-        .animate-dash {
-          animation: dashMove 1s linear infinite;
-        }
-      `}</style>
-
-      {/* LEFT COLUMN: Map Area */}
-      <div className="lg:w-3/5 h-[350px] lg:h-auto bg-slate-50 dark:bg-slate-950 relative overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        
-        {/* Map Pattern SVG */}
-        <div className="absolute inset-0 opacity-40 dark:opacity-20 pointer-events-none">
-          <svg className="w-full h-full text-slate-300 dark:text-slate-600" xmlns="http://www.w3.org/2000/svg">
+      {/* MAP AREA (Background on mobile, Left pane on desktop) */}
+      <div className="absolute inset-0 md:relative md:w-[55%] h-full bg-[#f1f3f4] overflow-hidden">
+        {/* Simple Google Maps-like styling */}
+        <div className="absolute inset-0 opacity-50 pointer-events-none">
+           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <pattern id="city-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-                <rect width="60" height="60" fill="none" stroke="currentColor" strokeWidth="1" rx="8" className="opacity-30" />
-                <path d="M 10,10 L 50,10 L 50,50 L 10,50 Z" fill="none" stroke="currentColor" strokeWidth="0.5" className="opacity-20" />
+              <pattern id="zomato-grid" width="100" height="100" patternUnits="userSpaceOnUse">
+                {/* City Blocks */}
+                <path d="M 20,20 L 80,20 L 80,80 L 20,80 Z" fill="#e8eaed" rx="4" />
               </pattern>
             </defs>
-            <rect width="100%" height="100%" fill="url(#city-grid)" />
-            
-            {/* Roads */}
-            <path d="M -50,300 C 150,250 250,350 400,200 C 500,100 650,150 800,50" fill="none" stroke="currentColor" strokeWidth="24" strokeLinecap="round" className="opacity-40" />
-            <path d="M -50,300 C 150,250 250,350 400,200 C 500,100 650,150 800,50" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="10 10" className="opacity-60 dark:opacity-10" />
+            <rect width="100%" height="100%" fill="url(#zomato-grid)" />
+            {/* Major Roads */}
+            <path d="M -100,600 C 100,500 300,600 400,200 C 500,0 700,100 900,-50" fill="none" stroke="#ffffff" strokeWidth="20" strokeLinecap="round" />
+            <path d="M -100,100 C 200,200 400,100 600,400 C 700,600 900,500 1100,700" fill="none" stroke="#ffffff" strokeWidth="16" strokeLinecap="round" />
           </svg>
         </div>
 
         {/* Route Line */}
         <div className="absolute inset-0 pointer-events-none">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-             {/* Actual Path */}
+             {/* Base Route */}
              <path 
-               id="delivery-route"
-               d="M 100,280 Q 250,280 350,180 T 550,100" 
+               id="z-route"
+               d="M 150,400 Q 250,300 350,250 T 450,150" 
                fill="none" 
-               stroke="#cbd5e1" 
-               strokeWidth="6" 
+               stroke="#4285f4" 
+               strokeWidth="5" 
                strokeLinecap="round" 
-               className="dark:stroke-slate-700 transition-colors"
+               strokeDasharray="8 8"
+               className="opacity-40"
              />
-             
-             {/* Active Path (grows based on step) */}
+             {/* Progress Route */}
              {orderStep >= 1 && (
                <path 
                  d={
-                   orderStep === 1 ? "M 100,280 Q 150,280 180,250" :
-                   orderStep === 2 ? "M 100,280 Q 250,280 350,180 T 450,140" :
-                   "M 100,280 Q 250,280 350,180 T 550,100"
+                   orderStep === 1 ? "M 150,400 Q 180,370 200,350" :
+                   orderStep === 2 ? "M 150,400 Q 250,300 350,250 T 400,200" :
+                   "M 150,400 Q 250,300 350,250 T 450,150"
                  } 
                  fill="none" 
-                 stroke="#f97316" 
-                 strokeWidth="6" 
+                 stroke="#4285f4" 
+                 strokeWidth="5" 
                  strokeLinecap="round"
-                 strokeDasharray={orderStep === 2 ? "8 6" : "none"}
-                 className={orderStep === 2 ? "animate-dash drop-shadow-md" : "drop-shadow-md transition-all duration-1000"}
+                 className="drop-shadow-sm transition-all duration-1000"
                />
              )}
           </svg>
         </div>
 
         {/* Restaurant Pin */}
-        <div className="absolute flex flex-col items-center z-10" style={{ left: '100px', top: '280px', transform: 'translate(-50%, -100%)' }}>
-          <div className="bg-white dark:bg-slate-800 text-slate-800 dark:text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg mb-2 border border-slate-100 dark:border-slate-700">
-            Restaurant
-          </div>
-          <div className="w-12 h-12 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-xl border-4 border-orange-100 dark:border-orange-950/50">
-            <i className="bi bi-shop text-orange-600 text-xl"></i>
+        <div className="absolute flex flex-col items-center z-10" style={{ left: '150px', top: '400px', transform: 'translate(-50%, -100%)' }}>
+          <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center shadow-md border-2 border-white">
+            <i className="bi bi-shop text-white text-sm"></i>
           </div>
         </div>
 
-        {/* Destination Pin */}
-        <div className="absolute flex flex-col items-center z-10" style={{ left: '550px', top: '100px', transform: 'translate(-50%, -100%)' }}>
-          <div className="bg-white dark:bg-slate-800 text-slate-800 dark:text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg mb-2 border border-slate-100 dark:border-slate-700">
-            Home
-          </div>
-          <div className="w-12 h-12 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-xl border-4 border-emerald-100 dark:border-emerald-950/50">
-            <i className="bi bi-house-heart-fill text-emerald-600 text-xl"></i>
+        {/* Home Pin */}
+        <div className="absolute flex flex-col items-center z-10" style={{ left: '450px', top: '150px', transform: 'translate(-50%, -100%)' }}>
+          <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center shadow-md border-2 border-white">
+            <i className="bi bi-house-door-fill text-white text-sm"></i>
           </div>
         </div>
 
-        {/* Scooter Icon (Moves based on orderStep) */}
+        {/* Valet Pin */}
         {orderStep > 0 && orderStep < 3 && (
           <div 
             className="absolute flex flex-col items-center z-20 transition-all duration-1000 ease-in-out"
             style={{
-              left: orderStep === 1 ? '180px' : '450px',
-              top: orderStep === 1 ? '250px' : '140px',
-              transform: `translate(-50%, -50%) ${orderStep === 1 ? 'rotate(-20deg)' : 'rotate(-15deg)'}`
+              left: orderStep === 1 ? '200px' : '400px',
+              top: orderStep === 1 ? '350px' : '200px',
+              transform: 'translate(-50%, -50%)'
             }}
           >
-            <div className="bg-orange-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl border-4 border-white dark:border-slate-800 animate-scooter relative">
-               <i className="bi bi-scooter text-2xl"></i>
-               {/* Small pulse dot */}
-               <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white dark:border-slate-800 animate-ping"></span>
-               <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white dark:border-slate-800"></span>
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.15)] relative">
+               <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Rohan" alt="valet" className="w-10 h-10 rounded-full" />
+               <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-sm">
+                 <i className="bi bi-bicycle text-red-600 text-[10px]"></i>
+               </div>
             </div>
           </div>
         )}
       </div>
 
-      {/* RIGHT COLUMN: Order Details */}
-      <div className="lg:w-2/5 p-6 lg:p-8 flex flex-col space-y-6 lg:max-h-[600px] overflow-y-auto custom-scrollbar relative">
+      {/* FOREGROUND PANEL (Bottom sheet on mobile, Right pane on desktop) */}
+      <div className="absolute bottom-0 left-0 right-0 md:relative md:w-[45%] h-[60%] md:h-full bg-white md:rounded-none rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.08)] md:shadow-none flex flex-col z-30 transition-transform duration-300 border-l border-gray-100">
         
-        {/* ETA Header */}
-        <div className="text-center space-y-1">
-          <h4 className="text-sm font-bold text-orange-600 dark:text-orange-500 uppercase tracking-wide">
-            {orderStep === 3 ? 'Delivered' : 'Arriving In'}
-          </h4>
-          <h2 className="text-5xl font-black text-slate-800 dark:text-slate-100 tracking-tighter">
-            {orderStep === 3 ? '0' : orderTimeRemaining} <span className="text-2xl text-slate-400 font-bold tracking-normal">mins</span>
-          </h2>
-          <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-2">
-            Order #{Math.floor(Math.random() * 90000) + 10000}
-          </p>
+        {/* Mobile Drag Handle */}
+        <div className="w-full flex justify-center py-3 md:hidden">
+          <div className="w-12 h-1.5 bg-gray-200 rounded-full"></div>
         </div>
 
-        {/* Minimal Progress Bar */}
-        <div className="space-y-3">
-          <div className="flex justify-between text-xs font-bold text-slate-400 dark:text-slate-500">
-            <span>Confirmed</span>
-            <span>Prep</span>
-            <span>On the way</span>
-            <span>Delivered</span>
-          </div>
-          <div className="h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-orange-500 rounded-full transition-all duration-700 ease-out"
-              style={{ width: `${progressPercentage}%` }}
-            ></div>
-          </div>
-        </div>
-
-        {/* Current Status Box */}
-        <div className="bg-orange-50 dark:bg-orange-950/20 border border-orange-100 dark:border-orange-900/30 rounded-xl p-4 flex items-start gap-4 transition-colors">
-          <div className="w-12 h-12 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shrink-0 shadow-sm text-orange-600 text-xl">
-            {orderStep === 0 && <i className="bi bi-receipt"></i>}
-            {orderStep === 1 && <i className="bi bi-fire animate-pulse text-amber-500"></i>}
-            {orderStep === 2 && <i className="bi bi-bicycle text-orange-600 animate-bounce"></i>}
-            {orderStep === 3 && <i className="bi bi-check2-circle text-emerald-500"></i>}
-          </div>
-          <div>
-            <h4 className="font-bold text-slate-800 dark:text-slate-200 text-lg">
-              {orderStep === 0 && "Order Confirmed"}
-              {orderStep === 1 && "Food is being prepared"}
-              {orderStep === 2 && "Out for Delivery"}
-              {orderStep === 3 && "Order Delivered"}
-            </h4>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium leading-relaxed">
-              {orderStep === 0 && "The restaurant has received your order and will start preparing it soon."}
-              {orderStep === 1 && "Your food is being freshly cooked and packed with care."}
-              {orderStep === 2 && "Our delivery partner has picked up your order and is heading to your location."}
-              {orderStep === 3 && "Enjoy your delicious meal! Don't forget to rate your experience."}
+        <div className="flex-1 overflow-y-auto px-6 md:px-8 pb-24 md:pb-6 custom-scrollbar">
+          
+          {/* Header & ETA */}
+          <div className="pt-2 md:pt-8 pb-6 border-b border-gray-100">
+            <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+              {isDelivered ? 'Delivered' : `Arriving in ${orderTimeRemaining} mins`}
+            </h2>
+            <p className="text-gray-500 text-sm font-medium mt-1">
+              Order #{Math.floor(Math.random() * 900000) + 100000}
             </p>
           </div>
-        </div>
 
-        {/* Driver / Valet Card (Show if out for delivery or delivered) */}
-        {orderStep >= 2 && (
-          <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl p-4 flex items-center justify-between shadow-sm transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Rohan" alt="Valet" className="w-12 h-12 rounded-full bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700" />
-                <div className="absolute -bottom-1 -right-1 bg-amber-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow flex items-center gap-0.5">
-                  <i className="bi bi-star-fill text-[8px]"></i> 4.9
-                </div>
-              </div>
-              <div>
-                <h5 className="font-bold text-sm text-slate-800 dark:text-slate-200">Rohan Sharma</h5>
-                <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">Delivery Partner</span>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <button onClick={() => toast.success("Calling Rohan...")} className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 transition cursor-pointer">
-                <i className="bi bi-telephone-fill"></i>
-              </button>
-            </div>
-          </div>
-        )}
+          {/* Stepper (Vertical Timeline) */}
+          <div className="py-6 space-y-6">
+            {[
+              { title: "Order accepted", desc: "The restaurant has confirmed your order", icon: "bi-card-checklist" },
+              { title: "Food is being prepared", desc: "Your food is getting ready", icon: "bi-fire" },
+              { title: "Out for delivery", desc: "Valet is on the way to your location", icon: "bi-bicycle" },
+              { title: "Delivered", desc: "Enjoy your meal!", icon: "bi-house-check" }
+            ].map((step, idx) => {
+              const isCompleted = orderStep >= idx;
+              const isActive = orderStep === idx;
+              
+              return (
+                <div key={idx} className="flex gap-4 relative">
+                  {/* Vertical Line */}
+                  {idx < 3 && (
+                    <div className="absolute left-4 top-10 bottom-[-24px] w-0.5 bg-gray-200" />
+                  )}
+                  {idx < 3 && isCompleted && orderStep > idx && (
+                    <div className="absolute left-4 top-10 bottom-[-24px] w-0.5 bg-green-500" />
+                  )}
 
-        {/* Order Details Accordion */}
-        <div className="border border-slate-100 dark:border-slate-800 rounded-xl overflow-hidden transition-colors">
-          <button 
-            onClick={() => setIsSummaryOpen(!isSummaryOpen)}
-            className="w-full flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-bold text-slate-700 dark:text-slate-300 transition cursor-pointer"
-          >
-            <span>Order Summary ({displayItems.length} items)</span>
-            <i className={`bi transition-transform duration-300 ${isSummaryOpen ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
-          </button>
-          
-          {isSummaryOpen && (
-            <div className="p-4 bg-white dark:bg-slate-900 space-y-3 border-t border-slate-100 dark:border-slate-800 text-sm animate-fadeIn">
-              {displayItems.map((item, idx) => (
-                <div key={idx} className="flex justify-between items-center text-slate-600 dark:text-slate-400">
-                  <div className="flex items-center gap-2">
-                    <span className="bg-slate-100 dark:bg-slate-800 w-6 h-6 flex items-center justify-center rounded text-xs font-bold">
-                      {item.qty || 1}x
-                    </span>
-                    <span className="font-medium truncate max-w-[150px] sm:max-w-[200px]">{item.name}</span>
+                  {/* Icon Circle */}
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 z-10 transition-colors duration-300
+                    ${isCompleted 
+                      ? (isActive && !isDelivered ? 'bg-red-100 text-red-600 ring-4 ring-red-50' : 'bg-green-500 text-white')
+                      : 'bg-gray-100 text-gray-400'
+                    }`}
+                  >
+                    {isCompleted && !isActive ? (
+                      <i className="bi bi-check-lg text-lg"></i>
+                    ) : (
+                      <i className={`bi ${step.icon} text-sm ${isActive && !isDelivered ? 'animate-pulse' : ''}`}></i>
+                    )}
                   </div>
-                  <span className="font-bold">₹{(item.price || 0) * (item.qty || 1)}</span>
+
+                  {/* Text Details */}
+                  <div className="pb-2">
+                    <h4 className={`text-base font-bold ${isActive || isCompleted ? 'text-gray-900' : 'text-gray-400'}`}>
+                      {step.title}
+                    </h4>
+                    {isActive && !isDelivered && (
+                      <p className="text-sm text-gray-500 mt-0.5 leading-snug">{step.desc}</p>
+                    )}
+                    {isDelivered && idx === 3 && (
+                      <p className="text-sm text-gray-500 mt-0.5 leading-snug">{step.desc}</p>
+                    )}
+                  </div>
                 </div>
-              ))}
-              <div className="pt-3 mt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center font-bold text-slate-800 dark:text-slate-200 text-base">
-                <span>Total Paid</span>
-                <span>₹{displayItems.reduce((acc, curr) => acc + ((curr.price || 0) * (curr.qty || 1)), 0) + 45}</span>
+              );
+            })}
+          </div>
+
+          {/* Valet / Driver Section (Zomato style) */}
+          {orderStep >= 2 && (
+            <div className="my-2 p-4 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Rohan" alt="Valet" className="w-12 h-12 rounded-full border border-gray-200 bg-white" />
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white px-1.5 py-0.5 rounded text-[10px] font-bold border border-gray-100 flex items-center gap-0.5 shadow-sm">
+                    4.9 <i className="bi bi-star-fill text-yellow-400 text-[8px]"></i>
+                  </div>
+                </div>
+                <div>
+                  <h5 className="font-bold text-gray-900 text-sm">Rohan Sharma</h5>
+                  <p className="text-xs text-gray-500 font-medium">Delivery Partner</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => toast.success("Calling Rohan...")}
+                  className="w-10 h-10 rounded-full bg-green-100 text-green-700 flex items-center justify-center hover:bg-green-200 transition"
+                >
+                  <i className="bi bi-telephone-fill"></i>
+                </button>
               </div>
             </div>
           )}
+
+          <hr className="border-gray-100 my-6" />
+
+          {/* Order Bill / Items Summary */}
+          <div>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Bill Details</h3>
+            <div className="space-y-3 mb-4">
+              {displayItems.map((item, idx) => (
+                <div key={idx} className="flex justify-between items-start text-sm">
+                  <div className="flex items-start gap-2">
+                    <i className="bi bi-stop-btn text-green-600 mt-0.5 text-xs"></i>
+                    <span className="text-gray-700 max-w-[200px] leading-tight">
+                      {item.name} <span className="text-gray-400">x{item.qty || 1}</span>
+                    </span>
+                  </div>
+                  <span className="font-medium text-gray-800">₹{(item.price || 0) * (item.qty || 1)}</span>
+                </div>
+              ))}
+            </div>
+            
+            <div className="flex justify-between items-center pt-3 border-t border-gray-100 border-dashed">
+              <span className="font-bold text-gray-900">Total Paid</span>
+              <span className="font-bold text-gray-900">
+                ₹{displayItems.reduce((acc, curr) => acc + ((curr.price || 0) * (curr.qty || 1)), 0) + 45}
+              </span>
+            </div>
+          </div>
+
+          <hr className="border-gray-100 my-6" />
+
+          <div className="space-y-4 mb-4">
+             <div className="flex items-start gap-3">
+               <i className="bi bi-geo-alt text-gray-400 mt-1"></i>
+               <div>
+                 <p className="font-bold text-gray-800 text-sm">Delivery Address</p>
+                 <p className="text-sm text-gray-500 mt-0.5">123 Cravings Street, Foodville, NY 10001</p>
+               </div>
+             </div>
+          </div>
         </div>
 
-        {/* Delivery Details */}
-        <div className="bg-slate-50 dark:bg-slate-800/30 rounded-xl p-4 border border-slate-100 dark:border-slate-800 space-y-4 transition-colors">
-          <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700 pb-2">Delivery Details</h4>
-          
-          <div className="flex gap-3 text-sm">
-            <div className="text-orange-500 mt-0.5"><i className="bi bi-geo-alt-fill text-lg"></i></div>
-            <div>
-              <p className="font-bold text-slate-700 dark:text-slate-300">Home Address</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">123 Cravings Street, Foodville, NY 10001</p>
-            </div>
-          </div>
-          
-          <div className="flex gap-3 text-sm">
-            <div className="text-emerald-500 mt-0.5"><i className="bi bi-credit-card-fill text-lg"></i></div>
-            <div>
-              <p className="font-bold text-slate-700 dark:text-slate-300">Payment Information</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Paid securely via Credit Card ending in 4242</p>
-            </div>
-          </div>
-          
-          <div className="flex gap-3 text-sm">
-            <div className="text-blue-500 mt-0.5"><i className="bi bi-info-circle-fill text-lg"></i></div>
-            <div>
-              <p className="font-bold text-slate-700 dark:text-slate-300">Need Help?</p>
-              <p className="text-xs text-orange-600 dark:text-orange-500 mt-0.5 cursor-pointer hover:underline transition">Contact Customer Support</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="sticky bottom-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm pt-2 pb-2 mt-auto flex gap-3 border-t border-slate-100 dark:border-slate-800">
+        {/* Sticky Action Footer */}
+        <div className="absolute md:relative bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 flex gap-3 z-40 shadow-[0_-4px_15px_rgba(0,0,0,0.02)]">
           <button 
             onClick={() => {
               if (orderStep < 3) {
@@ -291,13 +262,14 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
                 toast.success("Simulation advanced! ⚡");
               }
             }}
-            className="flex-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-xl text-sm transition-colors cursor-pointer flex items-center justify-center gap-2"
+            className="flex-1 bg-red-50 hover:bg-red-100 text-red-600 font-bold py-3.5 rounded-xl transition text-sm flex justify-center items-center gap-2"
           >
-            <i className="bi bi-fast-forward-fill text-orange-500"></i> Fast Forward
+            <i className="bi bi-fast-forward-fill"></i> Simulate Next Step
           </button>
+          
           <button 
             onClick={() => setActiveTab('overview')} 
-            className="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-600 dark:text-slate-400 font-bold px-6 py-3 rounded-xl text-sm transition-colors cursor-pointer"
+            className="bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold px-6 py-3.5 rounded-xl transition text-sm"
           >
             Back
           </button>
