@@ -97,9 +97,9 @@ function Navbar() {
                                     className="text-white hover:text-orange-200 font-semibold px-3 py-1.5 rounded transition-all duration-300 flex items-center gap-2"
                                 >
                                     {user.profilePicture ? (
-                                        <img src={user.profilePicture} alt="Avatar" className="w-8 h-8 rounded-full object-cover border-2 border-white/50" />
+                                        <img src={user.profilePicture} alt="Avatar" className="w-10 h-10 rounded-full object-cover border-2 border-white/50 shadow-sm -my-1" />
                                     ) : (
-                                        <i className="bi bi-person-circle text-xl"></i>
+                                        <i className="bi bi-person-circle text-2xl -my-1"></i>
                                     )}
                                     <span>Dashboard ({user.name || "User"})</span>
                                 </Link>

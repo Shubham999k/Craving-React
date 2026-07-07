@@ -28,12 +28,12 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
   const isDelivered = orderStep === 3;
 
   return (
-    <div className="max-w-6xl mx-auto bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 overflow-hidden shadow-lg flex flex-col md:flex-row font-sans mb-10">
+    <div className="mx-auto bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 overflow-hidden shadow-xl flex flex-col md:flex-row font-sans mt-4 mb-10 xl:mt-8 h-auto lg:h-[510px]">
       
       {/* MAP AREA */}
-      <div className="w-full md:w-[55%] h-[350px] md:h-auto min-h-[400px] bg-slate-100 dark:bg-slate-950 relative overflow-hidden flex-shrink-0">
+      <div className="w-full md:w-[55%] h-[300px] md:h-full bg-slate-100 dark:bg-slate-950 relative overflow-hidden flex-shrink-0">
         <div className="absolute inset-0 opacity-50 dark:opacity-20 pointer-events-none">
-           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 600 600">
             <defs>
               <pattern id="zomato-grid" width="100" height="100" patternUnits="userSpaceOnUse">
                 <path d="M 20,20 L 80,20 L 80,80 L 20,80 Z" fill="currentColor" className="text-slate-200 dark:text-slate-800" rx="4" />
@@ -46,10 +46,10 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
         </div>
 
         <div className="absolute inset-0 pointer-events-none">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 600 600">
              <path 
                id="z-route"
-               d="M 150,400 Q 250,300 350,250 T 450,150" 
+               d="M 150,450 Q 250,350 350,300 T 450,150" 
                fill="none" 
                stroke="#4285f4" 
                strokeWidth="5" 
@@ -60,9 +60,9 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
              {orderStep >= 1 && (
                <path 
                  d={
-                   orderStep === 1 ? "M 150,400 Q 180,370 200,350" :
-                   orderStep === 2 ? "M 150,400 Q 250,300 350,250 T 400,200" :
-                   "M 150,400 Q 250,300 350,250 T 450,150"
+                   orderStep === 1 ? "M 150,450 Q 180,420 200,400" :
+                   orderStep === 2 ? "M 150,450 Q 250,350 350,300 T 400,225" :
+                   "M 150,450 Q 250,350 350,300 T 450,150"
                  } 
                  fill="none" 
                  stroke="#f97316" 
@@ -75,14 +75,14 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
         </div>
 
         {/* Restaurant Pin */}
-        <div className="absolute flex flex-col items-center z-10" style={{ left: '150px', top: '400px', transform: 'translate(-50%, -100%)' }}>
+        <div className="absolute flex flex-col items-center z-10" style={{ left: '25%', top: '75%', transform: 'translate(-50%, -100%)' }}>
           <div className="w-8 h-8 bg-gray-800 dark:bg-slate-700 rounded-full flex items-center justify-center shadow-md border-2 border-white dark:border-slate-800">
             <i className="bi bi-shop text-white text-sm"></i>
           </div>
         </div>
 
         {/* Home Pin */}
-        <div className="absolute flex flex-col items-center z-10" style={{ left: '450px', top: '150px', transform: 'translate(-50%, -100%)' }}>
+        <div className="absolute flex flex-col items-center z-10" style={{ left: '75%', top: '25%', transform: 'translate(-50%, -100%)' }}>
           <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center shadow-md border-2 border-white dark:border-slate-800">
             <i className="bi bi-house-door-fill text-white text-sm"></i>
           </div>
@@ -93,8 +93,8 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
           <div 
             className="absolute flex flex-col items-center z-20 transition-all duration-1000 ease-in-out"
             style={{
-              left: orderStep === 1 ? '200px' : '400px',
-              top: orderStep === 1 ? '350px' : '200px',
+              left: orderStep === 1 ? '33.3%' : '66.6%',
+              top: orderStep === 1 ? '66.6%' : '37.5%',
               transform: 'translate(-50%, -50%)'
             }}
           >
@@ -111,10 +111,10 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
       {/* RIGHT PANEL */}
       <div className="w-full md:w-[45%] bg-white dark:bg-slate-900 flex flex-col z-30 border-t md:border-t-0 md:border-l border-gray-100 dark:border-slate-800">
         
-        <div className="flex-1 px-6 md:px-8 py-6 md:py-8">
+        <div className="flex-1 px-5 md:px-6 py-4 md:py-6 overflow-y-auto custom-scrollbar">
           
           {/* Header & ETA */}
-          <div className="pt-2 md:pt-4 pb-6 border-b border-gray-100 dark:border-slate-800">
+          <div className="pt-1 md:pt-2 pb-4 border-b border-gray-100 dark:border-slate-800">
             <h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
               {isDelivered ? 'Delivered' : `Arriving in ${orderTimeRemaining} mins`}
             </h2>
@@ -124,7 +124,7 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
           </div>
 
           {/* Stepper (Vertical Timeline) */}
-          <div className="py-6 space-y-6">
+          <div className="py-4 space-y-5">
             {[
               { title: "Order accepted", desc: "The restaurant has confirmed your order", icon: "bi-card-checklist" },
               { title: "Food is being prepared", desc: "Your food is getting ready", icon: "bi-fire" },
@@ -202,48 +202,59 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
             </div>
           )}
 
-          <hr className="border-gray-100 dark:border-slate-800 my-6" />
+          <hr className="border-gray-100 dark:border-slate-800 my-4" />
 
-          {/* Order Bill / Items Summary */}
-          <div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-200 mb-4">Bill Details</h3>
-            <div className="space-y-3 mb-4">
-              {displayItems.map((item, idx) => (
-                <div key={idx} className="flex justify-between items-start text-sm">
-                  <div className="flex items-start gap-2">
-                    <i className="bi bi-stop-btn text-green-600 mt-0.5 text-xs"></i>
-                    <span className="text-gray-700 dark:text-gray-300 max-w-[200px] leading-tight">
-                      {item.name} <span className="text-gray-400">x{item.qty || 1}</span>
-                    </span>
-                  </div>
-                  <span className="font-medium text-gray-800 dark:text-gray-200">₹{(item.price || 0) * (item.qty || 1)}</span>
-                </div>
-              ))}
-            </div>
+          {/* Collapsible Order & Delivery Details */}
+          <div className="border border-slate-100 dark:border-slate-800 rounded-xl overflow-hidden mb-2">
+            <button 
+              onClick={() => setIsSummaryOpen(!isSummaryOpen)}
+              className="w-full flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+            >
+              <span className="text-sm font-bold text-gray-800 dark:text-gray-200">View Order Details</span>
+              <i className={`bi bi-chevron-down text-gray-500 transition-transform ${isSummaryOpen ? 'rotate-180' : ''}`}></i>
+            </button>
             
-            <div className="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-slate-800 border-dashed">
-              <span className="font-bold text-gray-900 dark:text-gray-200">Total Paid</span>
-              <span className="font-bold text-gray-900 dark:text-gray-200">
-                ₹{displayItems.reduce((acc, curr) => acc + ((curr.price || 0) * (curr.qty || 1)), 0) + 45}
-              </span>
-            </div>
-          </div>
+            {isSummaryOpen && (
+              <div className="p-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+                {/* Order Bill / Items Summary */}
+                <h3 className="text-sm font-bold text-gray-900 dark:text-gray-200 mb-2">Bill Details</h3>
+                <div className="space-y-2 mb-3">
+                  {displayItems.map((item, idx) => (
+                    <div key={idx} className="flex justify-between items-start text-xs">
+                      <div className="flex items-start gap-2">
+                        <i className="bi bi-stop-btn text-green-600 mt-0.5"></i>
+                        <span className="text-gray-700 dark:text-gray-300 max-w-[200px] leading-tight">
+                          {item.name} <span className="text-gray-400">x{item.qty || 1}</span>
+                        </span>
+                      </div>
+                      <span className="font-medium text-gray-800 dark:text-gray-200">₹{(item.price || 0) * (item.qty || 1)}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="flex justify-between items-center pt-2 border-t border-gray-100 dark:border-slate-800 border-dashed text-sm">
+                  <span className="font-bold text-gray-900 dark:text-gray-200">Total Paid</span>
+                  <span className="font-bold text-gray-900 dark:text-gray-200">
+                    ₹{displayItems.reduce((acc, curr) => acc + ((curr.price || 0) * (curr.qty || 1)), 0) + 45}
+                  </span>
+                </div>
 
-          <hr className="border-gray-100 dark:border-slate-800 my-6" />
-
-          <div className="space-y-4 mb-4">
-             <div className="flex items-start gap-3">
-               <i className="bi bi-geo-alt text-gray-400 mt-1"></i>
-               <div>
-                 <p className="font-bold text-gray-800 dark:text-gray-200 text-sm">Delivery Address</p>
-                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">123 Cravings Street, Foodville, NY 10001</p>
-               </div>
-             </div>
+                <div className="mt-4 pt-4 border-t border-gray-100 dark:border-slate-800">
+                  <div className="flex items-start gap-3">
+                    <i className="bi bi-geo-alt text-gray-400 mt-1"></i>
+                    <div>
+                      <p className="font-bold text-gray-800 dark:text-gray-200 text-sm">Delivery Address</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">123 Cravings Street, Foodville, NY 10001</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Action Footer */}
-        <div className="bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 p-4 flex gap-3 z-40 shadow-[0_-4px_15px_rgba(0,0,0,0.02)] mt-auto rounded-b-2xl md:rounded-bl-none">
+        <div className="bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 p-3 flex gap-3 z-40 mt-auto rounded-b-2xl md:rounded-bl-none shrink-0">
           <button 
             onClick={() => {
               if (orderStep < 3) {
@@ -251,14 +262,14 @@ const TrackingTab = ({ orderItems = [], orderStep, setOrderStep, orderTimeRemain
                 toast.success("Simulation advanced! ⚡");
               }
             }}
-            className="flex-1 bg-orange-50 dark:bg-orange-900/30 hover:bg-orange-100 dark:hover:bg-orange-900/50 text-orange-600 dark:text-orange-400 font-bold py-3.5 rounded-xl transition text-sm flex justify-center items-center gap-2"
+            className="flex-1 bg-orange-50 dark:bg-orange-900/30 hover:bg-orange-100 dark:hover:bg-orange-900/50 text-orange-600 dark:text-orange-400 font-bold py-3 rounded-xl transition text-sm flex justify-center items-center gap-2"
           >
             <i className="bi bi-fast-forward-fill"></i> Simulate Next Step
           </button>
           
           <button 
             onClick={() => setActiveTab('overview')} 
-            className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 font-bold px-6 py-3.5 rounded-xl transition text-sm"
+            className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 font-bold px-5 py-3 rounded-xl transition text-sm"
           >
             Back
           </button>

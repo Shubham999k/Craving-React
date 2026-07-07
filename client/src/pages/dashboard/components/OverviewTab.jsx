@@ -34,7 +34,7 @@ const OverviewTab = ({ orderItems, orderStep, addToCart, setSelectedCategory, se
           { title: "Saved (Promo)", value: `₹${Math.floor(totalSpent * 0.15).toLocaleString()}`, icon: "bi-tag-fill", gradient: "from-rose-500 to-red-600", lightBg: "bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400", action: () => setActiveTab('analytics') },
           { title: "Reward Points", value: `${Math.floor(totalSpent * 0.1)} pts`, icon: "bi-trophy-fill", gradient: "from-amber-500 to-orange-600", lightBg: "bg-amber-50 dark:bg-amber-955/40 text-amber-600 dark:text-amber-400", action: () => toast.success(`You have ${Math.floor(totalSpent * 0.1)} Reward Points! Redeem them for discounts at checkout. 🏆`) }
         ].map((stat, idx) => (
-          <div key={idx} onClick={stat.action} className="group relative bg-white dark:bg-slate-900 p-6 rounded-md border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 overflow-hidden cursor-pointer">
+          <div key={idx} onClick={stat.action} className="group relative bg-white dark:bg-slate-900 p-6 rounded-md border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:scale-105 overflow-hidden cursor-pointer">
             <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${stat.gradient} opacity-80`}></div>
             <div className="flex justify-between items-center mb-4">
               <span className="text-xs font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest">{stat.title}</span>
@@ -132,7 +132,7 @@ const OverviewTab = ({ orderItems, orderStep, addToCart, setSelectedCategory, se
             <div 
               key={item.id}
               onClick={() => addToCart(item)}
-              className="bg-white dark:bg-slate-900 rounded-md overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group transform hover:-translate-y-1.5 cursor-pointer"
+              className="bg-white dark:bg-slate-900 rounded-md overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group transform hover:scale-105 cursor-pointer"
             >
               <div className="relative overflow-hidden aspect-[4/3] bg-slate-100 dark:bg-slate-850">
                 <img
