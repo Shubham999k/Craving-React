@@ -5,6 +5,9 @@ const userSeed = async () => {
     try {
         const SALT = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash("password123", SALT);
+        const existingCustomer = await User.find({role:"Customer"})
+        const existingRestaurant = await User.find({role:"Restaurant"})
+        const existingRider = await User.find({role:"Rider"})
 
         const users = [
             {
