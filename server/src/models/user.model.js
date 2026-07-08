@@ -8,6 +8,12 @@ const userSchema = new mongoose.Schema({
     dob: { type: Date, required: true },
     phone: { type: String, required: true },
     gender: { type: String, required: true },
+    role: { 
+        type: String, 
+        enum: ["Customer", "Restaurant", "Rider", "Admin"], 
+        default: "Customer",
+        required: true 
+    },
     profilePic: {
         url: { type: String },
         publicId: { type: String }
