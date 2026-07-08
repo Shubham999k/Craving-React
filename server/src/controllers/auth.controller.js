@@ -154,3 +154,100 @@ export const UpdateProfile = async (req, res, next) => {
         next(error);
     }
 };
+
+export const ForgotPassword = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        const normalizedEmail = email?.toLowerCase().trim();
+
+        if (!normalizedEmail) {
+            const error = new Error("Email is required");
+            error.statusCode = 400;
+            return next(error);
+        }
+
+        const user = await User.findOne({ email: normalizedEmail });
+        if (!user) {
+            const error = new Error("No user found with that email address");
+            error.statusCode = 404;
+            return next(error);
+        }
+
+        // Generate token
+        const resetToken = crypto.randomBytes(20).toString("hex");
+
+        // Hash token and set to resetPasswordToken field
+        user.resetPasswordToken = crypto
+            .createHash("sha256")
+            .update(resetToken)
+            .digest("hex");
+
+        // Set expire to 10 minutes from now
+        user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+
+        await user.save();
+
+        // Normally we would send an email here. For now, we mock it.
+        const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+        
+        console.log(`\n\n[MOCK EMAIL] Reset Password Link for ${user.email}:\n${resetUrl}\n\n`);
+
+        res.status(200).json({
+            message: "Reset password link generated successfully",
+            resetUrl: resetUrl // Sending to client for easy testing without email
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        next(error);
+    }
+};
+
+export const ResetPassword = async (req, res, next) => {
+    try {
+        const { token } = req.params;
+        const { password } = req.body;
+
+        if (!password) {
+            const error = new Error("Password is required");
+            error.statusCode = 400;
+            return next(error);
+        }
+
+        // Get hashed token
+        const resetPasswordToken = crypto
+            .createHash("sha256")
+            .update(token)
+            .digest("hex");
+
+        // Find user by token and check expiration
+        const user = await User.findOne({
+            resetPasswordToken,
+            resetPasswordExpire: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            const error = new Error("Invalid or expired reset token");
+            error.statusCode = 400;
+            return next(error);
+        }
+
+        // Hash new password
+        const SALT = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, SALT);
+
+        // Clear reset token fields
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpire = undefined;
+
+        await user.save();
+
+        res.status(200).json({
+            message: "Password reset successfully. You can now log in."
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        next(error);
+    }
+};
