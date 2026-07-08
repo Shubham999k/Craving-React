@@ -24,7 +24,7 @@ export const RegisterUser = async (req, res, next) => {
             return next(error)
         }
 
-        const photoUrl = `placehold.co/600x400?text=${fullName.charAt(0).toUpperCase()}`;
+        const photoUrl = `placehold.co/400x400?text=${fullName.charAt(0).toUpperCase()}`;
 
         const profilePic = {
             url: photoUrl,

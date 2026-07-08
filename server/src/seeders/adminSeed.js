@@ -18,7 +18,7 @@ const adminSeed = async () => {
                     gender: "Not specified",
                     role: "Admin",
                     profilePic: {
-                        url: "https://placehold.co/600x400?text=A",
+                        url: "https://placehold.co/400x400?text=A",
                         publicId: null
                     }
                 }
