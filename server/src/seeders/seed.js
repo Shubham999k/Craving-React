@@ -19,6 +19,11 @@ const Seed = async () => {
         console.error("Error connecting to database in seed script:", error);
         process.exit(1);
     }
+    finally{
+        await mongoose.disconnect();
+        console.log("Database disconnected");
+        process.exit(0);
+    }
 }
 
 Seed();
