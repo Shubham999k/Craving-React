@@ -82,7 +82,7 @@ const ProfileTab = ({
                   editAvatar === avatar ? 'border-orange-500 scale-105 bg-orange-50 dark:bg-orange-950/20' : 'border-transparent hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
               >
-                <img src={avatar} alt={`Avatar-${idx}`} className="w-16 h-16 rounded-sm bg-slate-100 dark:bg-slate-800" />
+                <img src={avatar} alt={`Avatar-${idx}`} className="w-16 h-16 rounded-sm object-cover bg-slate-100 dark:bg-slate-800" />
               </button>
             ))}
           </div>
