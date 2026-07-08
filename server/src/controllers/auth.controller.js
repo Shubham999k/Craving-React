@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import cloudinary from "../config/cloudinary.config.js";
+import crypto from "crypto";
 
 export const RegisterUser = async (req, res, next) => {
     try {
