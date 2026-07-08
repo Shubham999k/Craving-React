@@ -19,7 +19,7 @@ const userSeed = async () => {
                 gender: "Male",
                 role: "Customer", // Assuming customer role since they just said "get back him also"
                 profilePic: {
-                    url: "https://placehold.co/600x400?text=S",
+                    url: "https://placehold.co/400x400?text=S",
                     publicId: null
                 }
             },
@@ -32,7 +32,7 @@ const userSeed = async () => {
                 gender: "Female",
                 role: "Customer",
                 profilePic: {
-                    url: "https://placehold.co/600x400?text=C",
+                    url: "https://placehold.co/400x400?text=C",
                     publicId: null
                 }
             },
@@ -45,7 +45,7 @@ const userSeed = async () => {
                 gender: "Male",
                 role: "Customer",
                 profilePic: {
-                    url: "https://placehold.co/600x400?text=D",
+                    url: "https://placehold.co/400x400?text=D",
                     publicId: null
                 }
             },
@@ -58,7 +58,7 @@ const userSeed = async () => {
                 gender: "Female",
                 role: "Restaurant",
                 profilePic: {
-                    url: "https://placehold.co/600x400?text=R",
+                    url: "https://placehold.co/400x400?text=R",
                     publicId: null
                 }
             },
@@ -71,7 +71,7 @@ const userSeed = async () => {
                 gender: "Male",
                 role: "Rider",
                 profilePic: {
-                    url: "https://placehold.co/600x400?text=R",
+                    url: "https://placehold.co/400x400?text=R",
                     publicId: null
                 }
             }
