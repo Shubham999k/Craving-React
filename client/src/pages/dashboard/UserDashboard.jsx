@@ -941,7 +941,7 @@ const UserDashboard = () => {
               <img
                 src={editAvatar || null}
                 alt="Avatar"
-                className="w-20 h-20 rounded-full border-4 border-orange-500 shadow-md transform hover:rotate-6 transition duration-300"
+                className="w-20 h-20 rounded-full border-4 border-orange-500 shadow-md transform hover:rotate-6 transition duration-300 object-cover"
               />
               <span className="absolute bottom-0 right-1 bg-green-500 w-4 h-4 rounded-full border-2 border-white dark:border-slate-900"></span>
               {/* Pencil Edit Icon at right side of avatar */}
