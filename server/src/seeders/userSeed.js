@@ -3,16 +3,22 @@ import User from "../models/user.model.js";
 
 const userSeed = async () => {
     try {
-        const existingUser = await User.findOne({ email: "demo@user.com" });
-        if (existingUser) {
-            console.log("Demo user already exists. Skipping.");
-            return;
-        }
-
         const SALT = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash("password123", SALT);
 
         const users = [
+            {
+                fullName: "Regular Customer",
+                email: "customer@craving.com",
+                password: hashedPassword,
+                dob: new Date("1998-03-25"),
+                phone: "+1999888777",
+                gender: "Female",
+                profilePic: {
+                    url: "https://placehold.co/600x400?text=C",
+                    publicId: null
+                }
+            },
             {
                 fullName: "Demo User",
                 email: "demo@user.com",
@@ -51,7 +57,14 @@ const userSeed = async () => {
             }
         ];
 
-        await User.insertMany(users);
+        for (const user of users) {
+            await User.updateOne(
+                { email: user.email },
+                { $set: user },
+                { upsert: true }
+            );
+        }
+        
         console.log("Users seeded successfully.");
     } catch (error) {
         console.error("Error seeding users:", error);
