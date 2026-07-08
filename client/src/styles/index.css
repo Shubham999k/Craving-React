@@ -38,6 +38,13 @@ select:-webkit-autofill:active {
     caret-color: #f8fafc !important;
 }
 
+/* Ensure caret is visible on all inputs in dark mode */
+.dark input,
+.dark textarea,
+.dark select {
+    caret-color: #f8fafc;
+}
+
 /* Custom Thin Scrollbars matching light/dark themes */
 html::-webkit-scrollbar,
 ::-webkit-scrollbar {
