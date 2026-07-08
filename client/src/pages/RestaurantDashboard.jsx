@@ -49,7 +49,7 @@ function RestaurantDashboard() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-50 dark:bg-slate-850 text-slate-450 dark:text-slate-450 text-[10px] font-black uppercase tracking-wider">
+                <tr className="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-wider">
                   <th className="p-4">Order ID</th>
                   <th className="p-4">Dishes</th>
                   <th className="p-4 text-right">Total Amount</th>
