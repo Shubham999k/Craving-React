@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema({
         type: String, 
         enum: ["Customer", "Restaurant", "Rider", "Admin"], 
         default: "Customer",
-        required: true 
     },
     profilePic: {
         url: { type: String },

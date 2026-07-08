@@ -14,6 +14,7 @@ const userSeed = async () => {
                 dob: new Date("1998-03-25"),
                 phone: "+1999888777",
                 gender: "Female",
+                role: "Customer",
                 profilePic: {
                     url: "https://placehold.co/600x400?text=C",
                     publicId: null
@@ -26,6 +27,7 @@ const userSeed = async () => {
                 dob: new Date("1995-05-15"),
                 phone: "+1987654321",
                 gender: "Male",
+                role: "Customer",
                 profilePic: {
                     url: "https://placehold.co/600x400?text=D",
                     publicId: null
@@ -38,6 +40,7 @@ const userSeed = async () => {
                 dob: new Date("1985-08-20"),
                 phone: "+1122334455",
                 gender: "Female",
+                role: "Restaurant",
                 profilePic: {
                     url: "https://placehold.co/600x400?text=R",
                     publicId: null
@@ -50,6 +53,7 @@ const userSeed = async () => {
                 dob: new Date("1992-11-10"),
                 phone: "+1555666777",
                 gender: "Male",
+                role: "Rider",
                 profilePic: {
                     url: "https://placehold.co/600x400?text=R",
                     publicId: null
