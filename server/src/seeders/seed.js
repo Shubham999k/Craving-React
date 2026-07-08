@@ -3,7 +3,7 @@ dotenv.config();
 
 import mongoose from "mongoose";
 import dbConnection from "../config/dbConnection.config.js";
-import adminSeed from "./adminSeed.js";
+import adminSeed from "./admin.Seed.js";
 import userSeed from "./userSeed.js";
 
 const Seed = async () => {
