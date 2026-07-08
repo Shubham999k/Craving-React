@@ -1018,7 +1018,7 @@ const UserDashboard = () => {
       <main className={`flex-1 p-6 md:p-8 md:h-full pb-24 md:pb-8 ${activeTab === 'tracking' ? 'overflow-hidden' : 'overflow-y-auto'}`}>
         
         {/* TOP BAR / GREETING */}
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 m-2">
           <div>
             <h1 className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight flex items-center gap-2">
               Hey {user.name || "Foodie"}! 
