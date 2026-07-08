@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import bgImage from "../assets/images/foodTable.webp";
 import api from "../config/api.config.js";
 
 function Register() {
+    const navigate = useNavigate();
     const [registerData, setRegisterData] = useState({
         role: "Customer",
         fullName: "",
@@ -66,6 +67,25 @@ function Register() {
             const response = await api.post("/auth/register", payload);
 
             toast.success(response?.data?.message || "Registration successful");
+            
+            // Auto-login locally so the dashboard displays their name
+            localStorage.setItem("user", JSON.stringify({
+                name: payload.fullName,
+                email: payload.email,
+                phone: payload.phone,
+                role: payload.role
+            }));
+            window.dispatchEvent(new Event("auth-change"));
+
+            // Redirect based on selected role
+            if (payload.role === "Restaurant") {
+                navigate("/restaurants-dashboard");
+            } else if (payload.role === "Rider") {
+                navigate("/riders-dashboard");
+            } else {
+                navigate("/user/dashboard");
+            }
+
             setRegisterData((prev) => ({
                 ...prev,
                 fullName: "",
