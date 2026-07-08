@@ -11,6 +11,19 @@ const userSeed = async () => {
 
         const users = [
             {
+                fullName: "Shubham Chaudhari",
+                email: "shubhamchaudharik485@gmail.com",
+                password: await bcrypt.hash("1234", SALT),
+                dob: new Date("1998-01-01"),
+                phone: "+1000000000",
+                gender: "Male",
+                role: "Customer", // Assuming customer role since they just said "get back him also"
+                profilePic: {
+                    url: "https://placehold.co/600x400?text=S",
+                    publicId: null
+                }
+            },
+            {
                 fullName: "Regular Customer",
                 email: "customer@craving.com",
                 password: hashedPassword,
