@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import bgImage from "../assets/images/foodTable.webp";
@@ -9,10 +9,11 @@ function ResetPassword() {
     const location = useLocation();
     const email = location.state?.email;
 
-    const [otp, setOtp] = useState("");
+    const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const inputRefs = useRef([]);
 
     useEffect(() => {
         if (!email) {
@@ -21,11 +22,33 @@ function ResetPassword() {
         }
     }, [email, navigate]);
 
+    const handleOtpChange = (index, value) => {
+        if (isNaN(value)) return;
+        const newOtp = [...otp];
+        // Allow only the last entered digit
+        newOtp[index] = value.substring(value.length - 1);
+        setOtp(newOtp);
+
+        // Move focus to next input if there's a value
+        if (value && index < 5 && inputRefs.current[index + 1]) {
+            inputRefs.current[index + 1].focus();
+        }
+    };
+
+    const handleOtpKeyDown = (index, e) => {
+        if (e.key === "Backspace" && !otp[index] && index > 0 && inputRefs.current[index - 1]) {
+            // Move focus to previous input on backspace if current is empty
+            inputRefs.current[index - 1].focus();
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (!otp || !password || !confirmPassword) {
-            toast.error("Please fill all fields");
+        const otpString = otp.join("");
+
+        if (otpString.length !== 6 || !password || !confirmPassword) {
+            toast.error("Please fill all fields completely");
             return;
         }
         
@@ -36,7 +59,7 @@ function ResetPassword() {
 
         setIsLoading(true);
         try {
-            const response = await api.post(`/auth/reset-password`, { email, otp, password });
+            const response = await api.post(`/auth/reset-password`, { email, otp: otpString, password });
             toast.success(response?.data?.message || "Password reset successfully");
             
             // Redirect to login after a short delay
@@ -71,18 +94,24 @@ function ResetPassword() {
                     </p>
 
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-4">
+                        <div className="mb-6">
                             <label className="mb-2 block font-medium text-slate-700 dark:text-slate-300">
                                 OTP Code
                             </label>
-                            <input
-                                type="text"
-                                maxLength="6"
-                                value={otp}
-                                onChange={(e) => setOtp(e.target.value)}
-                                placeholder="Enter 6-digit OTP"
-                                className="w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20 text-center tracking-widest text-xl font-mono"
-                            />
+                            <div className="flex justify-between gap-2">
+                                {otp.map((digit, index) => (
+                                    <input
+                                        key={index}
+                                        type="text"
+                                        maxLength="1"
+                                        value={digit}
+                                        ref={(el) => (inputRefs.current[index] = el)}
+                                        onChange={(e) => handleOtpChange(index, e.target.value)}
+                                        onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                                        className="w-12 h-12 text-center text-2xl font-bold rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20"
+                                    />
+                                ))}
+                            </div>
                         </div>
 
                         <div className="mb-4">
