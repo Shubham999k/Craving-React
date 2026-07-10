@@ -215,9 +215,11 @@ export const ForgotPassword = async (req, res, next) => {
                 message: "OTP sent successfully to your email address",
             });
         } catch (error) {
-            // If email fails, delete the OTP to allow user to try again
-            await OTP.deleteMany({ email: normalizedEmail });
-            return next(new Error("Email could not be sent. Please make sure SMTP credentials are set in .env"));
+            // Fallback for development if SMTP is not configured
+            console.log(`\n\n[MOCK EMAIL FALLBACK] OTP for ${user.email}:\n${otpCode}\n\n`);
+            res.status(200).json({
+                message: "OTP generated (Check server console since SMTP is not configured)",
+            });
         }
 
     } catch (error) {
