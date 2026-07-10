@@ -13,6 +13,7 @@ function ResetPassword() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
     const inputRefs = useRef([]);
 
     useEffect(() => {
@@ -21,6 +22,25 @@ function ResetPassword() {
             navigate("/forgot-password");
         }
     }, [email, navigate]);
+
+    // Timer effect
+    useEffect(() => {
+        if (!email) return;
+        
+        if (timeLeft <= 0) return;
+
+        const timer = setInterval(() => {
+            setTimeLeft((prev) => prev - 1);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [timeLeft, email]);
+
+    const formatTime = (seconds) => {
+        const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const s = (seconds % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    };
 
     const handleOtpChange = (index, value) => {
         if (isNaN(value)) return;
@@ -45,6 +65,11 @@ function ResetPassword() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
+        if (timeLeft <= 0) {
+            toast.error("OTP has expired. Please request a new one.");
+            return;
+        }
+
         const otpString = otp.join("");
 
         if (otpString.length !== 6 || !password || !confirmPassword) {
@@ -95,9 +120,14 @@ function ResetPassword() {
 
                     <form onSubmit={handleSubmit}>
                         <div className="mb-6">
-                            <label className="mb-2 block font-medium text-slate-700 dark:text-slate-300">
-                                OTP Code
-                            </label>
+                            <div className="flex justify-between items-end mb-2">
+                                <label className="block font-medium text-slate-700 dark:text-slate-300">
+                                    OTP Code
+                                </label>
+                                <span className={`text-sm font-semibold ${timeLeft > 60 ? 'text-orange-500' : 'text-red-500 animate-pulse'}`}>
+                                    {timeLeft > 0 ? `Expires in: ${formatTime(timeLeft)}` : 'Expired'}
+                                </span>
+                            </div>
                             <div className="flex justify-between gap-2">
                                 {otp.map((digit, index) => (
                                     <input
@@ -108,7 +138,12 @@ function ResetPassword() {
                                         ref={(el) => (inputRefs.current[index] = el)}
                                         onChange={(e) => handleOtpChange(index, e.target.value)}
                                         onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                                        className="w-12 h-12 text-center text-2xl font-bold rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20"
+                                        disabled={timeLeft <= 0}
+                                        className={`w-12 h-12 text-center text-2xl font-bold rounded-md border bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 outline-none transition focus:ring-2 ${
+                                            timeLeft <= 0 
+                                            ? 'border-red-300 bg-red-50 text-red-400 dark:border-red-900/50 dark:bg-red-900/20 opacity-70 cursor-not-allowed' 
+                                            : 'border-gray-300 dark:border-slate-800 focus:border-orange-600 focus:ring-orange-200 dark:focus:ring-orange-950/20'
+                                        }`}
                                     />
                                 ))}
                             </div>
@@ -123,7 +158,8 @@ function ResetPassword() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Enter new password"
-                                className="w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20"
+                                disabled={timeLeft <= 0}
+                                className={`w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20 ${timeLeft <= 0 ? 'opacity-70 cursor-not-allowed' : ''}`}
                             />
                         </div>
 
@@ -136,26 +172,35 @@ function ResetPassword() {
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 placeholder="Confirm new password"
-                                className="w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20"
+                                disabled={timeLeft <= 0}
+                                className={`w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20 ${timeLeft <= 0 ? 'opacity-70 cursor-not-allowed' : ''}`}
                             />
                         </div>
 
                         <button
                             type="submit"
-                            disabled={isLoading}
-                            className={`mb-5 w-full rounded-md bg-[#c74a09] py-3 font-semibold text-white transition hover:bg-[#b34006] ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
+                            disabled={isLoading || timeLeft <= 0}
+                            className={`mb-5 w-full rounded-md bg-[#c74a09] py-3 font-semibold text-white transition hover:bg-[#b34006] ${isLoading || timeLeft <= 0 ? "opacity-70 cursor-not-allowed" : ""}`}
                         >
                             {isLoading ? "Resetting..." : "Reset Password"}
                         </button>
                     </form>
 
-                    <div className="text-center">
+                    <div className="text-center flex justify-between items-center mt-4">
                         <Link
                             to="/forgot-password"
                             className="font-semibold text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition"
                         >
                             Back to send OTP
                         </Link>
+                        {timeLeft <= 0 && (
+                             <Link
+                                to="/forgot-password"
+                                className="font-semibold text-orange-600 hover:text-orange-700 transition"
+                            >
+                                Resend OTP
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>
