@@ -1,20 +1,30 @@
-import { useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import bgImage from "../assets/images/foodTable.webp";
 import api from "../config/api.config.js";
 
 function ResetPassword() {
-    const { token } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
+    const email = location.state?.email;
+
+    const [otp, setOtp] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    useEffect(() => {
+        if (!email) {
+            toast.error("Please request an OTP first");
+            navigate("/forgot-password");
+        }
+    }, [email, navigate]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (!password || !confirmPassword) {
+        if (!otp || !password || !confirmPassword) {
             toast.error("Please fill all fields");
             return;
         }
@@ -26,7 +36,7 @@ function ResetPassword() {
 
         setIsLoading(true);
         try {
-            const response = await api.post(`/auth/reset-password/${token}`, { password });
+            const response = await api.post(`/auth/reset-password`, { email, otp, password });
             toast.success(response?.data?.message || "Password reset successfully");
             
             // Redirect to login after a short delay
@@ -35,11 +45,13 @@ function ResetPassword() {
             }, 2000);
             
         } catch (error) {
-            toast.error(error?.response?.data?.message || "Failed to reset password. Link may be invalid or expired.");
+            toast.error(error?.response?.data?.message || "Failed to reset password. OTP may be invalid or expired.");
         } finally {
             setIsLoading(false);
         }
     };
+
+    if (!email) return null; // Prevent rendering if redirecting
 
     return (
         <section
@@ -55,10 +67,24 @@ function ResetPassword() {
                     </h1>
                     
                     <p className="mb-6 text-center text-gray-500 dark:text-slate-400">
-                        Please enter your new password below.
+                        Enter the 6-digit OTP sent to <span className="font-semibold text-orange-600">{email}</span> and your new password.
                     </p>
 
                     <form onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <label className="mb-2 block font-medium text-slate-700 dark:text-slate-300">
+                                OTP Code
+                            </label>
+                            <input
+                                type="text"
+                                maxLength="6"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                placeholder="Enter 6-digit OTP"
+                                className="w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2.5 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-950/20 text-center tracking-widest text-xl font-mono"
+                            />
+                        </div>
+
                         <div className="mb-4">
                             <label className="mb-2 block font-medium text-slate-700 dark:text-slate-300">
                                 New Password
@@ -96,10 +122,10 @@ function ResetPassword() {
 
                     <div className="text-center">
                         <Link
-                            to="/login"
+                            to="/forgot-password"
                             className="font-semibold text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition"
                         >
-                            Back to Login
+                            Back to send OTP
                         </Link>
                     </div>
                 </div>

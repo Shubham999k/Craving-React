@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import bgImage from "../assets/images/foodTable.webp";
 import api from "../config/api.config.js";
@@ -7,7 +7,7 @@ import api from "../config/api.config.js";
 function ForgotPassword() {
     const [email, setEmail] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [resetLink, setResetLink] = useState(""); // Only for mock testing
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,14 +20,13 @@ function ForgotPassword() {
         setIsLoading(true);
         try {
             const response = await api.post("/auth/forgot-password", { email });
-            toast.success(response?.data?.message || "Reset link sent!");
+            toast.success(response?.data?.message || "OTP sent to your email!");
             
-            // For mock testing, the backend returns the url
-            if (response?.data?.resetUrl) {
-                setResetLink(response.data.resetUrl);
-            }
+            // Navigate to reset password page and pass the email
+            navigate("/reset-password", { state: { email } });
+            
         } catch (error) {
-            toast.error(error?.response?.data?.message || "Failed to send reset link");
+            toast.error(error?.response?.data?.message || "Failed to send OTP");
         } finally {
             setIsLoading(false);
         }
@@ -47,7 +46,7 @@ function ForgotPassword() {
                     </h1>
                     
                     <p className="mb-6 text-center text-gray-500 dark:text-slate-400">
-                        Enter your email to receive a password reset link.
+                        Enter your email to receive a 6-digit OTP to reset your password.
                     </p>
 
                     <form onSubmit={handleSubmit}>
@@ -69,21 +68,9 @@ function ForgotPassword() {
                             disabled={isLoading}
                             className={`mb-5 w-full rounded-md bg-[#c74a09] py-3 font-semibold text-white transition hover:bg-[#b34006] ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
                         >
-                            {isLoading ? "Sending..." : "Send Reset Link"}
+                            {isLoading ? "Sending..." : "Send OTP"}
                         </button>
                     </form>
-
-                    {/* MOCK EMAIL LINK (For testing purposes since no real email provider is hooked up) */}
-                    {resetLink && (
-                        <div className="mb-5 p-4 rounded-lg border border-orange-200 bg-orange-50 dark:border-orange-900 dark:bg-orange-950/20 text-sm">
-                            <p className="font-bold text-orange-800 dark:text-orange-400 mb-2">
-                                🔔 [MOCK EMAIL] Received!
-                            </p>
-                            <a href={resetLink} className="text-blue-600 hover:underline break-all">
-                                Click here to reset your password
-                            </a>
-                        </div>
-                    )}
 
                     <div className="text-center">
                         <Link

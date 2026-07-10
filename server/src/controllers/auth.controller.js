@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import cloudinary from "../config/cloudinary.config.js";
 import crypto from "crypto";
+import OTP from "../models/otp.model.js";
 
 export const RegisterUser = async (req, res, next) => {
     try {
@@ -173,28 +174,23 @@ export const ForgotPassword = async (req, res, next) => {
             return next(error);
         }
 
-        // Generate token
-        const resetToken = crypto.randomBytes(20).toString("hex");
+        // Delete any existing OTP for this email
+        await OTP.deleteMany({ email: normalizedEmail });
 
-        // Hash token and set to resetPasswordToken field
-        user.resetPasswordToken = crypto
-            .createHash("sha256")
-            .update(resetToken)
-            .digest("hex");
+        // Generate 6-digit OTP
+        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-        // Set expire to 10 minutes from now
-        user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
-
-        await user.save();
+        // Save OTP
+        await OTP.create({
+            email: normalizedEmail,
+            otp: otpCode
+        });
 
         // Normally we would send an email here. For now, we mock it.
-        const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
-        
-        console.log(`\n\n[MOCK EMAIL] Reset Password Link for ${user.email}:\n${resetUrl}\n\n`);
+        console.log(`\n\n[MOCK EMAIL] OTP for ${user.email}:\n${otpCode}\n\n`);
 
         res.status(200).json({
-            message: "Reset password link generated successfully",
-            resetUrl: resetUrl // Sending to client for easy testing without email
+            message: "OTP sent successfully to your email address",
         });
 
     } catch (error) {
@@ -205,30 +201,29 @@ export const ForgotPassword = async (req, res, next) => {
 
 export const ResetPassword = async (req, res, next) => {
     try {
-        const { token } = req.params;
-        const { password } = req.body;
+        const { email, otp, password } = req.body;
 
-        if (!password) {
-            const error = new Error("Password is required");
+        if (!email || !otp || !password) {
+            const error = new Error("Email, OTP, and new password are required");
+            error.statusCode = 400;
+            return next(error);
+        }
+        
+        const normalizedEmail = email.toLowerCase().trim();
+
+        // Check OTP
+        const validOtp = await OTP.findOne({ email: normalizedEmail, otp });
+
+        if (!validOtp) {
+            const error = new Error("Invalid or expired OTP");
             error.statusCode = 400;
             return next(error);
         }
 
-        // Get hashed token
-        const resetPasswordToken = crypto
-            .createHash("sha256")
-            .update(token)
-            .digest("hex");
-
-        // Find user by token and check expiration
-        const user = await User.findOne({
-            resetPasswordToken,
-            resetPasswordExpire: { $gt: Date.now() }
-        });
-
+        const user = await User.findOne({ email: normalizedEmail });
         if (!user) {
-            const error = new Error("Invalid or expired reset token");
-            error.statusCode = 400;
+            const error = new Error("User not found");
+            error.statusCode = 404;
             return next(error);
         }
 
@@ -236,11 +231,10 @@ export const ResetPassword = async (req, res, next) => {
         const SALT = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, SALT);
 
-        // Clear reset token fields
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpire = undefined;
-
         await user.save();
+        
+        // Delete OTP after successful reset
+        await OTP.deleteOne({ _id: validOtp._id });
 
         res.status(200).json({
             message: "Password reset successfully. You can now log in."

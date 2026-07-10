@@ -9,6 +9,6 @@ router.post("/register",sampleMiddleWare, sampleMiddleWare2,RegisterUser);
 router.get("/logout",sampleMiddleWare, LogoutUser);
 router.put("/update-profile", UpdateProfile);
 router.post("/forgot-password", ForgotPassword);
-router.post("/reset-password/:token", ResetPassword);
+router.post("/reset-password", ResetPassword);
 
 export default router;
