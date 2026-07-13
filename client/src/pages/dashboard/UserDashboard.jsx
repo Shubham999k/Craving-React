@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import toast from 'react-hot-toast';
 import api from '../../config/api.config';
 
@@ -1107,8 +1108,6 @@ const UserDashboard = () => {
         )}
 
       </main>
-
-import { createPortal } from 'react-dom';
 
       {/* Floating Shopping Cart Drawer */}
       {isCartOpen && createPortal(
