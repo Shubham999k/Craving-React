@@ -1229,7 +1229,8 @@ const UserDashboard = () => {
             )}
 
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Checkout Success Full Screen Modal */}
@@ -1252,8 +1253,7 @@ const UserDashboard = () => {
               Track Live Order 🛵
             </button>
           </div>
-        </div>,
-        document.body
+        </div>
       )}
 
     </div>
