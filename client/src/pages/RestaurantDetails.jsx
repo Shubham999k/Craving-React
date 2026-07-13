@@ -247,7 +247,7 @@ function RestaurantDetails() {
 
                 {/* Right Column: Checkout Widget */}
                 <div className="lg:col-span-4">
-                    <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl p-6 shadow-md sticky top-24 flex flex-col gap-6 max-h-[calc(100vh-8rem)]">
+                    <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl p-6 shadow-md sticky top-20 flex flex-col gap-6 max-h-[calc(100vh-6rem)]">
                         <h3 className="text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3 shrink-0">
                             <i className="bi bi-cart3 text-orange-600"></i> Selected Items
                         </h3>
