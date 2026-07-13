@@ -1108,8 +1108,10 @@ const UserDashboard = () => {
 
       </main>
 
+import { createPortal } from 'react-dom';
+
       {/* Floating Shopping Cart Drawer */}
-      {isCartOpen && (
+      {isCartOpen && createPortal(
         <div className="fixed inset-0 z-40 flex justify-end">
           {/* Transparent click-away backdrop (no blur or background color) */}
           <div 
