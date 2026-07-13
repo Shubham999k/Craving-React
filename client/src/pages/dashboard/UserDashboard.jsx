@@ -1252,7 +1252,8 @@ const UserDashboard = () => {
               Track Live Order 🛵
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
     </div>
