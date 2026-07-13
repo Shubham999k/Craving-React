@@ -3,6 +3,7 @@ import OverviewTab from './restaurant/components/OverviewTab';
 import OrdersTab from './restaurant/components/OrdersTab';
 import MenuTab from './restaurant/components/MenuTab';
 import AnalyticsTab from './restaurant/components/AnalyticsTab';
+import ProfileTab from './restaurant/components/ProfileTab';
 
 function RestaurantDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -17,6 +18,8 @@ function RestaurantDashboard() {
         return <MenuTab />;
       case 'analytics':
         return <AnalyticsTab />;
+      case 'profile':
+        return <ProfileTab />;
       default:
         return <OverviewTab />;
     }
@@ -37,7 +40,7 @@ function RestaurantDashboard() {
         </div>
 
         {/* Dashboard Feature Cards / Tabs Navigation */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
           <div 
             onClick={() => setActiveTab('overview')}
             className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'overview' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
@@ -64,6 +67,13 @@ function RestaurantDashboard() {
             className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'analytics' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
             <span className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase">Today's Revenue</span>
             <h3 className="text-xl font-black text-[#c74a09] mt-2">₹12,450</h3>
+          </div>
+          
+          <div 
+            onClick={() => setActiveTab('profile')}
+            className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'profile' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
+            <span className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase">Settings</span>
+            <h3 className="text-xl font-black text-slate-800 dark:text-white mt-2">Profile</h3>
           </div>
         </div>
 
