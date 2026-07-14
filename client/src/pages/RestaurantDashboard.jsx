@@ -88,8 +88,8 @@ function RestaurantDashboard() {
                       : 'text-slate-400 hover:bg-slate-800/90 hover:text-slate-200 rounded-lg mx-1 '
                   }`}
                   style={{
-                    height: isActive ? '36px' : '30px',
-                    marginBottom: isActive ? '0' : '3px',
+                    height: isActive ? '36px' : '28px',
+                    marginBottom: isActive ? '0' : '4px',
                   }}
                 >
                   {/* Faux Favicon */}
