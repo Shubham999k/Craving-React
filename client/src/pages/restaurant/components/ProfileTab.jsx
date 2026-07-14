@@ -98,128 +98,200 @@ const ProfileTab = () => {
   const isCustom = editLogo && !PRESET_LOGOS.includes(editLogo);
 
   return (
-    <div className="max-w-3xl mx-auto bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm animate-fadeIn duration-500 space-y-6">
-      <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
-        <i className="bi bi-shop text-[#c74a09]"></i> Restaurant Profile
-      </h2>
+    <div className="w-full animate-fadeIn pb-10">
+      {/* Banner Header */}
+      <div className="relative h-48 md:h-72 rounded-[2rem] bg-gradient-to-r from-orange-500 via-[#c74a09] to-red-600 overflow-visible shadow-lg mb-20 md:mb-24 mx-2 md:mx-0">
+        {/* Background Overlay Decor */}
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white via-transparent to-transparent rounded-[2rem]"></div>
+        <div className="absolute inset-0 overflow-hidden rounded-[2rem]">
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-white opacity-10 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-black opacity-10 rounded-full blur-3xl"></div>
+        </div>
 
-      <form onSubmit={handleUpdateProfile} className="space-y-6">
-        {/* Logo Selector */}
-        <div>
-          <label className="block text-sm font-bold text-slate-600 dark:text-slate-400 mb-2">Choose Logo or Upload Custom Image</label>
-          <div className="flex gap-4 items-center overflow-x-auto py-2">
-            {/* Custom Image Upload Button */}
-            <label className="flex flex-col items-center justify-center w-16 h-16 rounded border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-[#c74a09] dark:hover:border-[#c74a09] transition-all duration-200 cursor-pointer shrink-0 bg-slate-50 dark:bg-slate-800/50">
-              <div className="flex flex-col items-center justify-center text-slate-400 hover:text-[#c74a09]">
-                <i className="bi bi-cloud-arrow-up text-xl"></i>
-                <span className="text-[10px] font-bold">Upload</span>
-              </div>
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleCustomImageUpload}
-              />
-            </label>
+        {/* Overlapping Logo & Title */}
+        <div className="absolute -bottom-12 md:-bottom-16 left-6 md:left-12 flex items-end z-10 w-full pr-12">
+          <div className="relative w-28 h-28 md:w-40 md:h-40 rounded-3xl border-4 md:border-[6px] border-slate-50 dark:border-slate-950 shadow-2xl overflow-hidden bg-white group cursor-pointer shrink-0">
+            <img src={editLogo} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Restaurant Logo" />
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+              <i className="bi bi-camera text-white text-2xl"></i>
+            </div>
+          </div>
+          <div className="mb-2 md:mb-6 ml-4 md:ml-6 hidden sm:block flex-1">
+            <h1 className="text-2xl md:text-4xl font-black text-white drop-shadow-lg tracking-tight truncate">
+              {editName || 'Restaurant Name'}
+            </h1>
+            <p className="text-orange-100 font-medium text-sm md:text-base mt-1 drop-shadow flex items-center gap-2 truncate">
+              <i className="bi bi-geo-alt-fill text-white"></i>
+              {editAddress || 'Address not set'}
+            </p>
+          </div>
+        </div>
+      </div>
 
-            {/* Custom Image Option preview if uploaded */}
-            {isCustom && (
-              <div className="relative shrink-0">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 px-2 md:px-0">
+        {/* Left Column: Logo Selection & Tips */}
+        <div className="xl:col-span-1 space-y-6 md:space-y-8">
+          <div className="bg-white dark:bg-slate-900/80 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-400 to-[#c74a09]"></div>
+            <h3 className="text-xl font-black text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+              <i className="bi bi-palette text-[#c74a09]"></i> Brand Identity
+            </h3>
+            
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 font-medium">Select a preset or upload your own icon.</p>
+            
+            <div className="grid grid-cols-3 gap-3 md:gap-4">
+              {/* Custom Image Upload Button */}
+              <label className="flex flex-col items-center justify-center aspect-square rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-[#c74a09] dark:hover:border-[#c74a09] hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-300 cursor-pointer bg-slate-50 dark:bg-slate-800/50 group">
+                <div className="flex flex-col items-center justify-center text-slate-400 group-hover:text-[#c74a09]">
+                  <i className="bi bi-cloud-arrow-up text-2xl md:text-3xl mb-1 group-hover:-translate-y-1 transition-transform"></i>
+                  <span className="text-[10px] font-bold uppercase tracking-wider">Upload</span>
+                </div>
+                <input type="file" accept="image/*" className="hidden" onChange={handleCustomImageUpload} />
+              </label>
+
+              {isCustom && (
+                <div className="relative aspect-square">
+                  <button
+                    type="button"
+                    onClick={() => setEditLogo(editLogo)}
+                    className={`w-full h-full rounded-2xl border-4 transition-all duration-300 cursor-pointer overflow-hidden ${
+                      editLogo === editLogo ? 'border-[#c74a09] scale-105 shadow-lg' : 'border-transparent'
+                    }`}
+                  >
+                    <img src={editLogo} alt="Custom Logo" className="w-full h-full object-cover bg-slate-100 dark:bg-slate-800" />
+                  </button>
+                  <span className="absolute -top-2 -right-2 bg-slate-900 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-md">Custom</span>
+                </div>
+              )}
+
+              {PRESET_LOGOS.map((logo, idx) => (
                 <button
+                  key={idx}
                   type="button"
-                  onClick={() => setEditLogo(editLogo)}
-                  className={`p-1.5 rounded border-4 transition-all duration-200 cursor-pointer ${
-                    editLogo === editLogo ? 'border-[#c74a09] scale-105 bg-orange-50 dark:bg-orange-950/20' : 'border-transparent'
+                  onClick={() => setEditLogo(logo)}
+                  className={`aspect-square rounded-2xl border-4 transition-all duration-300 cursor-pointer overflow-hidden ${
+                    editLogo === logo ? 'border-[#c74a09] scale-105 shadow-lg z-10 relative' : 'border-transparent hover:border-slate-300 dark:hover:border-slate-700 hover:scale-105 opacity-80 hover:opacity-100'
                   }`}
                 >
-                  <img src={editLogo} alt="Custom Logo" className="w-16 h-16 rounded-sm object-cover bg-slate-100 dark:bg-slate-800" />
+                  <img src={logo} alt={`Logo-${idx}`} className="w-full h-full object-cover bg-slate-100 dark:bg-slate-800" />
                 </button>
-                <span className="absolute -top-1.5 -right-1.5 bg-[#c74a09] text-white text-[8px] font-extrabold px-1 rounded shadow">Custom</span>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-[#c74a09] to-orange-500 p-6 md:p-8 rounded-3xl text-white shadow-xl shadow-orange-500/20 relative overflow-hidden group">
+            <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
+              <i className="bi bi-lightning-fill text-9xl"></i>
+            </div>
+            <h3 className="text-lg font-black mb-2 flex items-center gap-2">
+              <i className="bi bi-stars text-yellow-300"></i> Optimization Tip
+            </h3>
+            <p className="text-orange-50 text-sm md:text-base leading-relaxed font-medium">
+              A high-quality logo and complete profile details can increase your incoming orders by up to <strong className="text-white text-lg">30%</strong>. Make your brand stand out!
+            </p>
+          </div>
+        </div>
+
+        {/* Right Column: Profile Form */}
+        <div className="xl:col-span-2">
+          <form onSubmit={handleUpdateProfile} className="bg-white dark:bg-slate-900/80 backdrop-blur-xl p-6 md:p-10 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 space-y-10">
+            
+            {/* Section 1 */}
+            <div>
+              <h3 className="text-xl font-black text-slate-800 dark:text-white mb-6 border-b border-slate-100 dark:border-slate-800/60 pb-4 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-500/20 text-[#c74a09] flex items-center justify-center">
+                  <i className="bi bi-info-circle-fill"></i>
+                </div>
+                General Information
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div className="md:col-span-2">
+                  <label className="block text-xs uppercase tracking-wider font-black text-slate-500 dark:text-slate-400 mb-2 ml-1">Restaurant Name</label>
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={e => setEditName(e.target.value)}
+                    required
+                    className="w-full px-5 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#c74a09] focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold text-lg"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-xs uppercase tracking-wider font-black text-slate-500 dark:text-slate-400 mb-2 ml-1">About the Restaurant</label>
+                  <textarea
+                    value={editDescription}
+                    onChange={e => setEditDescription(e.target.value)}
+                    required
+                    rows="4"
+                    className="w-full px-5 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#c74a09] focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold resize-none"
+                    placeholder="Tell your customers what makes your food special..."
+                  ></textarea>
+                </div>
               </div>
-            )}
+            </div>
 
-            {PRESET_LOGOS.map((logo, idx) => (
+            {/* Section 2 */}
+            <div>
+              <h3 className="text-xl font-black text-slate-800 dark:text-white mb-6 border-b border-slate-100 dark:border-slate-800/60 pb-4 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-500/20 text-[#c74a09] flex items-center justify-center">
+                  <i className="bi bi-telephone-fill"></i>
+                </div>
+                Contact Details
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div>
+                  <label className="block text-xs uppercase tracking-wider font-black text-slate-500 dark:text-slate-400 mb-2 ml-1">Email Address</label>
+                  <input
+                    type="email"
+                    value={editEmail}
+                    onChange={e => setEditEmail(e.target.value)}
+                    className="w-full px-5 py-3.5 rounded-2xl bg-slate-100/50 dark:bg-slate-950/30 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-500 font-semibold disabled:cursor-not-allowed"
+                    disabled
+                  />
+                  <p className="text-[11px] text-slate-400 mt-2 ml-1 font-medium"><i className="bi bi-lock-fill mr-1"></i> Contact support to change your account email.</p>
+                </div>
+
+                <div>
+                  <label className="block text-xs uppercase tracking-wider font-black text-slate-500 dark:text-slate-400 mb-2 ml-1">Phone Number</label>
+                  <input
+                    type="tel"
+                    value={editPhone}
+                    onChange={e => setEditPhone(e.target.value)}
+                    required
+                    className="w-full px-5 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#c74a09] focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-xs uppercase tracking-wider font-black text-slate-500 dark:text-slate-400 mb-2 ml-1">Street Address</label>
+                  <input
+                    type="text"
+                    value={editAddress}
+                    onChange={e => setEditAddress(e.target.value)}
+                    required
+                    className="w-full px-5 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#c74a09] focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-6 mt-6 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between">
+              <p className="text-sm text-slate-500 dark:text-slate-400 font-medium hidden sm:block">
+                Last updated: Just now
+              </p>
               <button
-                key={idx}
-                type="button"
-                onClick={() => setEditLogo(logo)}
-                className={`p-1.5 rounded border-4 transition-all duration-200 cursor-pointer shrink-0 ${
-                  editLogo === logo ? 'border-[#c74a09] scale-105 bg-orange-50 dark:bg-orange-950/20' : 'border-transparent hover:border-slate-300 dark:hover:border-slate-700'
-                }`}
+                type="submit"
+                className="w-full sm:w-auto bg-[#c74a09] hover:bg-[#a63d07] hover:-translate-y-1 shadow-lg hover:shadow-orange-500/30 text-white font-extrabold px-8 py-4 rounded-xl transition-all duration-300 cursor-pointer flex items-center justify-center gap-2"
               >
-                <img src={logo} alt={`Logo-${idx}`} className="w-16 h-16 rounded-sm object-cover bg-slate-100 dark:bg-slate-800" />
+                <i className="bi bi-check-circle-fill"></i>
+                Save Profile Changes
               </button>
-            ))}
-          </div>
+            </div>
+          </form>
         </div>
-
-        {/* Form Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">Restaurant Name</label>
-            <input
-              type="text"
-              value={editName}
-              onChange={e => setEditName(e.target.value)}
-              required
-              className="w-full px-4 py-2.5 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#c74a09] transition font-semibold"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">Email Address</label>
-            <input
-              type="email"
-              value={editEmail}
-              onChange={e => setEditEmail(e.target.value)}
-              className="w-full px-4 py-2.5 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-semibold disabled:bg-gray-200 dark:disabled:bg-slate-950 disabled:cursor-not-allowed"
-              disabled
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">Contact Phone</label>
-            <input
-              type="tel"
-              value={editPhone}
-              onChange={e => setEditPhone(e.target.value)}
-              required
-              className="w-full px-4 py-2.5 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#c74a09] transition font-semibold"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">Restaurant Address</label>
-            <input
-              type="text"
-              value={editAddress}
-              onChange={e => setEditAddress(e.target.value)}
-              required
-              className="w-full px-4 py-2.5 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#c74a09] transition font-semibold"
-            />
-          </div>
-
-          <div className="md:col-span-2">
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">Restaurant Description</label>
-            <textarea
-              value={editDescription}
-              onChange={e => setEditDescription(e.target.value)}
-              required
-              rows="3"
-              className="w-full px-4 py-2.5 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#c74a09] transition font-semibold resize-none"
-            ></textarea>
-          </div>
-        </div>
-
-        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-end">
-          <button
-            type="submit"
-            className="bg-[#c74a09] hover:bg-[#a63d07] text-white font-extrabold px-6 py-2.5 rounded transition cursor-pointer"
-          >
-            Save Profile Changes
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };
