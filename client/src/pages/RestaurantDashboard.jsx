@@ -82,38 +82,38 @@ function RestaurantDashboard() {
                 <div 
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`group cursor-pointer flex items-center gap-3 px-4 relative  min-w-[40px] flex-1 max-w-[240px] ${
-                    isActive 
-                      ? 'bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-t-xl z-10 ' 
-                      : 'text-slate-400 hover:bg-slate-800/90 hover:text-slate-200 rounded-lg mx-1 '
-                  }`}
-                  style={{
-                    height: isActive ? '36px' : '28px',
-                    marginBottom: isActive ? '0' : '4px',
-                  }}
+                  className={`group relative min-w-[40px] flex-1 max-w-[240px] flex items-end ${isActive ? 'z-10' : 'z-0'}`}
+                  style={{ height: '36px' }}
                 >
-                  {/* Faux Favicon */}
-                  <div className={`w-4 h-4 rounded flex items-center justify-center text-xs shrink-0 ${isActive ? 'text-[#c74a09]' : 'text-slate-500'}`}>
-                    <i className={`bi ${tab.icon}`}></i>
+                  {/* Inner Tab Container */}
+                  <div className={`cursor-pointer flex items-center gap-3 px-4 transition-colors duration-200 relative ${
+                    isActive 
+                      ? 'bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-t-xl h-[36px] w-full' 
+                      : 'text-slate-400 hover:bg-slate-800/90 hover:text-slate-200 rounded-lg h-[28px] w-[calc(100%-8px)] mx-auto mb-1'
+                  }`}>
+                    {/* Faux Favicon */}
+                    <div className={`w-4 h-4 rounded flex items-center justify-center text-xs shrink-0 ${isActive ? 'text-[#c74a09]' : 'text-slate-500'}`}>
+                      <i className={`bi ${tab.icon}`}></i>
+                    </div>
+                    
+                    <span className="text-xs font-semibold truncate flex-1">{tab.title}</span>
+
+                    {/* Authentic Chrome Tab Curves */}
+                    {isActive && (
+                      <>
+                        <svg className="absolute bottom-0 -left-3 w-3 h-3 text-slate-50 dark:text-slate-950 fill-current" viewBox="0 0 12 12">
+                          <path d="M12 12H0C6.62742 12 12 6.62742 12 0V12Z" />
+                        </svg>
+                        <svg className="absolute bottom-0 -right-3 w-3 h-3 text-slate-50 dark:text-slate-950 fill-current" viewBox="0 0 12 12">
+                          <path d="M0 12H12C5.37258 12 0 6.62742 0 0V12Z" />
+                        </svg>
+                      </>
+                    )}
                   </div>
-                  
-                  <span className="text-xs font-semibold truncate flex-1">{tab.title}</span>
 
                   {/* Chrome Separator Line (Only show if not active, next is not active, and not last tab) */}
                   {!isActive && !nextIsActive && index !== arr.length - 1 && (
                     <div className="absolute right-[-1px] top-1/2 -translate-y-1/2 w-[1px] h-4 bg-slate-700 group-hover:opacity-0 transition-opacity"></div>
-                  )}
-
-                  {/* Authentic Chrome Tab Curves */}
-                  {isActive && (
-                    <>
-                      <svg className="absolute bottom-0 -left-3 w-3 h-3 text-slate-50 dark:text-slate-950 fill-current" viewBox="0 0 12 12">
-                        <path d="M12 12H0C6.62742 12 12 6.62742 12 0V12Z" />
-                      </svg>
-                      <svg className="absolute bottom-0 -right-3 w-3 h-3 text-slate-50 dark:text-slate-950 fill-current" viewBox="0 0 12 12">
-                        <path d="M0 12H12C5.37258 12 0 6.62742 0 0V12Z" />
-                      </svg>
-                    </>
                   )}
                 </div>
               );
