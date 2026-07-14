@@ -103,14 +103,21 @@ function RestaurantDashboard() {
                   {!isActive && !nextIsActive && index !== arr.length - 1 && (
                     <div className="absolute right-[-1px] top-1/2 -translate-y-1/2 w-[1px] h-4 bg-slate-700 group-hover:opacity-0 transition-opacity"></div>
                   )}
+
+                  {/* Authentic Chrome Tab Curves */}
+                  {isActive && (
+                    <>
+                      <svg className="absolute bottom-0 -left-3 w-3 h-3 text-slate-50 dark:text-slate-950 fill-current" viewBox="0 0 12 12">
+                        <path d="M12 12H0C6.62742 12 12 6.62742 12 0V12Z" />
+                      </svg>
+                      <svg className="absolute bottom-0 -right-3 w-3 h-3 text-slate-50 dark:text-slate-950 fill-current" viewBox="0 0 12 12">
+                        <path d="M0 12H12C5.37258 12 0 6.62742 0 0V12Z" />
+                      </svg>
+                    </>
+                  )}
                 </div>
               );
             })}
-            
-            {/* New Tab "+" Button */}
-            <div className="w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-800 ml-1 mb-1 cursor-pointer transition-colors shrink-0">
-              <i className="bi bi-plus text-xl"></i>
-            </div>
           </div>
 
           {/* Dynamic Tab Content */}
