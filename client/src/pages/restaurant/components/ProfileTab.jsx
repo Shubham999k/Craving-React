@@ -297,9 +297,9 @@ const ProfileTab = () => {
       </div>
 
       {/* WhatsApp Style Image Modal */}
-      {isImageModalOpen && (
+      {isImageModalOpen && createPortal(
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 cursor-pointer"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 cursor-pointer"
           onClick={() => setIsImageModalOpen(false)}
         >
           <div className="relative max-w-[80vw] md:max-w-md aspect-square bg-transparent overflow-hidden shadow-2xl shadow-black/50 rounded-2xl scale-in-center cursor-default" onClick={e => e.stopPropagation()}>
@@ -311,7 +311,8 @@ const ProfileTab = () => {
                <i className="bi bi-x text-2xl"></i>
              </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
