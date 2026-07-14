@@ -84,12 +84,12 @@ function RestaurantDashboard() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`group cursor-pointer flex items-center gap-3 px-4 relative transition-all min-w-[40px] flex-1 max-w-[240px] ${
                     isActive 
-                      ? 'bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-t-xl z-10 border-t border-l border-r border-slate-300 dark:border-slate-700' 
-                      : 'text-slate-400 hover:bg-slate-800/70 rounded-lg border-t border-l border-r border-transparent'
+                      ? 'bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-t-xl z-10' 
+                      : 'text-slate-400 hover:bg-slate-800/70 rounded-t-lg'
                   }`}
                   style={{
                     height: isActive ? '38px' : '32px',
-                    marginBottom: isActive ? '-1px' : '2px',
+                    marginBottom: '0',
                   }}
                 >
                   {/* Faux Favicon */}
@@ -114,7 +114,7 @@ function RestaurantDashboard() {
           </div>
 
           {/* Dynamic Tab Content */}
-          <div className="bg-slate-50 dark:bg-slate-950 border-t border-slate-300 dark:border-slate-700 p-6 md:p-8 min-h-[600px] relative z-0">
+          <div className="bg-slate-50 dark:bg-slate-950 p-6 md:p-8 min-h-[600px] relative z-0">
             {renderTabContent()}
           </div>
         </div>
