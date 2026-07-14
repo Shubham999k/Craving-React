@@ -34,16 +34,32 @@ function RestaurantDashboard() {
             <h1 className="text-3xl font-black">Restaurant Dashboard</h1>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Manage kitchen prep, live orders, and payouts.</p>
           </div>
-          <button 
-            onClick={() => setIsOpen(!isOpen)}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-black flex items-center gap-1.5 transition-colors duration-300 border cursor-pointer shadow-sm ${
-              isOpen 
-                ? 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/30 hover:bg-green-500/20' 
-                : 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/30 hover:bg-red-500/20'
-            }`}>
-            <span className={`w-2.5 h-2.5 rounded-full ${isOpen ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></span>
-            {isOpen ? 'Accepting Live Orders' : 'Not Accepting Orders'}
-          </button>
+          
+          {/* On/Off Toggle Switch */}
+          <div className="flex items-center gap-3 bg-white dark:bg-slate-900 px-5 py-2.5 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div className="flex items-center gap-2">
+              <span className={`w-2 h-2 rounded-full ${isOpen ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></span>
+              <span className={`text-sm font-extrabold ${isOpen ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                {isOpen ? 'Accepting Orders' : 'Not Accepting Orders'}
+              </span>
+            </div>
+            
+            <div className="w-px h-5 bg-slate-200 dark:bg-slate-700"></div>
+
+            <button 
+              onClick={() => setIsOpen(!isOpen)}
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 cursor-pointer shadow-inner ${
+                isOpen ? 'bg-green-500' : 'bg-slate-300 dark:bg-slate-700'
+              }`}
+            >
+              <span className="sr-only">Toggle Restaurant Status</span>
+              <span
+                className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform duration-300 shadow-md ${
+                  isOpen ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
         </div>
 
         {/* Dashboard Feature Cards / Tabs Navigation */}
