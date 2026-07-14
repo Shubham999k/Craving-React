@@ -63,10 +63,10 @@ function RestaurantDashboard() {
         </div>
 
         {/* Chrome Browser Window Mockup */}
-        <div className="rounded-xl border border-slate-300 dark:border-slate-700 shadow-2xl overflow-hidden bg-[#dee1e6] dark:bg-[#1e1e1e] flex flex-col">
+        <div className="rounded-xl border border-slate-300 dark:border-slate-700 shadow-2xl overflow-hidden bg-slate-900 flex flex-col">
           
-          {/* Chrome Tab Bar */}
-          <div className="flex items-end pt-2 px-2 gap-1 overflow-x-hidden">
+          {/* Chrome Tab Bar (Dark Theme) */}
+          <div className="flex items-end pt-2 px-2 gap-1 overflow-x-hidden bg-slate-900">
             {[
               { id: 'overview', icon: 'bi-grid-1x2', title: 'Live Monitor' },
               { id: 'orders', icon: 'bi-bag', title: 'Active Orders' },
@@ -82,14 +82,14 @@ function RestaurantDashboard() {
                 <div 
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`group cursor-pointer flex items-center gap-2 px-3 relative transition-all min-w-[40px] flex-1 max-w-[240px] ${
+                  className={`group cursor-pointer flex items-center gap-3 px-4 relative transition-all min-w-[40px] flex-1 max-w-[240px] ${
                     isActive 
-                      ? 'bg-slate-50 dark:bg-[#202124] text-slate-800 dark:text-slate-100 rounded-t-xl z-10' 
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-[#d0d4d9] dark:hover:bg-[#28292c] rounded-lg'
+                      ? 'bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-t-xl z-10 border-t border-l border-r border-slate-300 dark:border-slate-700' 
+                      : 'text-slate-400 hover:bg-slate-800/70 rounded-lg border-t border-l border-r border-transparent'
                   }`}
                   style={{
-                    height: isActive ? '36px' : '32px',
-                    marginBottom: isActive ? '0' : '2px'
+                    height: isActive ? '38px' : '32px',
+                    marginBottom: isActive ? '-1px' : '2px',
                   }}
                 >
                   {/* Faux Favicon */}
@@ -97,33 +97,24 @@ function RestaurantDashboard() {
                     <i className={`bi ${tab.icon}`}></i>
                   </div>
                   
-                  <span className="text-xs font-medium truncate flex-1">{tab.title}</span>
-                  
-                  {/* Close button */}
-                  <div className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors shrink-0 ${
-                    isActive 
-                      ? 'hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' 
-                      : 'opacity-0 group-hover:opacity-100 hover:bg-[#c2c5ca] dark:hover:bg-[#3a3b3f] text-slate-500'
-                  }`}>
-                    <i className="bi bi-x text-sm"></i>
-                  </div>
+                  <span className="text-xs font-semibold truncate flex-1">{tab.title}</span>
 
                   {/* Chrome Separator Line (Only show if not active, next is not active, and not last tab) */}
                   {!isActive && !nextIsActive && index !== arr.length - 1 && (
-                    <div className="absolute right-[-1px] top-1/2 -translate-y-1/2 w-[1px] h-4 bg-slate-400 dark:bg-slate-600 group-hover:opacity-0 transition-opacity"></div>
+                    <div className="absolute right-[-1px] top-1/2 -translate-y-1/2 w-[1px] h-4 bg-slate-700 group-hover:opacity-0 transition-opacity"></div>
                   )}
                 </div>
               );
             })}
             
             {/* New Tab "+" Button */}
-            <div className="w-8 h-8 flex items-center justify-center rounded-full text-slate-600 dark:text-slate-400 hover:bg-[#d0d4d9] dark:hover:bg-[#28292c] ml-1 mb-0.5 cursor-pointer transition-colors shrink-0">
+            <div className="w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-800 ml-1 mb-1 cursor-pointer transition-colors shrink-0">
               <i className="bi bi-plus text-xl"></i>
             </div>
           </div>
 
           {/* Dynamic Tab Content */}
-          <div className="bg-slate-50 dark:bg-slate-950 p-6 md:p-8 min-h-[600px]">
+          <div className="bg-slate-50 dark:bg-slate-950 border-t border-slate-300 dark:border-slate-700 p-6 md:p-8 min-h-[600px] relative z-0">
             {renderTabContent()}
           </div>
         </div>
