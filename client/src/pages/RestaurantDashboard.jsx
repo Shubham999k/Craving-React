@@ -27,8 +27,8 @@ function RestaurantDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 py-16 px-4 transition-colors duration-300">
-      <div className="mx-auto max-w-5xl">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 py-16 px-4 md:px-8 transition-colors duration-300">
+      <div className="mx-auto w-full max-w-[1600px]">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <h1 className="text-3xl font-black">Restaurant Dashboard</h1>
@@ -66,7 +66,7 @@ function RestaurantDashboard() {
         <div className="rounded-xl border border-slate-300 dark:border-slate-700 shadow-2xl overflow-hidden bg-[#dee1e6] dark:bg-[#1e1e1e] flex flex-col">
           
           {/* Chrome Tab Bar */}
-          <div className="flex items-end pt-2 px-2 gap-1 overflow-x-auto hide-scrollbar">
+          <div className="flex items-end pt-2 px-2 gap-1 overflow-x-hidden">
             {[
               { id: 'overview', icon: 'bi-grid-1x2', title: 'Live Monitor' },
               { id: 'orders', icon: 'bi-bag', title: 'Active Orders' },
@@ -82,27 +82,25 @@ function RestaurantDashboard() {
                 <div 
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`group cursor-pointer flex items-center gap-2 px-3 relative transition-all flex-shrink-0 ${
+                  className={`group cursor-pointer flex items-center gap-2 px-3 relative transition-all min-w-[40px] flex-1 max-w-[240px] ${
                     isActive 
                       ? 'bg-slate-50 dark:bg-[#202124] text-slate-800 dark:text-slate-100 rounded-t-xl z-10' 
                       : 'text-slate-600 dark:text-slate-400 hover:bg-[#d0d4d9] dark:hover:bg-[#28292c] rounded-lg'
                   }`}
                   style={{
                     height: isActive ? '36px' : '32px',
-                    marginBottom: isActive ? '0' : '2px',
-                    width: '240px',
-                    maxWidth: '100%'
+                    marginBottom: isActive ? '0' : '2px'
                   }}
                 >
                   {/* Faux Favicon */}
-                  <div className={`w-4 h-4 rounded flex items-center justify-center text-xs ${isActive ? 'text-[#c74a09]' : 'text-slate-500'}`}>
+                  <div className={`w-4 h-4 rounded flex items-center justify-center text-xs shrink-0 ${isActive ? 'text-[#c74a09]' : 'text-slate-500'}`}>
                     <i className={`bi ${tab.icon}`}></i>
                   </div>
                   
                   <span className="text-xs font-medium truncate flex-1">{tab.title}</span>
                   
                   {/* Close button */}
-                  <div className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${
+                  <div className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors shrink-0 ${
                     isActive 
                       ? 'hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' 
                       : 'opacity-0 group-hover:opacity-100 hover:bg-[#c2c5ca] dark:hover:bg-[#3a3b3f] text-slate-500'
@@ -119,7 +117,7 @@ function RestaurantDashboard() {
             })}
             
             {/* New Tab "+" Button */}
-            <div className="w-8 h-8 flex items-center justify-center rounded-full text-slate-600 dark:text-slate-400 hover:bg-[#d0d4d9] dark:hover:bg-[#28292c] ml-1 mb-0.5 cursor-pointer transition-colors flex-shrink-0">
+            <div className="w-8 h-8 flex items-center justify-center rounded-full text-slate-600 dark:text-slate-400 hover:bg-[#d0d4d9] dark:hover:bg-[#28292c] ml-1 mb-0.5 cursor-pointer transition-colors shrink-0">
               <i className="bi bi-plus text-xl"></i>
             </div>
           </div>
