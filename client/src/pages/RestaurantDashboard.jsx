@@ -122,43 +122,6 @@ function RestaurantDashboard() {
             </div>
           </div>
 
-          {/* Chrome Toolbar / Address Bar */}
-          <div className="bg-slate-50 dark:bg-[#202124] px-3 py-1.5 flex items-center gap-3 border-b border-slate-300 dark:border-black/50 relative z-20">
-            <div className="flex gap-1 text-slate-500 dark:text-slate-400">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-200 dark:hover:bg-[#3a3b3f] cursor-pointer transition-colors">
-                <i className="bi bi-arrow-left text-lg"></i>
-              </div>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-200 dark:hover:bg-[#3a3b3f] cursor-pointer transition-colors opacity-50">
-                <i className="bi bi-arrow-right text-lg"></i>
-              </div>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-200 dark:hover:bg-[#3a3b3f] cursor-pointer transition-colors">
-                <i className="bi bi-arrow-clockwise text-base"></i>
-              </div>
-            </div>
-            
-            <div className="flex-1 bg-white dark:bg-[#171717] border border-transparent hover:border-slate-300 dark:hover:border-slate-600 rounded-full px-4 py-1.5 flex items-center gap-3 shadow-sm transition-all focus-within:ring-2 focus-within:ring-orange-500/50">
-              <div className="w-5 h-5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center cursor-pointer -ml-1 text-slate-500">
-                <i className="bi bi-info-circle text-[11px]"></i>
-              </div>
-              <span className="text-[13px] text-slate-800 dark:text-slate-200 font-normal flex-1 truncate">
-                localhost:5173/dashboard/<span className="text-slate-500 dark:text-slate-400">{activeTab}</span>
-              </span>
-              <i className="bi bi-star text-slate-400 hover:text-yellow-500 cursor-pointer transition text-sm"></i>
-            </div>
-
-            <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 ml-2">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-200 dark:hover:bg-[#3a3b3f] cursor-pointer transition-colors">
-                <i className="bi bi-puzzle text-sm"></i>
-              </div>
-              <div className="w-7 h-7 rounded-full bg-[#c74a09]/20 text-[#c74a09] flex items-center justify-center font-bold text-[11px] uppercase cursor-pointer ml-1 ring-2 ring-transparent hover:ring-[#c74a09]/30 transition-all">
-                R
-              </div>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-200 dark:hover:bg-[#3a3b3f] cursor-pointer transition-colors">
-                <i className="bi bi-three-dots-vertical text-base"></i>
-              </div>
-            </div>
-          </div>
-
           {/* Dynamic Tab Content */}
           <div className="bg-slate-50 dark:bg-slate-950 p-6 md:p-8 min-h-[600px]">
             {renderTabContent()}
