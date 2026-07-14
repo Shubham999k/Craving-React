@@ -66,7 +66,7 @@ function RestaurantDashboard() {
         <div className="rounded-xl border border-slate-300 dark:border-slate-700 shadow-2xl overflow-hidden bg-slate-900 flex flex-col">
           
           {/* Chrome Tab Bar (Dark Theme) */}
-          <div className="flex items-end pt-2 px-2 gap-1 overflow-x-hidden bg-slate-900">
+          <div className="flex items-end pt-3 px-2 gap-1 overflow-x-hidden bg-slate-900">
             {[
               { id: 'overview', icon: 'bi-grid-1x2', title: 'Live Monitor' },
               { id: 'orders', icon: 'bi-bag', title: 'Active Orders' },
@@ -88,7 +88,7 @@ function RestaurantDashboard() {
                       : 'text-slate-400 hover:bg-slate-800/70 rounded-t-lg'
                   }`}
                   style={{
-                    height: isActive ? '38px' : '32px',
+                    height: '36px',
                     marginBottom: '0',
                   }}
                 >
