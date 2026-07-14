@@ -62,46 +62,48 @@ function RestaurantDashboard() {
           </div>
         </div>
 
-        {/* Dashboard Feature Cards / Tabs Navigation */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
-          <div 
-            onClick={() => setActiveTab('overview')}
-            className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'overview' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
-            <span className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase">Dashboard Overview</span>
-            <h3 className="text-xl font-black text-slate-800 dark:text-white mt-2">Live Monitor</h3>
-          </div>
-          
-          <div 
-            onClick={() => setActiveTab('orders')}
-            className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'orders' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
-            <span className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase">Active Orders</span>
-            <h3 className="text-xl font-black text-slate-800 dark:text-white mt-2">2 Orders</h3>
-          </div>
-          
-          <div 
-            onClick={() => setActiveTab('menu')}
-            className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'menu' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
-            <span className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase">Restaurant Menu</span>
-            <h3 className="text-xl font-black text-slate-800 dark:text-white mt-2">Manage Items</h3>
-          </div>
-
-          <div 
-            onClick={() => setActiveTab('analytics')}
-            className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'analytics' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
-            <span className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase">Today's Revenue</span>
-            <h3 className="text-xl font-black text-[#c74a09] mt-2">₹12,450</h3>
-          </div>
-          
-          <div 
-            onClick={() => setActiveTab('profile')}
-            className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'profile' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
-            <span className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase">Settings</span>
-            <h3 className="text-xl font-black text-slate-800 dark:text-white mt-2">Profile</h3>
-          </div>
+        {/* Chrome-Style Tabs Navigation */}
+        <div className="flex overflow-x-auto hide-scrollbar gap-1 border-b border-slate-200 dark:border-slate-800 mt-8 px-2 md:px-0">
+          {[
+            { id: 'overview', label: 'Dashboard', title: 'Live Monitor' },
+            { id: 'orders', label: 'Active Orders', title: '2 Orders' },
+            { id: 'menu', label: 'Restaurant Menu', title: 'Manage Items' },
+            { id: 'analytics', label: "Today's Revenue", title: '₹12,450', highlight: true },
+            { id: 'profile', label: 'Settings', title: 'Profile' },
+          ].map(tab => {
+            const isActive = activeTab === tab.id;
+            return (
+              <div 
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`cursor-pointer px-5 py-3 rounded-t-[1rem] border-t border-l border-r transition-all min-w-[140px] md:min-w-[160px] relative flex flex-col items-center justify-center text-center ${
+                  isActive 
+                    ? 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 border-b-slate-50 dark:border-b-slate-950 z-10 shadow-[0_-4px_10px_-4px_rgba(0,0,0,0.05)]' 
+                    : 'bg-slate-200/60 dark:bg-slate-900/60 border-transparent border-b-slate-200 dark:border-b-slate-800 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                }`}
+                style={{ marginBottom: isActive ? '-1px' : '0' }}
+              >
+                <span className={`text-[10px] font-bold uppercase tracking-wider block mb-0.5 ${isActive ? 'text-slate-500' : 'opacity-70'}`}>
+                  {tab.label}
+                </span>
+                <h3 className={`text-sm md:text-base font-black ${
+                  isActive 
+                    ? (tab.highlight ? 'text-[#c74a09]' : 'text-slate-800 dark:text-white') 
+                    : 'opacity-90'
+                }`}>
+                  {tab.title}
+                </h3>
+                {/* Active Tab Accent Line */}
+                {isActive && <div className="absolute top-[-1px] left-[-1px] right-[-1px] h-[3px] bg-[#c74a09] rounded-t-[1rem]"></div>}
+              </div>
+            );
+          })}
         </div>
 
         {/* Dynamic Tab Content */}
-        {renderTabContent()}
+        <div className="mt-8">
+          {renderTabContent()}
+        </div>
       </div>
     </div>
   );
