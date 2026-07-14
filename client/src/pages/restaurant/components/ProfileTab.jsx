@@ -101,31 +101,31 @@ const ProfileTab = () => {
 
   return (
     <div className="w-full animate-fadeIn pb-10">
-      {/* Banner Header */}
-      <div className="relative h-48 md:h-72 rounded-[2rem] bg-gradient-to-r from-orange-500 via-[#c74a09] to-red-600 overflow-visible shadow-lg mb-20 md:mb-24 mx-2 md:mx-0">
-        {/* Background Overlay Decor */}
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white via-transparent to-transparent rounded-[2rem]"></div>
-        <div className="absolute inset-0 overflow-hidden rounded-[2rem]">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-white opacity-10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-black opacity-10 rounded-full blur-3xl"></div>
+      {/* Professional Profile Header */}
+      <div className="flex flex-col md:flex-row items-center md:items-end gap-6 md:gap-8 mb-12 bg-white dark:bg-slate-900/80 p-8 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20">
+        <div 
+          onClick={() => setIsImageModalOpen(true)}
+          className="relative w-32 h-32 md:w-36 md:h-36 rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-lg overflow-hidden bg-slate-50 dark:bg-slate-800 cursor-pointer shrink-0 group"
+        >
+          <img src={editLogo} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" alt="Restaurant Logo" />
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+             <i className="bi bi-arrows-fullscreen text-white text-2xl"></i>
+          </div>
+        </div>
+        
+        <div className="text-center md:text-left flex-1 pb-2">
+          <h1 className="text-3xl md:text-4xl font-black text-slate-800 dark:text-white tracking-tight">
+            {editName || 'Restaurant Name'}
+          </h1>
+          <p className="text-slate-500 dark:text-slate-400 font-medium text-sm md:text-base mt-2 flex items-center justify-center md:justify-start gap-2">
+            <i className="bi bi-geo-alt-fill text-slate-400"></i>
+            {editAddress || 'Address not set'}
+          </p>
         </div>
 
-        {/* Overlapping Logo & Title */}
-        <div className="absolute -bottom-12 md:-bottom-16 left-6 md:left-12 flex items-end z-10 w-full pr-12">
-          <div 
-            onClick={() => setIsImageModalOpen(true)}
-            className="relative w-28 h-28 md:w-40 md:h-40 rounded-3xl border-4 md:border-[6px] border-slate-50 dark:border-slate-950 shadow-2xl overflow-hidden bg-white cursor-pointer shrink-0"
-          >
-            <img src={editLogo} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" alt="Restaurant Logo" />
-          </div>
-          <div className="mb-2 md:mb-6 ml-4 md:ml-6 hidden sm:block flex-1">
-            <h1 className="text-2xl md:text-4xl font-black text-white drop-shadow-lg tracking-tight truncate">
-              {editName || 'Restaurant Name'}
-            </h1>
-            <p className="text-orange-100 font-medium text-sm md:text-base mt-1 drop-shadow flex items-center gap-2 truncate">
-              <i className="bi bi-geo-alt-fill text-white"></i>
-              {editAddress || 'Address not set'}
-            </p>
+        <div className="shrink-0 pb-2">
+          <div className="inline-flex items-center gap-2 bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 px-4 py-2 rounded-xl font-bold text-sm border border-green-200 dark:border-green-500/20">
+            <i className="bi bi-patch-check-fill"></i> Verified Partner
           </div>
         </div>
       </div>
