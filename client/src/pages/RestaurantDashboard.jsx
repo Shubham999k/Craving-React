@@ -86,10 +86,10 @@ function RestaurantDashboard() {
                   style={{ height: '36px' }}
                 >
                   {/* Inner Tab Container */}
-                  <div className={`cursor-pointer flex items-center gap-3 px-4 transition-colors duration-200 relative ${
+                  <div className={`cursor-pointer flex items-center gap-3 px-4 relative ${
                     isActive 
                       ? 'bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-t-xl h-[36px] w-full' 
-                      : 'text-slate-400 hover:bg-slate-800/90 hover:text-slate-200 rounded-lg h-[28px] w-[calc(100%-8px)] mx-auto mb-1'
+                      : 'text-slate-400 hover:bg-slate-800/90 hover:text-slate-200 rounded-lg h-[28px] w-[calc(100%-12px)] mx-auto mb-[6px]'
                   }`}>
                     {/* Faux Favicon */}
                     <div className={`w-4 h-4 rounded flex items-center justify-center text-xs shrink-0 ${isActive ? 'text-[#c74a09]' : 'text-slate-500'}`}>
