@@ -63,6 +63,8 @@ const ProfileTab = () => {
     }
   });
 
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
   const handleCustomImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -110,11 +112,11 @@ const ProfileTab = () => {
 
         {/* Overlapping Logo & Title */}
         <div className="absolute -bottom-12 md:-bottom-16 left-6 md:left-12 flex items-end z-10 w-full pr-12">
-          <div className="relative w-28 h-28 md:w-40 md:h-40 rounded-3xl border-4 md:border-[6px] border-slate-50 dark:border-slate-950 shadow-2xl overflow-hidden bg-white group cursor-pointer shrink-0">
-            <img src={editLogo} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Restaurant Logo" />
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-              <i className="bi bi-camera text-white text-2xl"></i>
-            </div>
+          <div 
+            onClick={() => setIsImageModalOpen(true)}
+            className="relative w-28 h-28 md:w-40 md:h-40 rounded-3xl border-4 md:border-[6px] border-slate-50 dark:border-slate-950 shadow-2xl overflow-hidden bg-white cursor-pointer shrink-0"
+          >
+            <img src={editLogo} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" alt="Restaurant Logo" />
           </div>
           <div className="mb-2 md:mb-6 ml-4 md:ml-6 hidden sm:block flex-1">
             <h1 className="text-2xl md:text-4xl font-black text-white drop-shadow-lg tracking-tight truncate">
@@ -292,6 +294,24 @@ const ProfileTab = () => {
           </form>
         </div>
       </div>
+
+      {/* WhatsApp Style Image Modal */}
+      {isImageModalOpen && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 cursor-pointer"
+          onClick={() => setIsImageModalOpen(false)}
+        >
+          <div className="relative max-w-[80vw] md:max-w-md aspect-square bg-transparent overflow-hidden shadow-2xl shadow-black/50 rounded-2xl scale-in-center cursor-default" onClick={e => e.stopPropagation()}>
+             <img src={editLogo} alt="Restaurant Logo Full" className="w-full h-full object-cover bg-black" />
+             <button 
+               onClick={() => setIsImageModalOpen(false)}
+               className="absolute top-4 right-4 w-10 h-10 bg-black/40 hover:bg-black/80 rounded-full text-white flex items-center justify-center backdrop-blur-md transition-all hover:scale-110"
+             >
+               <i className="bi bi-x text-2xl"></i>
+             </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
