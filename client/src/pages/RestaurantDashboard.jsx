@@ -7,6 +7,7 @@ import ProfileTab from './restaurant/components/ProfileTab';
 
 function RestaurantDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
+  const [isOpen, setIsOpen] = useState(true);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -33,10 +34,16 @@ function RestaurantDashboard() {
             <h1 className="text-3xl font-black">Restaurant Dashboard</h1>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Manage kitchen prep, live orders, and payouts.</p>
           </div>
-          <span className="bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/30 px-3.5 py-1.5 rounded-full text-xs font-black flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
-            Accepting Live Orders
-          </span>
+          <button 
+            onClick={() => setIsOpen(!isOpen)}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-black flex items-center gap-1.5 transition-colors duration-300 border cursor-pointer shadow-sm ${
+              isOpen 
+                ? 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/30 hover:bg-green-500/20' 
+                : 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/30 hover:bg-red-500/20'
+            }`}>
+            <span className={`w-2.5 h-2.5 rounded-full ${isOpen ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></span>
+            {isOpen ? 'Accepting Live Orders' : 'Not Accepting Orders'}
+          </button>
         </div>
 
         {/* Dashboard Feature Cards / Tabs Navigation */}
