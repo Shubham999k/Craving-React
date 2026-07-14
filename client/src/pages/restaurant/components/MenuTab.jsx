@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import toast from 'react-hot-toast';
 
 export default function MenuTab() {
@@ -19,6 +20,22 @@ export default function MenuTab() {
   useEffect(() => {
     localStorage.setItem('restaurantMenu', JSON.stringify(menuItems));
   }, [menuItems]);
+
+  const handleCustomImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error("Image size must be less than 2MB");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewItem({...newItem, image: reader.result});
+        toast.success("Image loaded!");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleAddItem = (e) => {
     e.preventDefault();
@@ -104,8 +121,8 @@ export default function MenuTab() {
       )}
 
       {/* Add Item Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn">
+      {isModalOpen && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn">
           <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-zoomIn border border-slate-200 dark:border-slate-800">
             <div className="flex justify-between items-center p-6 border-b border-slate-100 dark:border-slate-800/60">
               <h3 className="text-xl font-black text-slate-800 dark:text-white flex items-center gap-2">
@@ -143,8 +160,23 @@ export default function MenuTab() {
                 <textarea required rows="2" value={newItem.description} onChange={e => setNewItem({...newItem, description: e.target.value})} className="w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white resize-none" placeholder="Briefly describe the item..."></textarea>
               </div>
               <div>
-                <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-1.5 ml-1">Image URL (Optional)</label>
-                <input type="url" value={newItem.image} onChange={e => setNewItem({...newItem, image: e.target.value})} className="w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white" placeholder="https://..." />
+                <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-1.5 ml-1">Item Photo</label>
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <label className="cursor-pointer shrink-0 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 px-4 rounded-xl transition-colors flex items-center gap-2">
+                      <i className="bi bi-camera-fill"></i> Upload
+                      <input type="file" accept="image/*" className="hidden" onChange={handleCustomImageUpload} />
+                    </label>
+                    <span className="text-slate-400 text-[10px] font-black uppercase tracking-wider">OR</span>
+                    <input type="url" value={newItem.image} onChange={e => setNewItem({...newItem, image: e.target.value})} className="flex-1 w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white" placeholder="Paste URL" />
+                  </div>
+                  {newItem.image && (
+                    <div className="relative w-full h-32 rounded-xl overflow-hidden border-2 border-slate-200 dark:border-slate-700 mt-2">
+                       <img src={newItem.image} alt="Preview" className="w-full h-full object-cover" />
+                       <button type="button" onClick={() => setNewItem({...newItem, image: ''})} className="absolute top-2 right-2 bg-black/50 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-black/80 transition-colors backdrop-blur"><i className="bi bi-x-lg"></i></button>
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="pt-2">
                 <button type="submit" className="w-full bg-[#c74a09] hover:bg-[#a63d07] hover:-translate-y-1 text-white font-black py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-orange-500/30 flex items-center justify-center gap-2">
@@ -153,7 +185,8 @@ export default function MenuTab() {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
