@@ -85,7 +85,7 @@ function RestaurantDashboard() {
                   className={`group cursor-pointer flex items-center gap-3 px-4 relative transition-all min-w-[40px] flex-1 max-w-[240px] ${
                     isActive 
                       ? 'bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-t-xl z-10 ' 
-                      : 'text-slate-400 hover:bg-slate-800/90 hover:text-slate-200 rounded-lg'
+                      : 'text-slate-400 hover:bg-slate-800/90 hover:text-slate-200 rounded-lg mx-1 '
                   }`}
                   style={{
                     height: isActive ? '36px' : '30px',
