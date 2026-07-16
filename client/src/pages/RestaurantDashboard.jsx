@@ -13,7 +13,7 @@ const TABS = [
   { id: 'profile', icon: 'bi-gear', title: 'Settings' },
 ];
 
-function RestaurantDashboard() {
+function RestaurantDashboard() { 
   const [activeTab, setActiveTab] = useState('overview');
   const [isOpen, setIsOpen] = useState(true);
 
