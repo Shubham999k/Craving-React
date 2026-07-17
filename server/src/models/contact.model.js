@@ -8,7 +8,7 @@ const contactSchema = new mongoose.Schema(
         subject: { type: String, required: true, trim: true },
         message: { type: String, required: true, trim: true }, 
     },
-    { timestamps: true } 
+    { timestamps: true }
 );
 
 const Contact = mongoose.model("Contact", contactSchema);
