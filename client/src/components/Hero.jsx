@@ -77,7 +77,7 @@ function Hero({ searchQuery, setSearchQuery }) {
                             />
                             <div className="absolute inset-0 bg-black/40"></div>
                             
-                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 -translate-y-8">
+                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 -translate-y-20 lg:-translate-y-28">
                                 <h1 
                                     className="mb-4 text-3xl font-bold leading-tight lg:text-6xl text-white drop-shadow-lg"
                                     dangerouslySetInnerHTML={{ __html: slide.title }}
