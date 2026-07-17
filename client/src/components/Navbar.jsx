@@ -67,17 +67,17 @@ function Navbar() {
 
     return (
         <nav className="bg-[#c74a09] py-2 sticky top-0 z-50 shadow-md">
-            <div className="container-fluid px-5">
-                <div className="flex items-center justify-between mx-7">
+            <div className="container-fluid px-2 sm:px-5">
+                <div className="flex items-center justify-between mx-2 sm:mx-4 md:mx-7">
                     <Link to="/" className="transition hover:scale-105 duration-200">
                         <img
                             src={logo}
                             alt="Cravings"
-                            className="h-12 w-auto object-contain"
+                            className="h-8 sm:h-10 md:h-12 w-auto object-contain"
                         />
                     </Link>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 sm:gap-4">
                         <button
                             onClick={toggleTheme}
                             className="text-white hover:text-orange-200 transition-all duration-300 p-2 rounded-full cursor-pointer flex items-center justify-center"
@@ -94,34 +94,34 @@ function Navbar() {
                             <>
                                 <Link
                                     to="/user/dashboard"
-                                    className="text-white hover:text-orange-200 font-semibold px-3 py-1.5 rounded transition-all duration-300 flex items-center gap-2"
+                                    className="text-white hover:text-orange-200 font-semibold px-2 sm:px-3 py-1 sm:py-1.5 rounded transition-all duration-300 flex items-center gap-1 sm:gap-2 text-sm sm:text-base"
                                 >
                                     {user.profilePicture ? (
-                                        <img src={user.profilePicture} alt="Avatar" className="w-10 h-10 rounded-full object-cover border-2 border-white/50 shadow-sm -my-1" />
+                                        <img src={user.profilePicture} alt="Avatar" className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white/50 shadow-sm -my-1" />
                                     ) : (
-                                        <i className="bi bi-person-circle text-2xl -my-1"></i>
+                                        <i className="bi bi-person-circle text-xl sm:text-2xl -my-1"></i>
                                     )}
-                                    <span>Dashboard ({user.name || "User"})</span>
+                                    <span className="hidden md:inline">Dashboard ({user.name || "User"})</span>
                                 </Link>
                                 <button
                                     onClick={handleLogout}
-                                    className="bg-white text-[#c74a09] hover:bg-orange-100 font-bold px-4 py-1.5 rounded-full transition-all duration-300 shadow hover:shadow-lg flex items-center gap-1 cursor-pointer"
+                                    className="bg-white text-[#c74a09] hover:bg-orange-100 font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full transition-all duration-300 shadow hover:shadow-lg flex items-center gap-1 cursor-pointer text-sm sm:text-base"
                                 >
-                                    <i className="bi bi-box-arrow-right"></i>
-                                    <span>Logout</span>
+                                    <i className="bi bi-box-arrow-right text-base sm:text-lg"></i>
+                                    <span className="hidden sm:inline">Logout</span>
                                 </button>
                             </>
                         ) : (
                             <>
                                 <Link
                                     to="/login"
-                                    className="text-white font-medium px-4 py-1.5 rounded transition-all duration-300 hover:outline-1 hover:outline-white"
+                                    className="text-white font-medium px-3 sm:px-4 py-1 sm:py-1.5 rounded transition-all duration-300 hover:outline-1 hover:outline-white text-sm sm:text-base"
                                 >
                                     Login
                                 </Link>
                                 <Link
                                     to="/register"
-                                    className="bg-white text-[#c74a09] font-semibold px-4 py-1.5 rounded transition-all duration-300 hover:bg-transparent hover:text-white hover:outline-1 hover:outline-white"
+                                    className="bg-white text-[#c74a09] font-semibold px-3 sm:px-4 py-1 sm:py-1.5 rounded transition-all duration-300 hover:bg-transparent hover:text-white hover:outline-1 hover:outline-white text-sm sm:text-base"
                                 >
                                     Register
                                 </Link>
