@@ -17,7 +17,8 @@ const orderSchema = new mongoose.Schema({
     deliveryFee: { type: Number, default: 30 },
     tax: { type: Number, default: 15 },
     total: { type: Number, required: true },
-    status: { type: String, default: "Placed" } // Placed, Preparing, In Transit, Arrived
+    status: { type: String, default: "Placed" }, // Placed, Preparing, In Transit, Arrived
+    riderId: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null }
 }, { timestamps: true });
 
 const Order = mongoose.model("Order", orderSchema);

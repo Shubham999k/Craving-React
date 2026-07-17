@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
     publicId: { type: String },
     resetPasswordToken: { type: String },
     resetPasswordExpire: { type: Date },
+    isBlocked: { type: Boolean, default: false },
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);
