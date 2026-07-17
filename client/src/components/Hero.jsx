@@ -135,7 +135,7 @@ function Hero({ searchQuery, setSearchQuery }) {
             </button>
 
             {/* Fixed Search Bar at the bottom of the hero */}
-            <div className="absolute bottom-10 lg:bottom-16 left-1/2 -translate-x-1/2 w-full max-w-4xl px-4 z-40">
+            <div className="absolute bottom-[30%] lg:bottom-[35%] left-1/2 -translate-x-1/2 w-full max-w-4xl px-4 z-40">
                 <div className="mx-auto relative w-full pointer-events-auto">
                     <div className="flex h-14 lg:h-16 w-full items-center rounded-xl bg-white/95 backdrop-blur-md dark:bg-slate-900/95 px-5 shadow-2xl border border-white/20 dark:border-slate-800 transition-all hover:shadow-[#c74a09]/20">
                         <svg
