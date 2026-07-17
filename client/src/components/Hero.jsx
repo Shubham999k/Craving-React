@@ -135,7 +135,7 @@ function Hero({ searchQuery, setSearchQuery }) {
             </button>
 
             {/* Fixed Search Bar at the bottom of the hero */}
-            <div className="absolute bottom-[30%] lg:bottom-[35%] left-1/2 -translate-x-1/2 w-full max-w-4xl px-4 z-40">
+            <div className="absolute bottom-[18%] lg:bottom-[32%] left-1/2 -translate-x-1/2 w-full max-w-4xl px-4 z-40">
                 <div className="mx-auto relative w-full pointer-events-auto">
                     <div className="flex h-14 lg:h-16 w-full items-center rounded-xl bg-white/95 backdrop-blur-md dark:bg-slate-900/95 px-5 shadow-2xl border border-white/20 dark:border-slate-800 transition-all hover:shadow-[#c74a09]/20">
                         <svg
@@ -164,7 +164,7 @@ function Hero({ searchQuery, setSearchQuery }) {
 
                     {/* Search Auto-Suggestions */}
                     {searchQuery.trim().length > 0 && (
-                        <div className="absolute left-0 right-0 top-[70px] lg:top-[80px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl max-h-[250px] overflow-y-auto z-50 text-left pointer-events-auto divide-y divide-slate-100 dark:divide-slate-800/60 animate-in fade-in slide-in-from-top-4 duration-300">
+                        <div className="absolute left-0 right-0 top-[70px] lg:top-[80px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl max-h-[160px] overflow-y-auto z-50 text-left pointer-events-auto divide-y divide-slate-100 dark:divide-slate-800/60 animate-in fade-in slide-in-from-top-4 duration-300">
                             {(() => {
                                 const filtered = restaurants.filter(r => 
                                     r.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -186,18 +186,18 @@ function Hero({ searchQuery, setSearchQuery }) {
                                             setSearchQuery("");
                                             navigate(`/restaurant/${r.id}`);
                                         }}
-                                        className="flex gap-4 items-center p-4 hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer transition-colors"
+                                        className="flex gap-3 items-center p-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer transition-colors"
                                     >
                                         <img 
                                             src={r.image} 
                                             alt={r.name} 
-                                            className="w-14 h-14 rounded-lg object-cover border border-slate-100 dark:border-slate-800" 
+                                            className="w-10 h-10 rounded-md object-cover border border-slate-100 dark:border-slate-800" 
                                         />
                                         <div className="flex-1 min-w-0">
-                                            <h4 className="font-extrabold text-base text-slate-800 dark:text-slate-100 truncate">{r.name}</h4>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold mt-1 truncate">{r.tags.join(" • ")}</p>
+                                            <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100 truncate">{r.name}</h4>
+                                            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold mt-0.5 truncate">{r.tags.join(" • ")}</p>
                                         </div>
-                                        <div className="flex items-center gap-1 bg-green-500/10 text-green-600 dark:text-green-400 px-2 py-1 rounded-md text-xs font-black">
+                                        <div className="flex items-center gap-1 bg-green-500/10 text-green-600 dark:text-green-400 px-1.5 py-0.5 rounded text-[11px] font-black">
                                             ★ {r.rating}
                                         </div>
                                     </div>
