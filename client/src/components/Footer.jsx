@@ -18,14 +18,14 @@ function Footer() {
                 </p>
 
                 {/* Main Footer Content */}
-                <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5 text-center sm:text-left">
 
                     {/* Logo */}
-                    <div>
+                    <div className="flex justify-center sm:justify-start">
                         <img
                             src={footerLogo}
                             alt="Cravings Logo"
-                            className="mb-3 h-32 w-auto"
+                            className="mb-3 h-24 sm:h-32 w-auto"
                         />
                     </div>
 
@@ -35,7 +35,7 @@ function Footer() {
                             Quick Links
                         </h5>
 
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col items-center sm:items-start gap-2">
                             <Link to="/" className={footerLink}>
                                 Home
                             </Link>
@@ -56,7 +56,7 @@ function Footer() {
                             For Restaurants
                         </h5>
 
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col items-center sm:items-start gap-2">
                             <Link
                                 to="/restaurant"
                                 className={footerLink}
@@ -79,7 +79,7 @@ function Footer() {
                             For Riders
                         </h5>
 
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col items-center sm:items-start gap-2">
                             <Link
                                 to="/rider"
                                 className={footerLink}
@@ -102,7 +102,7 @@ function Footer() {
                             Feedback & Support
                         </h5>
 
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col items-center sm:items-start gap-2">
                             <Link
                                 to="/feedback"
                                 className={footerLink}
@@ -134,11 +134,11 @@ function Footer() {
                 {/* Bottom Footer */}
                 <div className="mt-6 flex flex-col items-center justify-between gap-4 md:flex-row">
 
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-gray-400 text-center md:text-left">
                         © 2026 Cravings. All rights reserved.
                     </p>
 
-                    <div className="flex flex-wrap justify-center gap-4">
+                    <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:justify-end">
                         <Link
                             to="/privacy-policy"
                             className={bottomLink}
