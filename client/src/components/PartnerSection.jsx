@@ -13,7 +13,7 @@ function PartnerSection() {
                 <p className="mx-auto mb-8 max-w-3xl text-lg text-orange-100">
                     Grow your business with Cravings. Join thousands of
                     restaurants already delivering with us and reach more
-                    customers every day.
+                    customers every day !
                 </p>
 
                 <Link
