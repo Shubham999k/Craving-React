@@ -24,7 +24,7 @@ function Testimonials() {
             review:
                 "Love the variety of restaurants available. Found my new favorite spot through Cravings.",
             initials: "RK",
-            name: "Raj Kumar",
+            name: "Raj Kumar Rao",
         },
     ];
 
