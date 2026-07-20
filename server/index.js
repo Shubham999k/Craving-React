@@ -1,7 +1,7 @@
 import express from "express";
 import AuthRouter from "./src/routers/auth.route.js";
 import PublicRouter from "./src/routers/public.route.js";
-import OrderRouter from "./src/routers/order.route.js";
+import OrderRouter from "./src/routers/customer.route.js";
 import CommonRouter from "./src/routers/common.route.js";
 import RestaurantRouter from "./src/routers/restaurant.route.js";
 import RiderRouter from "./src/routers/rider.route.js";
@@ -20,7 +20,7 @@ app.use(morgan("dev"));
 
 app.use("/auth", AuthRouter);
 app.use("/public", PublicRouter);
-app.use("/orders", OrderRouter);
+app.use("/customer", OrderRouter);
 app.use("/restaurant", RestaurantRouter);
 app.use("/rider", RiderRouter);
 app.use("/admin", AdminRouter);
