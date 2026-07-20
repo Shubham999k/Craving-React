@@ -98,26 +98,6 @@ function ContactUs() {
                                 <div className="flex items-start gap-4">
                                     <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
                                         <i className="bi bi-geo-alt-fill text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-lg mb-1">Office</h4>
-                                        <p className="text-orange-100 text-sm">123 Cravings Blvd, Food City, FC 90210</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
-                                        <i className="bi bi-telephone-fill text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-lg mb-1">Phone</h4>
-                                        <p className="text-orange-100 text-sm">+1 (555) 123-4567</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
-                                        <i className="bi bi-envelope-fill text-xl"></i>
-                                    </div>
-                                    <div>
                                         <h4 className="font-bold text-lg mb-1">Email</h4>
                                         <p className="text-orange-100 text-sm">hello@cravings.com</p>
                                     </div>
