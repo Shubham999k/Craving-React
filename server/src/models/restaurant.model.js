@@ -14,6 +14,14 @@ const restaurantSchema = new mongoose.Schema({
         type: String, 
         enum: ["Pending", "Approved", "Rejected"], 
         default: "Pending" 
+    },
+    profilePic: {
+        url: { type: String },
+        publicId: { type: String }
+    },
+    restaurantImage: {
+        url: { type: String },
+        publicId: { type: String }
     }
 }, { timestamps: true });
 
