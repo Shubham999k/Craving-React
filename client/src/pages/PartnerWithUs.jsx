@@ -14,7 +14,7 @@ function PartnerWithUs() {
     gstin: '',
     panNumber: '',
     profilePic: '',
-    restaurantImage: ''
+    restaurantImages: []
   });
 
   const handleImageUpload = (e, field) => {
@@ -31,6 +31,36 @@ function PartnerWithUs() {
       reader.readAsDataURL(file);
     }
   };
+
+  const handleMultipleImagesUpload = async (e, field) => {
+    const files = Array.from(e.target.files);
+    
+    if (files.length > 5) {
+        toast.error("You can only upload up to 5 images");
+        return;
+    }
+
+    const base64Images = [];
+
+    for (let file of files) {
+        if (file.size > 5 * 1024 * 1024) {
+            toast.error(`Image ${file.name} must be less than 5MB`);
+            continue;
+        }
+
+        const reader = new FileReader();
+        const promise = new Promise((resolve) => {
+            reader.onloadend = () => {
+                resolve(reader.result);
+            };
+        });
+        reader.readAsDataURL(file);
+        base64Images.push(await promise);
+    }
+
+    setFormData((prev) => ({ ...prev, [field]: base64Images }));
+  };
+
 
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
@@ -226,14 +256,15 @@ function PartnerWithUs() {
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 ml-1">Restaurant Image</label>
+                            <label className="block text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 ml-1">Restaurant Images (Max 5)</label>
                             <input
                                 type="file"
                                 accept="image/*"
+                                multiple
                                 className="w-full rounded-2xl border border-white/40 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50 backdrop-blur-sm text-slate-800 dark:text-slate-100 px-5 py-3 outline-none transition-all focus:border-orange-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-4 focus:ring-orange-500/20 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 dark:file:bg-orange-900/30 dark:file:text-orange-400 shadow-inner"
-                                onChange={(e) => handleImageUpload(e, 'restaurantImage')}
+                                onChange={(e) => handleMultipleImagesUpload(e, 'restaurantImages')}
                             />
-                            {formData.restaurantImage && <div className="mt-2 ml-1 text-xs text-green-600 font-semibold"><i className="bi bi-check-circle mr-1"></i> Image Selected</div>}
+                            {formData.restaurantImages.length > 0 && <div className="mt-2 ml-1 text-xs text-green-600 font-semibold"><i className="bi bi-check-circle mr-1"></i> {formData.restaurantImages.length} Image(s) Selected</div>}
                         </div>
                     </div>
                 </div>
