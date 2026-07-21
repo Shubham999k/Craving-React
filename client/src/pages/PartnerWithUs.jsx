@@ -1,20 +1,38 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+import api from '../config/api.config.js';
 
 function PartnerWithUs() {
   const [formData, setFormData] = useState({
-    name: '',
+    contactName: '',
     email: '',
     phone: '',
     restaurantName: '',
     cuisine: '',
-    address: ''
+    address: '',
+    fssaiLicense: '',
+    gstin: '',
+    panNumber: ''
   });
+
 
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    
+    try {
+      const response = await api.post('/restaurant/register', formData);
+      setSubmitted(true);
+      toast.success(response?.data?.message || "Partnership request submitted!");
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -68,8 +86,8 @@ function PartnerWithUs() {
                   type="text"
                   required
                   className="w-full rounded-2xl border border-white/40 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50 backdrop-blur-sm text-slate-800 dark:text-slate-100 px-5 py-4 outline-none transition-all focus:border-orange-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-4 focus:ring-orange-500/20 placeholder-slate-400 font-semibold shadow-inner"
-                  value={formData.name}
-                  onChange={e => setFormData({ ...formData, name: e.target.value })}
+                  value={formData.contactName}
+                  onChange={e => setFormData({ ...formData, contactName: e.target.value })}
                 />
               </div>
               <div className="grid md:grid-cols-2 gap-6">
@@ -125,9 +143,49 @@ function PartnerWithUs() {
                   onChange={e => setFormData({ ...formData, address: e.target.value })}
                 />
               </div>
-              <button type="submit" className="w-full mt-6 rounded-2xl bg-gradient-to-r from-orange-600 to-[#c74a09] py-5 font-extrabold text-white text-lg transition-all hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3">
-                Submit Partnership Request
-                <i className="bi bi-arrow-right"></i>
+
+              {/* Legal Details Section */}
+              <div className="pt-4 mt-6 border-t border-slate-200 dark:border-slate-700/50">
+                <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">Legal Details</h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 ml-1">FSSAI License Number</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="14-digit FSSAI Number"
+                      className="w-full rounded-2xl border border-white/40 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50 backdrop-blur-sm text-slate-800 dark:text-slate-100 px-5 py-4 outline-none transition-all focus:border-orange-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-4 focus:ring-orange-500/20 placeholder-slate-400 font-semibold shadow-inner"
+                      value={formData.fssaiLicense}
+                      onChange={e => setFormData({ ...formData, fssaiLicense: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 ml-1">Owner PAN Number</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="10-digit PAN"
+                      className="w-full rounded-2xl border border-white/40 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50 backdrop-blur-sm text-slate-800 dark:text-slate-100 px-5 py-4 outline-none transition-all focus:border-orange-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-4 focus:ring-orange-500/20 placeholder-slate-400 font-semibold shadow-inner"
+                      value={formData.panNumber}
+                      onChange={e => setFormData({ ...formData, panNumber: e.target.value })}
+                    />
+                  </div>
+                </div>
+                <div className="mt-6">
+                  <label className="block text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 ml-1">GSTIN (Optional)</label>
+                  <input
+                    type="text"
+                    placeholder="15-digit GSTIN"
+                    className="w-full rounded-2xl border border-white/40 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50 backdrop-blur-sm text-slate-800 dark:text-slate-100 px-5 py-4 outline-none transition-all focus:border-orange-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-4 focus:ring-orange-500/20 placeholder-slate-400 font-semibold shadow-inner"
+                    value={formData.gstin}
+                    onChange={e => setFormData({ ...formData, gstin: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <button type="submit" disabled={loading} className="w-full mt-6 rounded-2xl bg-gradient-to-r from-orange-600 to-[#c74a09] py-5 font-extrabold text-white text-lg transition-all hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed">
+                {loading ? 'Submitting...' : 'Submit Partnership Request'}
+                {!loading && <i className="bi bi-arrow-right"></i>}
               </button>
             </form>
           )}
