@@ -19,10 +19,10 @@ const restaurantSchema = new mongoose.Schema({
         url: { type: String },
         publicId: { type: String }
     },
-    restaurantImage: {
+    restaurantImages: [{
         url: { type: String },
         publicId: { type: String }
-    }
+    }]
 }, { timestamps: true });
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);
