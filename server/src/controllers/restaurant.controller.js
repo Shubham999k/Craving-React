@@ -71,7 +71,7 @@ export const updateOrderStatus = async (req, res, next) => {
 // Register a new restaurant partner
 export const registerRestaurant = async (req, res, next) => {
     try {
-        const { contactName, email, phone, restaurantName, cuisine, address, fssaiLicense, gstin, panNumber, profilePic, restaurantImage } = req.body;
+        const { contactName, email, phone, restaurantName, cuisine, address, fssaiLicense, gstin, panNumber, profilePic, restaurantImages } = req.body;
 
         if (!contactName || !email || !phone || !restaurantName || !cuisine || !address || !fssaiLicense || !panNumber) {
             const error = new Error("Missing required fields for restaurant registration");
@@ -80,7 +80,7 @@ export const registerRestaurant = async (req, res, next) => {
         }
 
         let uploadedProfilePic = { url: null, publicId: null };
-        let uploadedRestaurantImg = { url: null, publicId: null };
+        let uploadedRestaurantImages = [];
 
         if (profilePic && profilePic.startsWith("data:image")) {
             const uploadResponse = await cloudinary.uploader.upload(profilePic, {
@@ -92,14 +92,24 @@ export const registerRestaurant = async (req, res, next) => {
             };
         }
 
-        if (restaurantImage && restaurantImage.startsWith("data:image")) {
-            const uploadResponse = await cloudinary.uploader.upload(restaurantImage, {
-                folder: "cravings_partners/restaurants"
+        if (restaurantImages && Array.isArray(restaurantImages) && restaurantImages.length > 0) {
+            const uploadPromises = restaurantImages.map(img => {
+                if (img && img.startsWith("data:image")) {
+                    return cloudinary.uploader.upload(img, {
+                        folder: "cravings_partners/restaurants"
+                    });
+                }
+                return null;
             });
-            uploadedRestaurantImg = {
-                url: uploadResponse.secure_url,
-                publicId: uploadResponse.public_id
-            };
+
+            const uploadResults = await Promise.all(uploadPromises);
+            
+            uploadedRestaurantImages = uploadResults
+                .filter(res => res !== null)
+                .map(res => ({
+                    url: res.secure_url,
+                    publicId: res.public_id
+                }));
         }
 
         const newRestaurant = await Restaurant.create({
@@ -113,7 +123,7 @@ export const registerRestaurant = async (req, res, next) => {
             gstin,
             panNumber,
             profilePic: uploadedProfilePic,
-            restaurantImage: uploadedRestaurantImg,
+            restaurantImages: uploadedRestaurantImages,
             status: "Pending"
         });
 
