@@ -67,3 +67,33 @@ export const updateOrderStatus = async (req, res, next) => {
         next(err);
     }
 };
+
+// Register a new restaurant partner
+export const registerRestaurant = async (req, res, next) => {
+    try {
+        const { contactName, email, phone, restaurantName, cuisine, address, fssaiLicense, gstin, panNumber } = req.body;
+
+        if (!contactName || !email || !phone || !restaurantName || !cuisine || !address || !fssaiLicense || !panNumber) {
+            const error = new Error("Missing required fields for restaurant registration");
+            error.statusCode = 400;
+            return next(error);
+        }
+
+        const newRestaurant = await Restaurant.create({
+            contactName,
+            email,
+            phone,
+            restaurantName,
+            cuisine,
+            address,
+            fssaiLicense,
+            gstin,
+            panNumber,
+            status: "Pending"
+        });
+
+        res.status(201).json({ message: "Partnership request submitted successfully", data: newRestaurant });
+    } catch (err) {
+        next(err);
+    }
+};
