@@ -1,5 +1,6 @@
 import Menu from "../models/menu.model.js";
 import Order from "../models/order.model.js";
+import Restaurant from "../models/restaurant.model.js";
 
 // Add a new menu item
 export const addMenuItem = async (req, res, next) => {
