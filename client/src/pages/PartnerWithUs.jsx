@@ -12,8 +12,25 @@ function PartnerWithUs() {
     address: '',
     fssaiLicense: '',
     gstin: '',
-    panNumber: ''
+    panNumber: '',
+    profilePic: '',
+    restaurantImage: ''
   });
+
+  const handleImageUpload = (e, field) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        toast.error("Image size must be less than 5MB");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prev) => ({ ...prev, [field]: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
@@ -161,6 +178,16 @@ function PartnerWithUs() {
                                 onChange={e => setFormData({ ...formData, phone: e.target.value })}
                             />
                         </div>
+                        <div>
+                            <label className="block text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 ml-1">Profile Picture (DP)</label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                className="w-full rounded-2xl border border-white/40 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50 backdrop-blur-sm text-slate-800 dark:text-slate-100 px-5 py-3 outline-none transition-all focus:border-orange-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-4 focus:ring-orange-500/20 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 dark:file:bg-orange-900/30 dark:file:text-orange-400 shadow-inner"
+                                onChange={(e) => handleImageUpload(e, 'profilePic')}
+                            />
+                            {formData.profilePic && <div className="mt-2 ml-1 text-xs text-green-600 font-semibold"><i className="bi bi-check-circle mr-1"></i> Image Selected</div>}
+                        </div>
                     </div>
                 </div>
 
@@ -197,6 +224,16 @@ function PartnerWithUs() {
                             value={formData.address}
                             onChange={e => setFormData({ ...formData, address: e.target.value })}
                             />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 ml-1">Restaurant Image</label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                className="w-full rounded-2xl border border-white/40 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50 backdrop-blur-sm text-slate-800 dark:text-slate-100 px-5 py-3 outline-none transition-all focus:border-orange-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-4 focus:ring-orange-500/20 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 dark:file:bg-orange-900/30 dark:file:text-orange-400 shadow-inner"
+                                onChange={(e) => handleImageUpload(e, 'restaurantImage')}
+                            />
+                            {formData.restaurantImage && <div className="mt-2 ml-1 text-xs text-green-600 font-semibold"><i className="bi bi-check-circle mr-1"></i> Image Selected</div>}
                         </div>
                     </div>
                 </div>
