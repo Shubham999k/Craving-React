@@ -20,7 +20,7 @@ app.use(morgan("dev"));
 
 app.use("/auth", AuthRouter);
 app.use("/public", PublicRouter);
-app.use("/customer", OrderRouter);
+app.use("/orders", OrderRouter);
 app.use("/restaurant", RestaurantRouter);
 app.use("/rider", RiderRouter);
 app.use("/admin", AdminRouter);
