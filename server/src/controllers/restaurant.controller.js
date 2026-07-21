@@ -1,7 +1,7 @@
 import Menu from "../models/menu.model.js";
 import Order from "../models/order.model.js";
 import Restaurant from "../models/restaurant.model.js";
-
+import cloudinary from "../config/cloudinary.config.js";
 // Add a new menu item
 export const addMenuItem = async (req, res, next) => {
     try {
@@ -71,12 +71,35 @@ export const updateOrderStatus = async (req, res, next) => {
 // Register a new restaurant partner
 export const registerRestaurant = async (req, res, next) => {
     try {
-        const { contactName, email, phone, restaurantName, cuisine, address, fssaiLicense, gstin, panNumber } = req.body;
+        const { contactName, email, phone, restaurantName, cuisine, address, fssaiLicense, gstin, panNumber, profilePic, restaurantImage } = req.body;
 
         if (!contactName || !email || !phone || !restaurantName || !cuisine || !address || !fssaiLicense || !panNumber) {
             const error = new Error("Missing required fields for restaurant registration");
             error.statusCode = 400;
             return next(error);
+        }
+
+        let uploadedProfilePic = { url: null, publicId: null };
+        let uploadedRestaurantImg = { url: null, publicId: null };
+
+        if (profilePic && profilePic.startsWith("data:image")) {
+            const uploadResponse = await cloudinary.uploader.upload(profilePic, {
+                folder: "cravings_partners/dp"
+            });
+            uploadedProfilePic = {
+                url: uploadResponse.secure_url,
+                publicId: uploadResponse.public_id
+            };
+        }
+
+        if (restaurantImage && restaurantImage.startsWith("data:image")) {
+            const uploadResponse = await cloudinary.uploader.upload(restaurantImage, {
+                folder: "cravings_partners/restaurants"
+            });
+            uploadedRestaurantImg = {
+                url: uploadResponse.secure_url,
+                publicId: uploadResponse.public_id
+            };
         }
 
         const newRestaurant = await Restaurant.create({
@@ -89,6 +112,8 @@ export const registerRestaurant = async (req, res, next) => {
             fssaiLicense,
             gstin,
             panNumber,
+            profilePic: uploadedProfilePic,
+            restaurantImage: uploadedRestaurantImg,
             status: "Pending"
         });
 
