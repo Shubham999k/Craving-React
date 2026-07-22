@@ -21,6 +21,7 @@ import HelpCenter from "./pages/HelpCenter";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsServices from "./pages/TermsServices";
 import SiteMap from "./pages/SiteMap";
+import AdminDashboard from "./pages/AdminDashboard";
 import React, { useEffect } from "react";
 import toast, { Toaster, useToasterStore } from "react-hot-toast";
 
@@ -83,6 +84,7 @@ function App() {
                     <Route path="/help-center" element={<HelpCenter />} />
                     <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                     <Route path="/terms-services" element={<TermsServices />} />
+                    <Route path="/admin-dashboard" element={<AdminDashboard />} />
                     <Route path="/site-map" element={<SiteMap />} />
                 </Routes>
 
