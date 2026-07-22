@@ -53,7 +53,7 @@ export const sendOTP = async (email, otpCode) => {
         const mailOptions = {
             from: `Cravings <${process.env.SMTP_USER}>`,
             to: email,
-            subject: 'Cravings - Password Reset OTP',
+            subject: `Cravings - Password Reset OTP (${new Date().toLocaleTimeString()})`,
             html: messageHTML,
         };
 
