@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { restaurants } from "../data/restaurants";
-import { FOOD_ITEMS } from "./dashboard/UserDashboard";
+import { FOOD_ITEMS } from "../data/mockData";
 
 function RestaurantDetails() {
     const { id } = useParams();

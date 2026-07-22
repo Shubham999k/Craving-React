@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { FOOD_ITEMS } from "./dashboard/UserDashboard";
+import { FOOD_ITEMS } from "../data/mockData";
 
 function OrderPage() {
     const navigate = useNavigate();
