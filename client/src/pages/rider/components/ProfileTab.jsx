@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import api from '../../../utils/api';
+import api from '../../../config/api.config';
 
 const PRESET_AVATARS = [
     "https://api.dicebear.com/7.x/adventurer/svg?seed=Felix",
