@@ -63,7 +63,7 @@ function App() {
             <Toaster />
             <Navbar />
 
-            <div ref={scrollContainerRef} className={`flex-1 overflow-y-auto ${location.pathname === "/" ? "scrollbar-none" : ""}`}>
+            <div ref={scrollContainerRef} className={`flex-1 ${isDashboard ? "overflow-hidden" : "overflow-y-auto"} ${location.pathname === "/" ? "scrollbar-none" : ""}`}>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />

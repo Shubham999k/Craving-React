@@ -84,7 +84,7 @@ function RestaurantDashboard() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
+      <main className="flex-1 flex flex-col h-full overflow-hidden relative">
         
         {/* Top Header */}
         <header className="h-20 px-6 md:px-10 flex items-center justify-between bg-white/40 dark:bg-slate-900/40 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50 z-10 sticky top-0">
