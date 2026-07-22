@@ -79,7 +79,16 @@ function Login() {
 
             toast.success(response?.data?.message || "Login successful");
             window.dispatchEvent(new Event("auth-change"));
-            navigate("/user/dashboard");
+
+            if (mappedUser.role === "Restaurant") {
+                navigate("/restaurants-dashboard");
+            } else if (mappedUser.role === "Rider") {
+                navigate("/riders-dashboard");
+            } else if (mappedUser.role === "Admin") {
+                navigate("/admin-dashboard");
+            } else {
+                navigate("/user/dashboard");
+            }
         } catch (error) {
             toast.error(
                 error?.response?.data?.message || "Login failed. Please try again."
