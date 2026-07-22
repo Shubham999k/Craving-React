@@ -26,7 +26,10 @@ import toast, { Toaster, useToasterStore } from "react-hot-toast";
 
 function App() {
     const location = useLocation();
-    const isDashboard = location.pathname.startsWith("/user/dashboard");
+    const isDashboard = location.pathname.startsWith("/user/dashboard") || 
+                        location.pathname.startsWith("/restaurants-dashboard") || 
+                        location.pathname.startsWith("/riders-dashboard") ||
+                        location.pathname.startsWith("/admin-dashboard");
 
     const { toasts } = useToasterStore();
     useEffect(() => {
