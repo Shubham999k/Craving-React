@@ -35,8 +35,8 @@ export default function ProfileTab() {
     const loadingToast = toast.loading("Updating profile...");
     try {
       const payload = {
-        name: editName,
-        email: editEmail,
+        userId: user._id,
+        fullName: editName,
         phone: editPhone,
         profilePicture: editAvatar
       };
