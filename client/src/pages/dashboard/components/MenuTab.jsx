@@ -1,5 +1,5 @@
 
-import { FOOD_ITEMS } from '../UserDashboard';
+import { FOOD_ITEMS } from '../../../data/mockData';
 
 const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCategory, addToCart, wishlist = [], toggleWishlist }) => {
   return (

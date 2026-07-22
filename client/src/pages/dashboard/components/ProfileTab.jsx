@@ -1,4 +1,4 @@
-import { PRESET_AVATARS } from '../UserDashboard';
+import { PRESET_AVATARS } from '../../../data/mockData';
 import toast from 'react-hot-toast';
 
 const ProfileTab = ({

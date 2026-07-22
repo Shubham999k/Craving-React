@@ -1,6 +1,6 @@
 
 import toast from 'react-hot-toast';
-import { FOOD_ITEMS } from '../UserDashboard';
+import { FOOD_ITEMS } from '../../../data/mockData';
 
 const OverviewTab = ({ orderItems, orderStep, addToCart, setSelectedCategory, setActiveTab, totalOrders = 0, totalSpent = 0 }) => {
   return (
