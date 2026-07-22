@@ -71,11 +71,21 @@ function RiderDashboard() {
               {isOnline ? 'Online' : 'Offline'}
             </span>
           </div>
-          <label className="relative inline-flex items-center w-full cursor-pointer">
+          <label className="relative inline-flex items-center w-full cursor-pointer h-12 bg-slate-200 dark:bg-slate-700 rounded-full p-1 shadow-inner select-none transition-colors duration-300">
             <input type="checkbox" className="sr-only peer" checked={isOnline} onChange={() => setIsOnline(!isOnline)} />
-            <div className="w-full h-10 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-[calc(100%+1.5rem)] peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-8 after:w-1/2 after:transition-all dark:border-slate-600 peer-checked:bg-green-500 shadow-inner"></div>
-            <span className="absolute left-6 text-xs font-bold text-slate-500 z-10 pointer-events-none transition-opacity duration-300 opacity-100 peer-checked:opacity-0">GO ONLINE</span>
-            <span className="absolute right-6 text-xs font-bold text-white z-10 pointer-events-none transition-opacity duration-300 opacity-0 peer-checked:opacity-100">GO OFFLINE</span>
+            
+            {/* Background pill that slides */}
+            <div className={`absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full transition-all duration-300 shadow-sm ${isOnline ? 'bg-green-500 left-[calc(50%+2px)]' : 'bg-white left-1'}`}></div>
+            
+            {/* Text labels over the sliding pill */}
+            <div className="relative flex w-full z-10 text-xs font-black tracking-wider">
+              <div className={`flex-1 text-center transition-colors duration-300 ${isOnline ? 'text-slate-500' : 'text-slate-800 dark:text-slate-800'}`}>
+                OFFLINE
+              </div>
+              <div className={`flex-1 text-center transition-colors duration-300 ${isOnline ? 'text-white' : 'text-slate-400'}`}>
+                ONLINE
+              </div>
+            </div>
           </label>
         </div>
 
