@@ -11,6 +11,19 @@ import AnalyticsTab from './components/AnalyticsTab';
 import ProfileTab from './components/ProfileTab';
 import WishlistTab from './components/WishlistTab';
 
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import toast from 'react-hot-toast';
+import api from '../../config/api.config';
+
+// Import Sub-Components
+import OverviewTab from './components/OverviewTab';
+import MenuTab from './components/MenuTab';
+import TrackingTab from './components/TrackingTab';
+import AnalyticsTab from './components/AnalyticsTab';
+import ProfileTab from './components/ProfileTab';
+import WishlistTab from './components/WishlistTab';
+
 export const FOOD_ITEMS = [
   {
     id: 1,
