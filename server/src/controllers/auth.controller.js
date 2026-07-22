@@ -3,8 +3,8 @@ import bcrypt from "bcrypt";
 import cloudinary from "../config/cloudinary.config.js";
 import crypto from "crypto";
 import OTP from "../models/otp.model.js";
-import sendEmail from "../utils/sendEmail.js";
-
+import { sendOTP } from "../utils/email.service.js";
+import { generateAndSaveOTP, verifyOTP, deleteOTP } from "../utils/auth.service.js";
 export const RegisterUser = async (req, res, next) => {
     try {
 
@@ -175,52 +175,15 @@ export const ForgotPassword = async (req, res, next) => {
             return next(error);
         }
 
-        // Delete any existing OTP for this email
-        await OTP.deleteMany({ email: normalizedEmail });
+        // Generate and Save OTP using the new auth service
+        const otpCode = await generateAndSaveOTP(normalizedEmail);
 
-        // Generate 6-digit OTP
-        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+        // Send OTP email using the new email service
+        await sendOTP(user.email, otpCode);
 
-        // Save OTP
-        await OTP.create({
-            email: normalizedEmail,
-            otp: otpCode
+        res.status(200).json({
+            message: "OTP sent successfully to your email address",
         });
-
-        // Send email
-        const messageHTML = `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
-                <h2 style="color: #c74a09; text-align: center;">Reset Your Password</h2>
-                <p style="color: #334155; font-size: 16px;">Hello,</p>
-                <p style="color: #334155; font-size: 16px;">We received a request to reset your password for your Cravings account. Here is your 6-digit OTP code:</p>
-                <div style="text-align: center; margin: 30px 0;">
-                    <span style="background-color: #f8fafc; padding: 15px 30px; font-size: 24px; font-weight: bold; letter-spacing: 5px; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 8px;">
-                        ${otpCode}
-                    </span>
-                </div>
-                <p style="color: #334155; font-size: 16px;">This code will expire in 10 minutes. If you did not request a password reset, please ignore this email.</p>
-                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 30px 0;" />
-                <p style="color: #94a3b8; font-size: 12px; text-align: center;">&copy; ${new Date().getFullYear()} Cravings Food Delivery. All rights reserved.</p>
-            </div>
-        `;
-
-        try {
-            await sendEmail({
-                email: user.email,
-                subject: 'Cravings - Password Reset OTP',
-                html: messageHTML,
-            });
-
-            res.status(200).json({
-                message: "OTP sent successfully to your email address",
-            });
-        } catch (error) {
-            // Fallback for development if SMTP is not configured
-            console.log(`\n\n[MOCK EMAIL FALLBACK] OTP for ${user.email}:\n${otpCode}\n\n`);
-            res.status(200).json({
-                message: "OTP generated (Check server console since SMTP is not configured)",
-            });
-        }
 
     } catch (error) {
         console.log(error.message);
@@ -240,8 +203,8 @@ export const ResetPassword = async (req, res, next) => {
         
         const normalizedEmail = email.toLowerCase().trim();
 
-        // Check OTP
-        const validOtp = await OTP.findOne({ email: normalizedEmail, otp });
+        // Check OTP using auth service
+        const validOtp = await verifyOTP(normalizedEmail, otp);
 
         if (!validOtp) {
             const error = new Error("Invalid or expired OTP");
@@ -263,7 +226,7 @@ export const ResetPassword = async (req, res, next) => {
         await user.save();
         
         // Delete OTP after successful reset
-        await OTP.deleteOne({ _id: validOtp._id });
+        await deleteOTP(validOtp._id);
 
         res.status(200).json({
             message: "Password reset successfully. You can now log in."
