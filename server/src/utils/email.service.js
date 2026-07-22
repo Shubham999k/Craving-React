@@ -1,18 +1,17 @@
 import nodemailer from 'nodemailer';
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-    },
-    tls: {
-        rejectUnauthorized: false
-    }
-});
-
 export const sendOTP = async (email, otpCode) => {
     try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.SMTP_USER,
+                pass: process.env.SMTP_PASS,
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        });
 
         const messageHTML = `
             <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;">
@@ -54,7 +53,7 @@ export const sendOTP = async (email, otpCode) => {
         const mailOptions = {
             from: `Cravings <${process.env.SMTP_USER}>`,
             to: email,
-            subject: `Cravings - Password Reset OTP (${new Date().toLocaleTimeString()})`,
+            subject: `Cravings OTP: ${otpCode} - Reset your password`,
             html: messageHTML,
         };
 
