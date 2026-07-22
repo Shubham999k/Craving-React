@@ -93,7 +93,12 @@ function Navbar() {
                         {user ? (
                             <>
                                 <Link
-                                    to="/user/dashboard"
+                                    to={
+                                        user.role === 'Admin' ? '/admin-dashboard' :
+                                        user.role === 'Restaurant' ? '/restaurants-dashboard' :
+                                        user.role === 'Rider' ? '/riders-dashboard' :
+                                        '/user/dashboard'
+                                    }
                                     className="text-white hover:text-orange-200 font-semibold px-2 sm:px-3 py-1 sm:py-1.5 rounded transition-all duration-300 flex items-center gap-1 sm:gap-2 text-sm sm:text-base"
                                 >
                                     {user.profilePicture ? (

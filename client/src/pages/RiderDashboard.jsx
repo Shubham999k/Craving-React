@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ActiveTripTab from './rider/components/ActiveTripTab';
 import EarningsTab from './rider/components/EarningsTab';
 import RatingsTab from './rider/components/RatingsTab';
 import HistoryTab from './rider/components/HistoryTab';
+import ProfileTab from './rider/components/ProfileTab';
 
 const TABS = [
   { id: 'trip', icon: 'bi-bicycle', title: 'Active Trip' },
   { id: 'earnings', icon: 'bi-wallet2', title: 'Earnings' },
   { id: 'ratings', icon: 'bi-star-fill', title: 'Ratings & Reviews' },
   { id: 'history', icon: 'bi-clock-history', title: 'Trip History' },
+  { id: 'profile', icon: 'bi-person-gear', title: 'Profile settings' },
 ];
 
 function RiderDashboard() {
   const [activeTab, setActiveTab] = useState('trip');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem('user')) || {});
+    // listen to auth-change for avatar updates
+    const handleAuthChange = () => {
+      setUser(JSON.parse(localStorage.getItem('user')) || {});
+    };
+    window.addEventListener("auth-change", handleAuthChange);
+    return () => window.removeEventListener("auth-change", handleAuthChange);
+  }, []);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -22,6 +35,7 @@ function RiderDashboard() {
       case 'earnings': return <EarningsTab />;
       case 'ratings': return <RatingsTab />;
       case 'history': return <HistoryTab />;
+      case 'profile': return <ProfileTab />;
       default: return <ActiveTripTab />;
     }
   };
@@ -120,11 +134,15 @@ function RiderDashboard() {
           </div>
           <div className="flex items-center gap-5">
             <div className="hidden lg:block text-right mr-2">
-              <p className="text-sm font-bold text-slate-800 dark:text-slate-100">Ravi Kumar</p>
+              <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{user?.name || "Rider"}</p>
               <p className="text-[10px] font-bold text-[#c74a09] uppercase tracking-wider">Top Rated Rider</p>
             </div>
-            <div className="w-10 h-10 rounded-full border-2 border-orange-500 overflow-hidden shadow-sm">
-              <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Rider" alt="Rider Profile" className="w-full h-full object-cover bg-orange-100" />
+            <div className="w-10 h-10 rounded-full border-2 border-orange-500 overflow-hidden shadow-sm flex items-center justify-center bg-orange-100">
+              {user?.profilePicture ? (
+                <img src={user.profilePicture} alt="Rider Profile" className="w-full h-full object-cover" />
+              ) : (
+                <i className="bi bi-person-fill text-orange-500 text-xl"></i>
+              )}
             </div>
           </div>
         </div>

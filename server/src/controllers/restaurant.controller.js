@@ -2,6 +2,57 @@ import Menu from "../models/menu.model.js";
 import Order from "../models/order.model.js";
 import Restaurant from "../models/restaurant.model.js";
 import cloudinary from "../config/cloudinary.config.js";
+import { uploadMultipleOnCloudinary } from "../utils/image.service.js";
+
+// Upload multiple gallery images for a restaurant
+export const uploadGalleryImages = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        
+        const restaurant = await Restaurant.findById(id);
+        if (!restaurant) {
+            const error = new Error("Restaurant not found");
+            error.statusCode = 404;
+            return next(error);
+        }
+
+        // Get file paths from multer
+        const localFilePaths = req.files?.map(file => file.path);
+        
+        if (!localFilePaths || localFilePaths.length === 0) {
+            const error = new Error("No files uploaded");
+            error.statusCode = 400;
+            return next(error);
+        }
+
+        // Upload to cloudinary
+        const uploadedImages = await uploadMultipleOnCloudinary(localFilePaths, `craving-react/restaurant-${id}`);
+        
+        if (uploadedImages.length === 0) {
+            const error = new Error("Failed to upload images to Cloudinary");
+            error.statusCode = 500;
+            return next(error);
+        }
+
+        // Map responses to match schema
+        const galleryObjects = uploadedImages.map(img => ({
+            url: img.secure_url,
+            publicId: img.public_id
+        }));
+
+        // Push new images to existing array
+        restaurant.restaurantImages.push(...galleryObjects);
+        await restaurant.save();
+
+        res.status(200).json({ 
+            message: "Gallery images uploaded successfully", 
+            data: restaurant.restaurantImages 
+        });
+
+    } catch (err) {
+        next(err);
+    }
+};
 // Add a new menu item
 export const addMenuItem = async (req, res, next) => {
     try {
