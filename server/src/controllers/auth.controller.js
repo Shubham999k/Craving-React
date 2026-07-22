@@ -99,6 +99,7 @@ export const LogoutUser = (req, res) => {
 
 export const UpdateProfile = async (req, res, next) => {
     try {
+        console.log("UpdateProfile payload:", req.body);
         const { userId, fullName, phone, profilePicture } = req.body;
 
         if (!userId) {
