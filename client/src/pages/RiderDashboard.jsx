@@ -4,71 +4,150 @@ import EarningsTab from './rider/components/EarningsTab';
 import RatingsTab from './rider/components/RatingsTab';
 import HistoryTab from './rider/components/HistoryTab';
 
+const TABS = [
+  { id: 'trip', icon: 'bi-bicycle', title: 'Active Trip' },
+  { id: 'earnings', icon: 'bi-wallet2', title: 'Earnings' },
+  { id: 'ratings', icon: 'bi-star-fill', title: 'Ratings & Reviews' },
+  { id: 'history', icon: 'bi-clock-history', title: 'Trip History' },
+];
+
 function RiderDashboard() {
   const [activeTab, setActiveTab] = useState('trip');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'trip':
-        return <ActiveTripTab />;
-      case 'earnings':
-        return <EarningsTab />;
-      case 'ratings':
-        return <RatingsTab />;
-      case 'history':
-        return <HistoryTab />;
-      default:
-        return <ActiveTripTab />;
+      case 'trip': return <ActiveTripTab />;
+      case 'earnings': return <EarningsTab />;
+      case 'ratings': return <RatingsTab />;
+      case 'history': return <HistoryTab />;
+      default: return <ActiveTripTab />;
     }
   };
 
+  const currentTabName = TABS.find(t => t.id === activeTab)?.title || 'Overview';
+
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 py-16 px-4 transition-colors duration-300">
-      <div className="mx-auto max-w-5xl">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+    <div className="h-full bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col md:flex-row transition-colors duration-300 font-sans">
+      
+      {/* Mobile Header */}
+      <div className="md:hidden flex items-center justify-between p-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
+        <div className="flex items-center gap-3">
+          <button onClick={() => setIsSidebarOpen(true)} className="text-2xl text-slate-600 dark:text-slate-300 focus:outline-none">
+            <i className="bi bi-list"></i>
+          </button>
+          <h1 className="text-lg font-black text-slate-800 dark:text-white">Rider App</h1>
+        </div>
+        <div className="flex items-center gap-3">
+          {/* Online Toggle Mobile */}
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" className="sr-only peer" checked={isOnline} onChange={() => setIsOnline(!isOnline)} />
+            <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-slate-600 peer-checked:bg-[#c74a09]"></div>
+          </label>
+        </div>
+      </div>
+
+      {/* Sidebar Navigation */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 transition-transform duration-300 ease-in-out shrink-0 flex flex-col`}>
+        {/* Sidebar Header */}
+        <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-black">Rider Dashboard</h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Track active deliveries, accept trips, and view earnings.</p>
+            <h2 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight flex items-center gap-2">
+              Rider<span className="text-[#c74a09]">Dash</span>
+            </h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-semibold">Delivery Partner Portal</p>
           </div>
-          <span className="bg-orange-500/10 text-[#c74a09] dark:text-orange-400 border border-orange-500/30 px-3.5 py-1.5 rounded-full text-xs font-black flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-orange-600 animate-ping"></span>
-            Online - Searching for Deliveries
-          </span>
+          <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-slate-500 text-xl">
+            <i className="bi bi-x-lg"></i>
+          </button>
         </div>
 
-        {/* Dashboard Feature Cards / Tabs Navigation */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-          <div 
-            onClick={() => setActiveTab('trip')}
-            className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'trip' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
-            <span className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase">Live Assignment</span>
-            <h3 className="text-xl font-black text-slate-800 dark:text-white mt-2">Active Trip</h3>
+        {/* Sidebar Status Toggle */}
+        <div className="p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-bold text-slate-700 dark:text-slate-300">Status</span>
+            <span className={`text-xs font-black px-2 py-0.5 rounded uppercase tracking-wider ${isOnline ? 'bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-400'}`}>
+              {isOnline ? 'Online' : 'Offline'}
+            </span>
           </div>
+          <label className="relative inline-flex items-center w-full cursor-pointer">
+            <input type="checkbox" className="sr-only peer" checked={isOnline} onChange={() => setIsOnline(!isOnline)} />
+            <div className="w-full h-10 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-[calc(100%+1.5rem)] peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-8 after:w-1/2 after:transition-all dark:border-slate-600 peer-checked:bg-green-500 shadow-inner"></div>
+            <span className="absolute left-6 text-xs font-bold text-slate-500 z-10 pointer-events-none transition-opacity duration-300 opacity-100 peer-checked:opacity-0">GO ONLINE</span>
+            <span className="absolute right-6 text-xs font-bold text-white z-10 pointer-events-none transition-opacity duration-300 opacity-0 peer-checked:opacity-100">GO OFFLINE</span>
+          </label>
+        </div>
 
-          <div 
-            onClick={() => setActiveTab('earnings')}
-            className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'earnings' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
-            <span className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase">Today's Earnings</span>
-            <h3 className="text-xl font-black text-[#c74a09] mt-2">₹480</h3>
+        {/* Navigation Links */}
+        <div className="p-4 flex-1 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700">
+          {TABS.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => { setActiveTab(tab.id); setIsSidebarOpen(false); }}
+                className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 text-sm font-bold group cursor-pointer ${
+                  isActive 
+                    ? 'bg-[#c74a09] text-white shadow-md shadow-orange-500/20' 
+                    : 'text-slate-600 dark:text-slate-400 hover:bg-orange-50 dark:hover:bg-slate-800 hover:text-[#c74a09] dark:hover:text-orange-400'
+                }`}
+              >
+                <i className={`bi ${tab.icon} text-lg ${isActive ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-[#c74a09] dark:group-hover:text-orange-400'} transition-colors`}></i>
+                {tab.title}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+        {/* Top Header */}
+        <div className="h-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 shrink-0 z-10 hidden md:flex">
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">{currentTabName}</h2>
           </div>
-          
-          <div 
-            onClick={() => setActiveTab('ratings')}
-            className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'ratings' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
-            <span className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase">Satisfaction Rate</span>
-            <h3 className="text-xl font-black text-slate-800 dark:text-white mt-2">4.9 ★</h3>
-          </div>
-          
-          <div 
-            onClick={() => setActiveTab('history')}
-            className={`cursor-pointer bg-white dark:bg-slate-900 p-6 rounded-xl border shadow-sm transition-all ${activeTab === 'history' ? 'border-[#c74a09] ring-2 ring-[#c74a09]/20' : 'border-slate-150 dark:border-slate-800 hover:border-[#c74a09]/50'}`}>
-            <span className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase">Total Trips</span>
-            <h3 className="text-xl font-black text-slate-800 dark:text-white mt-2">1,208 Trips</h3>
+          <div className="flex items-center gap-5">
+            <div className="hidden lg:block text-right mr-2">
+              <p className="text-sm font-bold text-slate-800 dark:text-slate-100">Ravi Kumar</p>
+              <p className="text-[10px] font-bold text-[#c74a09] uppercase tracking-wider">Top Rated Rider</p>
+            </div>
+            <div className="w-10 h-10 rounded-full border-2 border-orange-500 overflow-hidden shadow-sm">
+              <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Rider" alt="Rider Profile" className="w-full h-full object-cover bg-orange-100" />
+            </div>
           </div>
         </div>
 
-        {/* Dynamic Tab Content */}
-        {renderTabContent()}
+        {/* Scrollable Content Container */}
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700 bg-slate-50 dark:bg-slate-950/50 relative">
+          
+          {/* Overlay for mobile sidebar */}
+          {isSidebarOpen && (
+            <div 
+              className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden"
+              onClick={() => setIsSidebarOpen(false)}
+            ></div>
+          )}
+
+          <div className="max-w-6xl mx-auto space-y-6">
+            {!isOnline && (
+              <div className="bg-slate-800 text-white p-4 rounded-xl shadow-md flex items-center justify-between border-l-4 border-slate-500 animate-fadeIn">
+                <div className="flex items-center gap-3">
+                  <i className="bi bi-moon-stars-fill text-xl text-slate-400"></i>
+                  <div>
+                    <h4 className="font-bold">You are Offline</h4>
+                    <p className="text-xs text-slate-400 mt-0.5">Go online to start receiving delivery requests.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="animate-fadeIn">
+              {renderTabContent()}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
