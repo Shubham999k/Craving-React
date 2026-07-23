@@ -150,14 +150,21 @@ function OrderPage() {
                                             src={item.image} 
                                             alt={item.name} 
                                             onError={(e) => { e.target.src = '/default-food.png'; e.target.onerror = null; }}
-                                            className="w-full h-full object-cover"
+                                            className={`w-full h-full object-cover ${!item.isAvailable ? 'grayscale opacity-70' : ''}`}
                                         />
                                         <span className="absolute top-3 left-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xs px-2.5 py-0.5 rounded-sm text-xs font-black text-slate-800 dark:text-slate-100 shadow-md">
                                             ₹{item.price}
                                         </span>
-                                        <span className={`absolute top-3 right-3 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider text-white ${item.type === 'veg' ? 'bg-green-600' : 'bg-red-650'}`}>
-                                            {item.type}
-                                        </span>
+                                        <div className="absolute top-3 right-3 flex flex-col gap-2 items-end">
+                                            <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider text-white ${item.type === 'veg' ? 'bg-green-600' : 'bg-red-650'}`}>
+                                                {item.type}
+                                            </span>
+                                            {!item.isAvailable && (
+                                                <span className="px-2 py-1 rounded bg-slate-800 text-white text-[10px] font-black uppercase tracking-wider shadow-md">
+                                                    Out of Stock
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                     <div className="p-4 flex-1 flex flex-col justify-between space-y-4">
                                         <div>
@@ -165,10 +172,15 @@ function OrderPage() {
                                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">{item.desc}</p>
                                         </div>
                                         <button 
-                                            onClick={() => addToCart(item)}
-                                            className="w-full bg-[#c74a09] hover:bg-orange-700 text-white font-bold py-2 rounded text-sm transition cursor-pointer"
+                                            onClick={() => item.isAvailable && addToCart(item)}
+                                            disabled={!item.isAvailable}
+                                            className={`w-full font-bold py-2 rounded text-sm transition ${
+                                                item.isAvailable 
+                                                    ? 'bg-[#c74a09] hover:bg-orange-700 text-white cursor-pointer' 
+                                                    : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed'
+                                            }`}
                                         >
-                                            Add to Cart
+                                            {item.isAvailable ? 'Add to Cart' : 'Currently Unavailable'}
                                         </button>
                                     </div>
                                 </div>

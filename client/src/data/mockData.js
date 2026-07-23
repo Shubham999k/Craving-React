@@ -8,7 +8,8 @@ export const FOOD_ITEMS = [
     reviews: 120,
     type: "non-veg",
     desc: "Double pepperoni, mozzarella cheese, and signature tomato sauce.",
-    image: "/pizza.png"
+    image: "/pizza.png",
+    isAvailable: true
   },
   {
     id: 2,
@@ -19,7 +20,8 @@ export const FOOD_ITEMS = [
     reviews: 89,
     type: "non-veg",
     desc: "Grilled chicken strips, romaine lettuce, croutons, and Caesar dressing.",
-    image: "/chicken-caesar-salad-wrap.png"
+    image: "/chicken-caesar-salad-wrap.png",
+    isAvailable: false
   },
   {
     id: 3,
@@ -30,7 +32,8 @@ export const FOOD_ITEMS = [
     reviews: 210,
     type: "veg",
     desc: "A delicious plant-based patty with fresh veggies.",
-    image: "/burger.png"
+    image: "/burger.png",
+    isAvailable: true
   }
 ];
 
