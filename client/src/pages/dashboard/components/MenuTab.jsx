@@ -56,7 +56,6 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
                   onError={(e) => { e.target.src = '/default-food.png'; e.target.onerror = null; }}
                   className={`w-full h-full object-cover transform group-hover:scale-110 transition duration-500 ease-out ${!item.isAvailable ? 'grayscale opacity-70' : ''}`}
                 />
-                {/* Veg / Non-Veg badge and Stock Status */}
                 <div className="absolute top-4 left-4 flex flex-col gap-2 items-start">
                   <span className={`px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 backdrop-blur-md shadow-md ${
                     item.type === 'veg' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'
