@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import toast from 'react-hot-toast';
+import api from '../../../config/api.config';
 
 const PRESET_LOGOS = [
   "https://api.dicebear.com/7.x/initials/svg?seed=BurgerKing&backgroundColor=e63946",
@@ -64,6 +65,8 @@ const ProfileTab = () => {
     }
   });
 
+  const [galleryFiles, setGalleryFiles] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const handleCustomImageUpload = (e) => {
@@ -96,6 +99,52 @@ const ProfileTab = () => {
     
     localStorage.setItem("restaurantProfile", JSON.stringify(updatedProfile));
     toast.success("Restaurant profile updated successfully!");
+  };
+
+  const handleGalleryFileSelect = (e) => {
+    const files = Array.from(e.target.files);
+    // Limit to 10 files
+    if (files.length > 10) {
+      toast.error("You can only upload up to 10 images at once");
+      return;
+    }
+    setGalleryFiles(files);
+  };
+
+  const handleGalleryUpload = async () => {
+    if (galleryFiles.length === 0) {
+      toast.error("Please select images to upload");
+      return;
+    }
+
+    setIsUploading(true);
+    const loadingToast = toast.loading("Uploading gallery images...");
+
+    try {
+      const formData = new FormData();
+      galleryFiles.forEach(file => {
+        formData.append("gallery", file);
+      });
+
+      // Using the seeded restaurant ID for demo purposes
+      // In a real app, this would be fetched dynamically
+      const restaurantId = "6a60cf6803c19942d8c2fea9"; 
+      
+      const response = await api.post(`/restaurant/gallery/${restaurantId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+
+      toast.dismiss(loadingToast);
+      toast.success("Gallery images uploaded successfully!");
+      setGalleryFiles([]); // Clear selection after successful upload
+      
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      console.error("Gallery upload error:", error);
+      toast.error(error.response?.data?.message || "Failed to upload gallery images");
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const isCustom = editLogo && !PRESET_LOGOS.includes(editLogo);
@@ -277,6 +326,71 @@ const ProfileTab = () => {
                     className="w-full px-5 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#c74a09] focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold"
                   />
                 </div>
+              </div>
+            </div>
+
+            {/* Section 3: Restaurant Gallery */}
+            <div>
+              <h3 className="text-xl font-black text-slate-800 dark:text-white mb-6 border-b border-slate-100 dark:border-slate-800/60 pb-4 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-500/20 text-[#c74a09] flex items-center justify-center">
+                  <i className="bi bi-images"></i>
+                </div>
+                Restaurant Gallery
+              </h3>
+              
+              <div className="bg-slate-50 dark:bg-slate-950/50 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
+                <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
+                  <div>
+                    <h4 className="font-bold text-slate-800 dark:text-slate-200">Bulk Upload Images</h4>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Upload multiple pictures of your restaurant interior, exterior, or signature dishes (Max 10).</p>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
+                    <label className="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold py-2.5 px-5 rounded-xl cursor-pointer transition-colors text-center shadow-sm">
+                      <i className="bi bi-folder-plus mr-2"></i> Select Files
+                      <input 
+                        type="file" 
+                        multiple 
+                        accept="image/*" 
+                        className="hidden" 
+                        onChange={handleGalleryFileSelect} 
+                        disabled={isUploading}
+                      />
+                    </label>
+                    
+                    <button
+                      type="button"
+                      onClick={handleGalleryUpload}
+                      disabled={isUploading || galleryFiles.length === 0}
+                      className="bg-[#c74a09] hover:bg-[#a63d07] text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-md shadow-orange-500/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {isUploading ? (
+                        <><i className="bi bi-arrow-repeat animate-spin"></i> Uploading...</>
+                      ) : (
+                        <><i className="bi bi-cloud-arrow-up-fill"></i> Upload {galleryFiles.length > 0 ? `(${galleryFiles.length})` : ''}</>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Preview Selected Files */}
+                {galleryFiles.length > 0 && (
+                  <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
+                    <h5 className="text-xs uppercase tracking-wider font-bold text-slate-500 dark:text-slate-400 mb-4 ml-1">Selected for Upload:</h5>
+                    <div className="flex gap-3 overflow-x-auto pb-2 custom-scrollbar">
+                      {galleryFiles.map((file, idx) => (
+                        <div key={idx} className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden border border-slate-300 dark:border-slate-600">
+                          <img 
+                            src={URL.createObjectURL(file)} 
+                            alt={`Preview ${idx}`} 
+                            className="w-full h-full object-cover"
+                            onLoad={() => URL.revokeObjectURL(file)} 
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

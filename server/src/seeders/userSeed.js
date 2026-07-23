@@ -13,7 +13,6 @@ const userSeed = async () => {
             {
                 fullName: "Shubham Chaudhari",
                 email: "shubhamchaudharik485@gmail.com",
-                password: await bcrypt.hash("1234", SALT),
                 dob: new Date("1998-01-01"),
                 phone: "+1000000000",
                 gender: "Male",
@@ -26,7 +25,7 @@ const userSeed = async () => {
             {
                 fullName: "Regular Customer",
                 email: "customer@craving.com",
-                password: hashedPassword,
+
                 dob: new Date("1998-03-25"),
                 phone: "+1999888777",
                 gender: "Female",
@@ -39,7 +38,7 @@ const userSeed = async () => {
             {
                 fullName: "Demo User",
                 email: "demo@user.com",
-                password: hashedPassword,
+
                 dob: new Date("1995-05-15"),
                 phone: "+1987654321",
                 gender: "Male",
@@ -52,7 +51,7 @@ const userSeed = async () => {
             {
                 fullName: "Restaurant Owner",
                 email: "owner@restaurant.com",
-                password: hashedPassword,
+
                 dob: new Date("1985-08-20"),
                 phone: "+1122334455",
                 gender: "Female",
@@ -65,7 +64,7 @@ const userSeed = async () => {
             {
                 fullName: "Delivery Rider",
                 email: "rider@delivery.com",
-                password: hashedPassword,
+
                 dob: new Date("1992-11-10"),
                 phone: "+1555666777",
                 gender: "Male",
@@ -78,6 +77,8 @@ const userSeed = async () => {
         ];
 
         for (const user of users) {
+            const firstName = user.fullName.split(" ")[0].toLowerCase();
+            user.password = await bcrypt.hash(`${firstName}123`, SALT);
             await User.updateOne(
                 { email: user.email },
                 { $set: user },
