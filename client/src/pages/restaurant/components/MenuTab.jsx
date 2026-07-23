@@ -8,14 +8,12 @@ export default function MenuTab() {
       const saved = localStorage.getItem('restaurantMenu');
       if (saved) return JSON.parse(saved);
     } catch (e) {}
-    return [
-      { id: 1, name: "Spicy Beef Burger", description: "Juicy beef patty with jalapenos and special sauce.", price: 12.99, category: "Main Course", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80" },
-      { id: 2, name: "Crispy Fries", description: "Golden crinkle-cut fries with sea salt.", price: 4.99, category: "Appetizers", image: "https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=300&q=80" }
-    ];
+      { id: 1, name: "Spicy Beef Burger", description: "Juicy beef patty with jalapenos and special sauce.", price: 12.99, category: "Main Course", status: "best", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80" },
+      { id: 2, name: "Crispy Fries", description: "Golden crinkle-cut fries with sea salt.", price: 4.99, category: "Appetizers", status: "most used", image: "https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=300&q=80" }
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newItem, setNewItem] = useState({ name: '', description: '', price: '', category: 'Main Course', image: '' });
+  const [newItem, setNewItem] = useState({ name: '', description: '', price: '', category: 'Main Course', status: 'new', image: '' });
 
   useEffect(() => {
     localStorage.setItem('restaurantMenu', JSON.stringify(menuItems));
@@ -51,7 +49,7 @@ export default function MenuTab() {
     };
     setMenuItems([item, ...menuItems]);
     setIsModalOpen(false);
-    setNewItem({ name: '', description: '', price: '', category: 'Main Course', image: '' });
+    setNewItem({ name: '', description: '', price: '', category: 'Main Course', status: 'new', image: '' });
     toast.success("Menu item added!");
   };
 
@@ -85,39 +83,73 @@ export default function MenuTab() {
            <p className="text-slate-500 font-medium">No menu items found. Add some delicious food!</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-4">
-          {menuItems.map(item => (
-            <div key={item.id} className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow flex items-center gap-5 group">
-              <div className="w-24 h-24 shrink-0 rounded-xl overflow-hidden relative">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent h-1/2"></div>
-              </div>
-              <div className="flex-1 min-w-0 flex flex-col justify-center">
-                <div className="flex items-center gap-3 mb-1">
-                  <h4 className="font-bold text-lg text-slate-800 dark:text-slate-100 truncate">{item.name}</h4>
-                  <span className="text-[10px] font-black px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 uppercase tracking-wider">{item.category}</span>
-                </div>
-                <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-2 font-medium">
-                  {item.description}
-                </p>
-                <div className="font-black text-[#c74a09] text-lg">
-                  ${item.price.toFixed(2)}
-                </div>
-              </div>
-              <div className="flex flex-col gap-2 shrink-0">
-                 <button className="w-24 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 py-2 rounded-lg text-sm font-bold transition-colors shadow-sm">
-                   Edit
-                 </button>
-                 <button 
-                   onClick={() => handleDeleteItem(item.id)}
-                   className="w-24 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 py-2 rounded-lg text-sm font-bold transition-colors shadow-sm"
-                   title="Delete Item"
-                 >
-                   Delete
-                 </button>
-              </div>
-            </div>
-          ))}
+        <div className="w-full overflow-x-auto rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 bg-white dark:bg-slate-900/50">
+          <table className="w-full text-left border-collapse min-w-[800px]">
+            <thead>
+              <tr className="bg-slate-50 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 text-[11px] uppercase tracking-widest border-b border-slate-200/60 dark:border-slate-800/60">
+                <th className="px-6 py-5 font-black">Item Name & Description</th>
+                <th className="px-6 py-5 font-black">Type</th>
+                <th className="px-6 py-5 font-black">Price</th>
+                <th className="px-6 py-5 font-black">Status</th>
+                <th className="px-6 py-5 font-black text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+              {menuItems.map(item => (
+                <tr key={item.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors group">
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-14 h-14 shrink-0 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 relative">
+                        <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-slate-800 dark:text-slate-100 text-sm mb-0.5 truncate group-hover:text-[#c74a09] transition-colors">{item.name}</h4>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 font-medium max-w-[280px]">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="text-[10px] font-black px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60 uppercase tracking-wider whitespace-nowrap">
+                      {item.category}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="font-black text-slate-800 dark:text-slate-100 text-sm whitespace-nowrap">
+                      ${item.price.toFixed(2)}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-1.5 whitespace-nowrap">
+                      {item.status === 'best' && <span className="flex items-center gap-1.5 text-[10px] font-black text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 px-2.5 py-1 rounded-lg"><i className="bi bi-star-fill"></i> Best</span>}
+                      {item.status === 'new' && <span className="flex items-center gap-1.5 text-[10px] font-black text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-2.5 py-1 rounded-lg"><i className="bi bi-stars"></i> New</span>}
+                      {item.status === 'most used' && <span className="flex items-center gap-1.5 text-[10px] font-black text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-500/10 px-2.5 py-1 rounded-lg"><i className="bi bi-graph-up-arrow"></i> Popular</span>}
+                      {(!item.status || !['best', 'new', 'most used'].includes(item.status)) && <span className="text-slate-400 font-bold">-</span>}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                       <button className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-all hover:scale-105 active:scale-95" title="View Details">
+                         <i className="bi bi-eye text-sm"></i>
+                       </button>
+                       <button className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-all hover:scale-105 active:scale-95" title="Edit Item">
+                         <i className="bi bi-pencil-square text-sm"></i>
+                       </button>
+                       <button 
+                         onClick={() => handleDeleteItem(item.id)}
+                         className="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+                         title="Delete Item"
+                       >
+                         <i className="bi bi-trash text-sm"></i>
+                       </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 
