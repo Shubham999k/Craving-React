@@ -54,15 +54,22 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
                   src={item.image}
                   alt={item.name}
                   onError={(e) => { e.target.src = '/default-food.png'; e.target.onerror = null; }}
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition duration-500 ease-out"
+                  className={`w-full h-full object-cover transform group-hover:scale-110 transition duration-500 ease-out ${!item.isAvailable ? 'grayscale opacity-70' : ''}`}
                 />
-                {/* Veg / Non-Veg badge with premium styling */}
-                <span className={`absolute top-4 left-4 px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 backdrop-blur-md shadow-md ${
-                  item.type === 'veg' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'
-                }`}>
-                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                  {item.type}
-                </span>
+                {/* Veg / Non-Veg badge and Stock Status */}
+                <div className="absolute top-4 left-4 flex flex-col gap-2 items-start">
+                  <span className={`px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 backdrop-blur-md shadow-md ${
+                    item.type === 'veg' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'
+                  }`}>
+                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                    {item.type}
+                  </span>
+                  {!item.isAvailable && (
+                    <span className="px-2 py-1 rounded-sm bg-slate-900/90 text-white text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-md">
+                        Out of Stock
+                    </span>
+                  )}
+                </div>
                 {/* Rating Badge */}
                 <span className="absolute top-4 right-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xs px-2.5 py-1 rounded-sm text-xs font-black text-slate-800 dark:text-slate-100 shadow-md flex items-center gap-1">
                   <i className="bi bi-star-fill text-amber-500"></i>
@@ -99,11 +106,16 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
                     <span className="text-xl font-black text-slate-800 dark:text-slate-100">₹{item.price}</span>
                   </div>
                   <button
-                    onClick={() => addToCart(item)}
-                    className="bg-slate-900 dark:bg-slate-850 hover:bg-[#c74a09] dark:hover:bg-[#c74a09] text-white font-extrabold text-xs py-3 px-5 rounded flex items-center gap-1.5 transition-all duration-300 shadow-md hover:shadow-orange-200 dark:hover:shadow-none transform active:scale-95 cursor-pointer"
+                    onClick={() => item.isAvailable && addToCart(item)}
+                    disabled={!item.isAvailable}
+                    className={`font-extrabold text-xs py-3 px-5 rounded flex items-center gap-1.5 transition-all duration-300 shadow-md transform ${
+                        item.isAvailable 
+                        ? 'bg-slate-900 dark:bg-slate-850 hover:bg-[#c74a09] dark:hover:bg-[#c74a09] text-white hover:shadow-orange-200 dark:hover:shadow-none active:scale-95 cursor-pointer' 
+                        : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed'
+                    }`}
                   >
-                    <i className="bi bi-plus-lg text-sm"></i>
-                    <span>Add to Cart</span>
+                    <i className={item.isAvailable ? "bi bi-plus-lg text-sm" : "bi bi-x-lg text-sm"}></i>
+                    <span>{item.isAvailable ? 'Add to Cart' : 'Unavailable'}</span>
                   </button>
                 </div>
               </div>
