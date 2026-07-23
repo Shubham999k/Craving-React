@@ -9,13 +9,13 @@ export default function MenuTab() {
       if (saved) return JSON.parse(saved);
     } catch (e) {}
     return [
-      { id: 1, name: "Spicy Beef Burger", description: "Juicy beef patty with jalapenos and special sauce.", price: 12.99, category: "Main Course", status: "best", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80" },
-      { id: 2, name: "Crispy Fries", description: "Golden crinkle-cut fries with sea salt.", price: 4.99, category: "Appetizers", status: "most used", image: "https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=300&q=80" }
+      { id: 1, name: "Spicy Beef Burger", description: "Juicy beef patty with jalapenos and special sauce.", price: 12.99, category: "Main Course", status: "available", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80" },
+      { id: 2, name: "Crispy Fries", description: "Golden crinkle-cut fries with sea salt.", price: 4.99, category: "Appetizers", status: "not available", image: "https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=300&q=80" }
     ];
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newItem, setNewItem] = useState({ name: '', description: '', price: '', category: 'Main Course', status: 'new', image: '' });
+  const [newItem, setNewItem] = useState({ name: '', description: '', price: '', category: 'Main Course', status: 'available', image: '' });
 
   useEffect(() => {
     localStorage.setItem('restaurantMenu', JSON.stringify(menuItems));
@@ -51,13 +51,18 @@ export default function MenuTab() {
     };
     setMenuItems([item, ...menuItems]);
     setIsModalOpen(false);
-    setNewItem({ name: '', description: '', price: '', category: 'Main Course', status: 'new', image: '' });
+    setNewItem({ name: '', description: '', price: '', category: 'Main Course', status: 'available', image: '' });
     toast.success("Menu item added!");
   };
 
   const handleDeleteItem = (id) => {
     setMenuItems(menuItems.filter(item => item.id !== id));
     toast.success("Item removed");
+  };
+
+  const handleStatusChange = (id, newStatus) => {
+    setMenuItems(menuItems.map(item => item.id === id ? { ...item, status: newStatus } : item));
+    toast.success("Status updated");
   };
 
   return (
@@ -124,12 +129,19 @@ export default function MenuTab() {
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-1.5 whitespace-nowrap">
-                      {item.status === 'best' && <span className="flex items-center gap-1.5 text-[10px] font-black text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 px-2.5 py-1 rounded-lg"><i className="bi bi-star-fill"></i> Best</span>}
-                      {item.status === 'new' && <span className="flex items-center gap-1.5 text-[10px] font-black text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-2.5 py-1 rounded-lg"><i className="bi bi-stars"></i> New</span>}
-                      {item.status === 'most used' && <span className="flex items-center gap-1.5 text-[10px] font-black text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-500/10 px-2.5 py-1 rounded-lg"><i className="bi bi-graph-up-arrow"></i> Popular</span>}
-                      {(!item.status || !['best', 'new', 'most used'].includes(item.status)) && <span className="text-slate-400 font-bold">-</span>}
-                    </div>
+                    <select 
+                      value={item.status || 'available'}
+                      onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                      className={`text-[10px] font-black px-3 py-1.5 rounded-lg border uppercase tracking-wider outline-none cursor-pointer appearance-none shadow-sm transition-colors ${
+                        item.status === 'available' ? 'bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800' :
+                        item.status === 'not available' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800' :
+                        'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700'
+                      }`}
+                    >
+                      <option value="available" className="text-slate-800 font-bold">Available</option>
+                      <option value="not available" className="text-slate-800 font-bold">Not Available</option>
+                      <option value="disabled" className="text-slate-800 font-bold">Disabled</option>
+                    </select>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
@@ -175,7 +187,7 @@ export default function MenuTab() {
                 <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-1.5 ml-1">Item Name</label>
                 <input required type="text" value={newItem.name} onChange={e => setNewItem({...newItem, name: e.target.value})} className="w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white" placeholder="e.g. Classic Cheeseburger" />
               </div>
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div>
                   <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-1.5 ml-1">Price ($)</label>
                   <input required type="number" step="0.01" value={newItem.price} onChange={e => setNewItem({...newItem, price: e.target.value})} className="w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white" placeholder="0.00" />
@@ -187,6 +199,14 @@ export default function MenuTab() {
                     <option>Main Course</option>
                     <option>Desserts</option>
                     <option>Beverages</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-1.5 ml-1">Status</label>
+                  <select value={newItem.status} onChange={e => setNewItem({...newItem, status: e.target.value})} className="w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white cursor-pointer">
+                    <option value="available">Available</option>
+                    <option value="not available">Not Available</option>
+                    <option value="disabled">Disabled</option>
                   </select>
                 </div>
               </div>
