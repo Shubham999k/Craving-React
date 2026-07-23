@@ -85,35 +85,36 @@ export default function MenuTab() {
            <p className="text-slate-500 font-medium">No menu items found. Add some delicious food!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="flex flex-col gap-4">
           {menuItems.map(item => (
-            <div key={item.id} className="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow group flex flex-col">
-              <div className="h-48 overflow-hidden relative">
+            <div key={item.id} className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow flex items-center gap-5 group">
+              <div className="w-24 h-24 shrink-0 rounded-xl overflow-hidden relative">
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 right-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur text-xs font-black px-2.5 py-1 rounded-lg text-slate-700 dark:text-slate-300 shadow border border-white/20 dark:border-slate-700">
-                  {item.category}
-                </div>
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent h-1/2"></div>
               </div>
-              <div className="p-5 flex-1 flex flex-col">
-                <div className="flex justify-between items-start mb-2 gap-2">
-                  <h4 className="font-bold text-lg text-slate-800 dark:text-slate-100 line-clamp-1 flex-1">{item.name}</h4>
-                  <span className="font-black text-[#c74a09] text-lg">${item.price.toFixed(2)}</span>
+              <div className="flex-1 min-w-0 flex flex-col justify-center">
+                <div className="flex items-center gap-3 mb-1">
+                  <h4 className="font-bold text-lg text-slate-800 dark:text-slate-100 truncate">{item.name}</h4>
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 uppercase tracking-wider">{item.category}</span>
                 </div>
-                <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 flex-1 mb-4 font-medium">
+                <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-2 font-medium">
                   {item.description}
                 </p>
-                <div className="flex gap-2 mt-auto pt-4 border-t border-slate-100 dark:border-slate-800/60">
-                   <button className="flex-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 py-2 rounded-lg text-sm font-bold transition-colors">
-                     Edit
-                   </button>
-                   <button 
-                     onClick={() => handleDeleteItem(item.id)}
-                     className="w-10 flex items-center justify-center bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 rounded-lg transition-colors"
-                     title="Delete Item"
-                   >
-                     <i className="bi bi-trash"></i>
-                   </button>
+                <div className="font-black text-[#c74a09] text-lg">
+                  ${item.price.toFixed(2)}
                 </div>
+              </div>
+              <div className="flex flex-col gap-2 shrink-0">
+                 <button className="w-24 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 py-2 rounded-lg text-sm font-bold transition-colors shadow-sm">
+                   Edit
+                 </button>
+                 <button 
+                   onClick={() => handleDeleteItem(item.id)}
+                   className="w-24 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 py-2 rounded-lg text-sm font-bold transition-colors shadow-sm"
+                   title="Delete Item"
+                 >
+                   Delete
+                 </button>
               </div>
             </div>
           ))}
