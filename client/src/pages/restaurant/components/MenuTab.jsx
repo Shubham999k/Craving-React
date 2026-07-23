@@ -8,8 +8,10 @@ export default function MenuTab() {
       const saved = localStorage.getItem('restaurantMenu');
       if (saved) return JSON.parse(saved);
     } catch (e) {}
+    return [
       { id: 1, name: "Spicy Beef Burger", description: "Juicy beef patty with jalapenos and special sauce.", price: 12.99, category: "Main Course", status: "best", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80" },
       { id: 2, name: "Crispy Fries", description: "Golden crinkle-cut fries with sea salt.", price: 4.99, category: "Appetizers", status: "most used", image: "https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=300&q=80" }
+    ];
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
