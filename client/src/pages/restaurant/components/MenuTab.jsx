@@ -129,19 +129,28 @@ export default function MenuTab() {
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <select 
-                      value={item.status || 'available'}
-                      onChange={(e) => handleStatusChange(item.id, e.target.value)}
-                      className={`text-[10px] font-black px-3 py-1.5 rounded-lg border uppercase tracking-wider outline-none cursor-pointer appearance-none shadow-sm transition-colors ${
-                        item.status === 'available' ? 'bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800' :
-                        item.status === 'not available' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800' :
-                        'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700'
-                      }`}
-                    >
-                      <option value="available" className="text-slate-800 font-bold">Available</option>
-                      <option value="not available" className="text-slate-800 font-bold">Not Available</option>
-                      <option value="disabled" className="text-slate-800 font-bold">Disabled</option>
-                    </select>
+                    <div className="relative inline-block">
+                      <select 
+                        value={item.status || 'available'}
+                        onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                        className={`text-[10px] font-black pl-3 pr-8 py-1.5 rounded-lg border uppercase tracking-wider outline-none cursor-pointer appearance-none shadow-sm transition-colors ${
+                          item.status === 'available' ? 'bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800' :
+                          item.status === 'not available' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800' :
+                          'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700'
+                        }`}
+                      >
+                        <option value="available" className="text-slate-800 dark:text-slate-100 font-bold bg-white dark:bg-slate-800">Available</option>
+                        <option value="not available" className="text-slate-800 dark:text-slate-100 font-bold bg-white dark:bg-slate-800">Not Available</option>
+                        <option value="disabled" className="text-slate-800 dark:text-slate-100 font-bold bg-white dark:bg-slate-800">Disabled</option>
+                      </select>
+                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                        <i className={`bi bi-chevron-down text-[10px] font-black ${
+                          item.status === 'available' ? 'text-green-600 dark:text-green-400' :
+                          item.status === 'not available' ? 'text-amber-600 dark:text-amber-400' :
+                          'text-slate-500 dark:text-slate-400'
+                        }`}></i>
+                      </div>
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
