@@ -57,7 +57,7 @@ const ProfileTab = ({
               />
             </label>
 
-            {/* Custom Image Option preview if uploaded */}
+            {/* Custom Image Option preview if uploaded*/}
             {isCustom && (
               <div className="relative shrink-0">
                 <button
