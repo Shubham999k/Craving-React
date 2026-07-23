@@ -5,25 +5,25 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
   return (
     <div className="space-y-6 animate-fadeIn duration-500">
       {/* Search & Filter Bar */}
-      <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch">
-        <div className="relative flex-1">
+      <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
+        <div className="relative flex-1 w-full">
           <i className="bi bi-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
           <input
             type="text"
             placeholder="Search yummy foods (Biryani, Pizza, Burger...)"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100 dark:focus:ring-orange-950/20 text-slate-800 dark:text-slate-100 transition shadow-sm font-semibold"
+            className="w-full h-12 pl-12 pr-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100 dark:focus:ring-orange-950/20 text-slate-800 dark:text-slate-100 transition shadow-sm font-semibold"
           />
         </div>
 
         {/* Category selector pills */}
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+        <div className="flex gap-2 overflow-x-auto scrollbar-none w-full md:w-auto">
           {['All', 'Pizza', 'Burger', 'Biryani', 'Wraps', 'Noodles', 'Sides', 'Beverages', 'Desserts'].map(cat => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded font-bold text-xs shrink-0 cursor-pointer transition ${
+              className={`h-12 px-5 rounded font-bold text-sm shrink-0 cursor-pointer transition flex items-center justify-center ${
                 selectedCategory === cat
                   ? 'bg-orange-600 text-white'
                   : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850'
