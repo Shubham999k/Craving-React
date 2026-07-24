@@ -139,9 +139,9 @@ export default function MenuTab() {
                           'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700'
                         }`}
                       >
-                        <option value="available" className="text-slate-800 dark:text-slate-100 font-bold bg-white dark:bg-slate-800">Available</option>
-                        <option value="not available" className="text-slate-800 dark:text-slate-100 font-bold bg-white dark:bg-slate-800">Not Available</option>
-                        <option value="disabled" className="text-slate-800 dark:text-slate-100 font-bold bg-white dark:bg-slate-800">Disabled</option>
+                        <option value="available" className="font-bold text-green-600 dark:text-green-400 bg-white dark:bg-slate-900">Available</option>
+                        <option value="not available" className="font-bold text-amber-600 dark:text-amber-400 bg-white dark:bg-slate-900">Not Available</option>
+                        <option value="disabled" className="font-bold text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900">Disabled</option>
                       </select>
                       <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                         <i className={`bi bi-chevron-down text-[10px] font-black ${
