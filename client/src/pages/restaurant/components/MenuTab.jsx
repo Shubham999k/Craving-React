@@ -77,9 +77,9 @@ export default function MenuTab() {
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="mt-4 md:mt-0 bg-[#c74a09] text-white px-6 py-3 rounded-xl text-sm font-extrabold shadow-lg hover:shadow-orange-500/30 hover:-translate-y-0.5 transition-all flex items-center gap-2"
+          className="mt-4 md:mt-0 bg-gradient-to-r from-orange-600 to-rose-600 text-white px-6 py-3.5 rounded-xl text-sm font-black shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
         >
-          <i className="bi bi-plus-lg"></i> Add New Item
+          <i className="bi bi-plus-circle-fill text-lg"></i> Add New Item
         </button>
       </div>
 
@@ -178,76 +178,138 @@ export default function MenuTab() {
 
       {/* Add Item Modal */}
       {isModalOpen && createPortal(
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn">
-          <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-zoomIn border border-slate-200 dark:border-slate-800">
-            <div className="flex justify-between items-center p-6 border-b border-slate-100 dark:border-slate-800/60">
-              <h3 className="text-xl font-black text-slate-800 dark:text-white flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-500/20 text-[#c74a09] flex items-center justify-center">
-                  <i className="bi bi-plus-circle-fill"></i>
-                </div>
-                Add Menu Item
-              </h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
-                <i className="bi bi-x-lg"></i>
-              </button>
-            </div>
-            <form onSubmit={handleAddItem} className="p-6 space-y-5">
-              <div>
-                <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-1.5 ml-1">Item Name</label>
-                <input required type="text" value={newItem.name} onChange={e => setNewItem({...newItem, name: e.target.value})} className="w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white" placeholder="e.g. Classic Cheeseburger" />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
+          <div className="absolute inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md" onClick={() => setIsModalOpen(false)}></div>
+          <div className="relative w-full max-w-xl bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden animate-zoomIn border border-white/20 dark:border-slate-700/50 flex flex-col max-h-[90vh]">
+            
+            {/* Modal Header with Decorative Gradient Background */}
+            <div className="relative pt-8 pb-6 px-8 overflow-hidden shrink-0">
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-orange-500 via-rose-500 to-amber-500"></div>
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-orange-500/10 dark:bg-orange-500/20 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-rose-500/10 dark:bg-rose-500/20 rounded-full blur-3xl"></div>
+              
+              <div className="relative flex justify-between items-start">
                 <div>
-                  <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-1.5 ml-1">Price ($)</label>
-                  <input required type="number" step="0.01" value={newItem.price} onChange={e => setNewItem({...newItem, price: e.target.value})} className="w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white" placeholder="0.00" />
+                  <h3 className="text-2xl font-black text-slate-800 dark:text-white flex items-center gap-3 tracking-tight">
+                    <span className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-400 to-rose-600 text-white flex items-center justify-center shadow-lg shadow-orange-500/30">
+                      <i className="bi bi-stars text-xl"></i>
+                    </span>
+                    Create Menu Item
+                  </h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mt-2 ml-[52px]">
+                    Craft a new delicious addition to your menu.
+                  </p>
                 </div>
-                <div>
-                  <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-1.5 ml-1">Category</label>
-                  <select value={newItem.category} onChange={e => setNewItem({...newItem, category: e.target.value})} className="w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white cursor-pointer">
-                    <option>Appetizers</option>
-                    <option>Main Course</option>
-                    <option>Desserts</option>
-                    <option>Beverages</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-1.5 ml-1">Status</label>
-                  <select value={newItem.status} onChange={e => setNewItem({...newItem, status: e.target.value})} className="w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white cursor-pointer">
-                    <option value="available">Available</option>
-                    <option value="not available">Not Available</option>
-                    <option value="disabled">Disabled</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-1.5 ml-1">Description</label>
-                <textarea required rows="2" value={newItem.description} onChange={e => setNewItem({...newItem, description: e.target.value})} className="w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white resize-none" placeholder="Briefly describe the item..."></textarea>
-              </div>
-              <div>
-                <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-1.5 ml-1">Item Photo</label>
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-center gap-3">
-                    <label className="cursor-pointer shrink-0 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 px-4 rounded-xl transition-colors flex items-center gap-2">
-                      <i className="bi bi-camera-fill"></i> Upload
-                      <input type="file" accept="image/*" className="hidden" onChange={handleCustomImageUpload} />
-                    </label>
-                    <span className="text-slate-400 text-[10px] font-black uppercase tracking-wider">OR</span>
-                    <input type="url" value={newItem.image} onChange={e => setNewItem({...newItem, image: e.target.value})} className="flex-1 w-full px-5 py-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-[#c74a09] focus:ring-2 focus:ring-orange-500/20 transition-all font-semibold text-slate-800 dark:text-white" placeholder="Paste URL" />
-                  </div>
-                  {newItem.image && (
-                    <div className="relative w-full h-32 rounded-xl overflow-hidden border-2 border-slate-200 dark:border-slate-700 mt-2">
-                       <img src={newItem.image} alt="Preview" className="w-full h-full object-cover" />
-                       <button type="button" onClick={() => setNewItem({...newItem, image: ''})} className="absolute top-2 right-2 bg-black/50 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-black/80 transition-colors backdrop-blur"><i className="bi bi-x-lg"></i></button>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="pt-2">
-                <button type="submit" className="w-full bg-[#c74a09] hover:bg-[#a63d07] hover:-translate-y-1 text-white font-black py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-orange-500/30 flex items-center justify-center gap-2">
-                  <i className="bi bi-check-circle-fill"></i> Add Item to Menu
+                <button 
+                  onClick={() => setIsModalOpen(false)} 
+                  className="group w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 dark:text-slate-400 hover:text-rose-500 transition-all duration-300 relative z-10"
+                >
+                  <i className="bi bi-x-lg group-hover:rotate-90 transition-transform duration-300"></i>
                 </button>
               </div>
+            </div>
+
+            {/* Modal Form Scrollable Content */}
+            <form onSubmit={handleAddItem} className="flex-1 overflow-y-auto px-8 py-2 space-y-6 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700 pb-8">
+              
+              {/* Image Upload Area - Premium Design */}
+              <div className="group relative w-full h-40 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-800/30 border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-orange-500 dark:hover:border-orange-500 transition-colors flex items-center justify-center cursor-pointer">
+                {newItem.image ? (
+                  <>
+                    <img src={newItem.image} alt="Preview" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="bg-white/20 backdrop-blur-md text-white px-4 py-2 rounded-xl font-bold text-sm flex items-center gap-2">
+                        <i className="bi bi-camera"></i> Change Image
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center p-6">
+                    <div className="w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 group-hover:bg-orange-200 dark:group-hover:bg-orange-500/30 transition-all">
+                      <i className="bi bi-image text-xl"></i>
+                    </div>
+                    <p className="text-sm font-bold text-slate-600 dark:text-slate-300">Click to upload image</p>
+                    <p className="text-xs text-slate-400 mt-1">or paste a URL below (Max 2MB)</p>
+                  </div>
+                )}
+                <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleCustomImageUpload} />
+              </div>
+
+              {/* Or Paste URL */}
+              {!newItem.image && (
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">OR PASTE URL</span>
+                  <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+                </div>
+              )}
+              
+              {!newItem.image && (
+                <div className="relative group">
+                  <i className="bi bi-link-45deg absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-orange-500 transition-colors text-lg"></i>
+                  <input type="url" value={newItem.image} onChange={e => setNewItem({...newItem, image: e.target.value})} className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold text-slate-800 dark:text-white" placeholder="https://example.com/image.jpg" />
+                </div>
+              )}
+
+              {/* Inputs Grid */}
+              <div className="space-y-5">
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Item Name</label>
+                  <input required type="text" value={newItem.name} onChange={e => setNewItem({...newItem, name: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white placeholder:text-slate-400 placeholder:font-medium" placeholder="e.g. Signature Truffle Burger" />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Price</label>
+                    <div className="relative group">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-400 group-focus-within:text-orange-500 transition-colors">$</span>
+                      <input required type="number" step="0.01" value={newItem.price} onChange={e => setNewItem({...newItem, price: e.target.value})} className="w-full pl-8 pr-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white placeholder:text-slate-400 placeholder:font-medium" placeholder="0.00" />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Category</label>
+                    <div className="relative">
+                      <select value={newItem.category} onChange={e => setNewItem({...newItem, category: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white appearance-none cursor-pointer">
+                        <option>Appetizers</option>
+                        <option>Main Course</option>
+                        <option>Desserts</option>
+                        <option>Beverages</option>
+                      </select>
+                      <i className="bi bi-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none font-bold text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Status</label>
+                  <div className="relative">
+                    <select value={newItem.status} onChange={e => setNewItem({...newItem, status: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white appearance-none cursor-pointer">
+                      <option value="available">✨ Available (Active)</option>
+                      <option value="not available">⛔ Not Available (Out of stock)</option>
+                      <option value="disabled">👁️‍🗨️ Hidden (Disabled)</option>
+                    </select>
+                    <i className="bi bi-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none font-bold text-sm"></i>
+                  </div>
+                </div>
+
+                <div className="space-y-1.5 pb-2">
+                  <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Description</label>
+                  <textarea required rows="3" value={newItem.description} onChange={e => setNewItem({...newItem, description: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold text-slate-800 dark:text-white resize-none placeholder:text-slate-400 placeholder:font-medium" placeholder="What makes this dish special?..."></textarea>
+                </div>
+              </div>
             </form>
+
+            {/* Modal Footer */}
+            <div className="p-6 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700/50 shrink-0 flex gap-4 justify-end">
+              <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3.5 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                Cancel
+              </button>
+              <button type="submit" className="px-8 py-3.5 bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-500 hover:to-rose-500 text-white font-black rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                <i className="bi bi-check2-circle text-lg"></i> Add Item
+              </button>
+            </div>
+            
           </div>
         </div>,
         document.body
