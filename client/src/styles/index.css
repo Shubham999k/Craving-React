@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
-@variant dark (.dark &);
-
 /* Prevent chrome browser autofill from making input backgrounds white */
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
