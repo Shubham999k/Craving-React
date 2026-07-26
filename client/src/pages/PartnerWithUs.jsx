@@ -30,7 +30,7 @@ function PartnerWithUs() {
       };
       reader.readAsDataURL(file);
     }
-  };
+  }; 
 
   const handleMultipleImagesUpload = async (e, field) => {
     const files = Array.from(e.target.files);
