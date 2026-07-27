@@ -45,7 +45,7 @@ function RestaurantCard({ restaurant }) {
                     to={`/restaurant/${restaurant.id}`}
                     className="block rounded-lg bg-[#c74a09] py-2 text-center font-semibold text-white transition hover:bg-[#b64307]"
                 >
-                    Explore Menu
+                    Explore Menu !
                 </Link>
 
             </div>
