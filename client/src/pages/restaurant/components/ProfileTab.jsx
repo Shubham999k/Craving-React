@@ -98,6 +98,21 @@ const ProfileTab = () => {
     };
     
     localStorage.setItem("restaurantProfile", JSON.stringify(updatedProfile));
+
+    // Also update the main user object so the Navbar DP updates
+    try {
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const userObj = JSON.parse(userStr);
+        userObj.profilePicture = editLogo;
+        userObj.name = editName;
+        localStorage.setItem("user", JSON.stringify(userObj));
+        window.dispatchEvent(new Event("auth-change"));
+      }
+    } catch (err) {
+      console.error("Error updating user storage:", err);
+    }
+
     toast.success("Restaurant profile updated successfully!");
   };
 
