@@ -125,8 +125,8 @@ function RestaurantDashboard() {
 
         {/* Tab Content Container */}
         <div className="flex-1 overflow-y-auto p-6 md:p-10 relative z-0">
-          <div className="max-w-6xl mx-auto h-full pb-20 flex flex-col">
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 flex-1 flex flex-col min-h-0">
+          <div className="max-w-6xl mx-auto h-full pb-20">
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               {renderTabContent()}
             </div>
           </div>
