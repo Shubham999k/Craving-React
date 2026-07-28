@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { restaurants } from "../data/restaurants";
 import {
@@ -19,6 +20,34 @@ import bg3 from "../assets/images/bgImage3-BTY6Sz_K.jpg";
 import bg4 from "../assets/images/bgImage4-L1QELaMd.jpg";
 
 function Hero({ searchQuery, setSearchQuery }) {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const checkUser = () => {
+            const token = localStorage.getItem("token");
+            const userData = localStorage.getItem("user");
+            if (token && userData) {
+                try {
+                    setUser(JSON.parse(userData));
+                } catch {
+                    setUser(null);
+                }
+            } else {
+                setUser(null);
+            }
+        };
+
+        checkUser();
+
+        window.addEventListener("storage", checkUser);
+        window.addEventListener("auth-change", checkUser);
+
+        return () => {
+            window.removeEventListener("storage", checkUser);
+            window.removeEventListener("auth-change", checkUser);
+        };
+    }, []);
+
     const slides = [
         {
             image: bg1,
@@ -86,12 +115,14 @@ function Hero({ searchQuery, setSearchQuery }) {
                                     {slide.subtitle}
                                 </p>
                                 <div className="mb-8 flex flex-wrap justify-center gap-4">
-                                    <Link
-                                        to="/register"
-                                        className="rounded-lg bg-[#c74a09] px-8 py-3 lg:px-10 lg:py-4 text-base lg:text-lg font-semibold text-white transition duration-300 hover:bg-[#b34006] hover:scale-105"
-                                    >
-                                        Sign Up
-                                    </Link>
+                                    {!user && (
+                                        <Link
+                                            to="/register"
+                                            className="rounded-lg bg-[#c74a09] px-8 py-3 lg:px-10 lg:py-4 text-base lg:text-lg font-semibold text-white transition duration-300 hover:bg-[#b34006] hover:scale-105"
+                                        >
+                                            Sign Up
+                                        </Link>
+                                    )}
                                     <Link
                                         to="/order"
                                         className="rounded-lg bg-white px-8 py-3 lg:px-10 lg:py-4 text-base lg:text-lg font-semibold text-black transition duration-300 hover:bg-gray-100 hover:scale-105"
