@@ -2,6 +2,63 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import toast from 'react-hot-toast';
 
+const CustomStatusDropdown = ({ value, onChange }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const dropdownRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const options = [
+    { value: 'available', label: 'Available', colorClass: 'text-green-600 dark:text-green-400', bgClass: 'bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-800' },
+    { value: 'not available', label: 'Not Available', colorClass: 'text-amber-600 dark:text-amber-400', bgClass: 'bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-800' },
+    { value: 'disabled', label: 'Disabled', colorClass: 'text-slate-500 dark:text-slate-400', bgClass: 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700' }
+  ];
+
+  const selectedOption = options.find(opt => opt.value === (value || 'available'));
+
+  return (
+    <div className="relative inline-block" ref={dropdownRef}>
+      <div 
+        onClick={() => setIsOpen(!isOpen)}
+        className={`text-[10px] font-black pl-3 pr-8 py-1.5 rounded-lg border uppercase tracking-wider cursor-pointer shadow-sm transition-colors flex items-center ${selectedOption.bgClass} ${selectedOption.colorClass}`}
+      >
+        {selectedOption.label}
+        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+           <i className={`bi bi-chevron-down text-[10px] font-black ${selectedOption.colorClass}`}></i>
+        </div>
+      </div>
+      
+      {isOpen && (
+        <div className="absolute z-50 mt-1 w-36 left-0 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl overflow-hidden py-1 animate-fadeIn">
+          {options.map(opt => (
+            <div 
+              key={opt.value}
+              onClick={() => {
+                onChange(opt.value);
+                setIsOpen(false);
+              }}
+              className={`px-3 py-2 text-[10px] font-black uppercase tracking-wider cursor-pointer transition-colors ${
+                opt.value === (value || 'available')
+                  ? 'bg-orange-50 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400' 
+                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
+              }`}
+            >
+              {opt.label}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 export default function MenuTab() {
   const [menuItems, setMenuItems] = useState(() => {
     try {
@@ -200,26 +257,10 @@ export default function MenuTab() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="relative inline-block">
-                      <select 
-                        value={item.status || 'available'}
-                        onChange={(e) => handleStatusChange(item.id, e.target.value)}
-                        className={`text-[10px] font-black pl-3 pr-8 py-1.5 rounded-lg border uppercase tracking-wider outline-none cursor-pointer appearance-none shadow-sm transition-colors ${
-                          item.status === 'available' ? 'bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800' :
-                          item.status === 'not available' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800' :
-                          'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700'
-                        }`}
-                      >
-                        <option value="available" className="font-bold text-green-600 dark:text-green-400 bg-white dark:bg-slate-900">Available</option>
-                        <option value="not available" className="font-bold text-amber-600 dark:text-amber-400 bg-white dark:bg-slate-900">Not Available</option>
-                        <option value="disabled" className="font-bold text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900">Disabled</option>
-                      </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                        <i className={`bi bi-chevron-down text-[10px] font-black ${
-                          item.status === 'available' ? 'text-green-600 dark:text-green-400' :
-                          item.status === 'not available' ? 'text-amber-600 dark:text-amber-400' :
-                          'text-slate-500 dark:text-slate-400'
-                        }`}></i>
-                      </div>
+                      <CustomStatusDropdown 
+                        value={item.status} 
+                        onChange={(val) => handleStatusChange(item.id, val)} 
+                      />
                     </div>
                   </td>
                   <td className="px-6 py-4 text-right">
@@ -374,10 +415,10 @@ export default function MenuTab() {
                     <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Category</label>
                     <div className="relative">
                       <select value={newItem.category} onChange={e => setNewItem({...newItem, category: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white appearance-none cursor-pointer">
-                        <option>Appetizers</option>
-                        <option>Main Course</option>
-                        <option>Desserts</option>
-                        <option>Beverages</option>
+                        <option className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-bold">Appetizers</option>
+                        <option className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-bold">Main Course</option>
+                        <option className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-bold">Desserts</option>
+                        <option className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-bold">Beverages</option>
                       </select>
                       <i className="bi bi-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none font-bold text-sm"></i>
                     </div>
