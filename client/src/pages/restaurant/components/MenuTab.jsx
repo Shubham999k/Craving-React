@@ -5,16 +5,43 @@ import toast from 'react-hot-toast';
 const CustomStatusDropdown = ({ value, onChange }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dropdownRef = React.useRef(null);
+  const menuRef = React.useRef(null);
+  const [dropdownPos, setDropdownPos] = React.useState({});
 
   React.useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
+      if (
+        (dropdownRef.current && dropdownRef.current.contains(event.target)) ||
+        (menuRef.current && menuRef.current.contains(event.target))
+      ) {
+        return;
       }
+      setIsOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    
+    const handleScroll = () => setIsOpen(false);
+    window.addEventListener("scroll", handleScroll, true);
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, []);
+
+  const toggleDropdown = () => {
+    if (!isOpen && dropdownRef.current) {
+      const rect = dropdownRef.current.getBoundingClientRect();
+      setDropdownPos({
+        top: rect.bottom + window.scrollY + 4,
+        left: rect.left + window.scrollX,
+        width: Math.max(144, rect.width)
+      });
+    }
+    setIsOpen(!isOpen);
+  };
 
   const options = [
     { value: 'available', label: 'Available', colorClass: 'text-green-600 dark:text-green-400', bgClass: 'bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-800' },
@@ -27,7 +54,7 @@ const CustomStatusDropdown = ({ value, onChange }) => {
   return (
     <div className="relative inline-block" ref={dropdownRef}>
       <div 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleDropdown}
         className={`text-[10px] font-black pl-3 pr-8 py-1.5 rounded-lg border uppercase tracking-wider cursor-pointer shadow-sm transition-colors flex items-center ${selectedOption.bgClass} ${selectedOption.colorClass}`}
       >
         {selectedOption.label}
@@ -36,8 +63,12 @@ const CustomStatusDropdown = ({ value, onChange }) => {
         </div>
       </div>
       
-      {isOpen && (
-        <div className="absolute z-50 mt-1 w-36 left-0 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl overflow-hidden py-1 animate-fadeIn">
+      {isOpen && createPortal(
+        <div 
+          ref={menuRef}
+          style={{ top: dropdownPos.top, left: dropdownPos.left, width: dropdownPos.width }}
+          className="absolute z-[99999] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl overflow-hidden py-1 animate-fadeIn"
+        >
           {options.map(opt => (
             <div 
               key={opt.value}
@@ -54,7 +85,8 @@ const CustomStatusDropdown = ({ value, onChange }) => {
               {opt.label}
             </div>
           ))}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
@@ -63,23 +95,50 @@ const CustomStatusDropdown = ({ value, onChange }) => {
 const CustomFormDropdown = ({ value, onChange, options }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dropdownRef = React.useRef(null);
+  const menuRef = React.useRef(null);
+  const [dropdownPos, setDropdownPos] = React.useState({});
 
   React.useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
+      if (
+        (dropdownRef.current && dropdownRef.current.contains(event.target)) ||
+        (menuRef.current && menuRef.current.contains(event.target))
+      ) {
+        return;
       }
+      setIsOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    
+    const handleScroll = () => setIsOpen(false);
+    window.addEventListener("scroll", handleScroll, true);
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, []);
+
+  const toggleDropdown = () => {
+    if (!isOpen && dropdownRef.current) {
+      const rect = dropdownRef.current.getBoundingClientRect();
+      setDropdownPos({
+        top: rect.bottom + window.scrollY + 6,
+        left: rect.left + window.scrollX,
+        width: rect.width
+      });
+    }
+    setIsOpen(!isOpen);
+  };
 
   const selectedOption = options.find(opt => opt.value === value) || options[0];
 
   return (
     <div className="relative w-full" ref={dropdownRef}>
       <div 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleDropdown}
         className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white cursor-pointer flex items-center justify-between"
       >
         <div className="flex items-center gap-2">
@@ -88,8 +147,12 @@ const CustomFormDropdown = ({ value, onChange, options }) => {
         <i className="bi bi-chevron-down text-slate-400 text-sm"></i>
       </div>
       
-      {isOpen && (
-        <div className="absolute z-50 mt-2 w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl overflow-hidden py-2 animate-fadeIn">
+      {isOpen && createPortal(
+        <div 
+          ref={menuRef}
+          style={{ top: dropdownPos.top, left: dropdownPos.left, width: dropdownPos.width }}
+          className="absolute z-[99999] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl overflow-hidden py-2 animate-fadeIn"
+        >
           {options.map(opt => (
             <div 
               key={opt.value}
@@ -106,7 +169,8 @@ const CustomFormDropdown = ({ value, onChange, options }) => {
               <span className={opt.colorClass || ""}>{opt.label}</span>
             </div>
           ))}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
