@@ -279,7 +279,40 @@ export default function MenuTab() {
               </div>
             </div>
 
-            {/* Modal Form Scrollable Content */}
+            {/* Modal Content */}
+            {modalMode === 'view' ? (
+              <div className="flex-1 overflow-y-auto px-6 py-2 pb-8 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700">
+                <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/50 rounded-2xl overflow-hidden shadow-sm">
+                  <div className="relative h-64">
+                      <img 
+                          src={newItem.image} 
+                          alt={newItem.name} 
+                          onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80'; e.target.onerror = null; }}
+                          className={`w-full h-full object-cover ${newItem.status !== 'available' ? 'grayscale opacity-70' : ''}`}
+                      />
+                      <span className="absolute top-4 left-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 py-1 rounded text-sm font-black text-slate-800 dark:text-slate-100 shadow-lg border border-slate-200/50 dark:border-slate-700">
+                          ${parseFloat(newItem.price || 0).toFixed(2)}
+                      </span>
+                      <div className="absolute top-4 right-4 flex flex-col gap-2 items-end">
+                          <span className="px-3 py-1 rounded bg-slate-800/90 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-wider shadow-lg">
+                              {newItem.category}
+                          </span>
+                          {newItem.status !== 'available' && (
+                              <span className="px-3 py-1 rounded bg-red-500/90 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-wider shadow-lg">
+                                  {newItem.status === 'not available' ? 'Out of Stock' : 'Hidden'}
+                              </span>
+                          )}
+                      </div>
+                  </div>
+                  <div className="p-6 space-y-4">
+                      <div>
+                          <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-xl">{newItem.name}</h3>
+                          <p className="text-sm text-slate-500 dark:text-slate-400 mt-3 leading-relaxed font-medium">{newItem.description}</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
             <form id="add-item-form" onSubmit={handleSaveItem} className="flex-1 overflow-y-auto px-8 py-2 space-y-6 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700 pb-8">
               
               {/* Image Upload Area - Premium Design */}
@@ -287,13 +320,11 @@ export default function MenuTab() {
                 {newItem.image ? (
                   <>
                     <img src={newItem.image} alt="Preview" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80'; e.target.onerror = null; }} className="w-full h-full object-cover" />
-                    {modalMode !== 'view' && (
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span className="bg-white/20 backdrop-blur-md text-white px-4 py-2 rounded-xl font-bold text-sm flex items-center gap-2">
-                          <i className="bi bi-camera"></i> Change Image
-                        </span>
-                      </div>
-                    )}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="bg-white/20 backdrop-blur-md text-white px-4 py-2 rounded-xl font-bold text-sm flex items-center gap-2">
+                        <i className="bi bi-camera"></i> Change Image
+                      </span>
+                    </div>
                   </>
                 ) : (
                   <div className="text-center p-6">
@@ -304,11 +335,11 @@ export default function MenuTab() {
                     <p className="text-xs text-slate-400 mt-1">or paste a URL below (Max 2MB)</p>
                   </div>
                 )}
-                <input type="file" accept="image/*" disabled={modalMode === 'view'} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-auto" onChange={handleCustomImageUpload} />
+                <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleCustomImageUpload} />
               </div>
 
               {/* Or Paste URL */}
-              {!newItem.image && modalMode !== 'view' && (
+              {!newItem.image && (
                 <div className="flex items-center gap-3">
                   <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">OR PASTE URL</span>
@@ -316,10 +347,10 @@ export default function MenuTab() {
                 </div>
               )}
               
-              {!newItem.image && modalMode !== 'view' && (
+              {!newItem.image && (
                 <div className="relative group">
                   <i className="bi bi-link-45deg absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-orange-500 transition-colors text-lg"></i>
-                  <input type="url" value={newItem.image} disabled={modalMode === 'view'} onChange={e => setNewItem({...newItem, image: e.target.value})} className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold text-slate-800 dark:text-white disabled:opacity-70 disabled:cursor-not-allowed" placeholder="https://example.com/image.jpg" />
+                  <input type="url" value={newItem.image} onChange={e => setNewItem({...newItem, image: e.target.value})} className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold text-slate-800 dark:text-white" placeholder="https://example.com/image.jpg" />
                 </div>
               )}
 
@@ -327,7 +358,7 @@ export default function MenuTab() {
               <div className="space-y-5">
                 <div className="space-y-1.5">
                   <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Item Name</label>
-                  <input required type="text" value={newItem.name} disabled={modalMode === 'view'} onChange={e => setNewItem({...newItem, name: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white disabled:opacity-70 disabled:cursor-not-allowed placeholder:text-slate-400 placeholder:font-medium" placeholder="e.g. Signature Truffle Burger" />
+                  <input required type="text" value={newItem.name} onChange={e => setNewItem({...newItem, name: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white placeholder:text-slate-400 placeholder:font-medium" placeholder="e.g. Signature Truffle Burger" />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -335,14 +366,14 @@ export default function MenuTab() {
                     <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Price</label>
                     <div className="relative group">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-400 group-focus-within:text-orange-500 transition-colors">$</span>
-                      <input required type="number" step="0.01" value={newItem.price} disabled={modalMode === 'view'} onChange={e => setNewItem({...newItem, price: e.target.value})} className="w-full pl-8 pr-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white disabled:opacity-70 disabled:cursor-not-allowed placeholder:text-slate-400 placeholder:font-medium" placeholder="0.00" />
+                      <input required type="number" step="0.01" value={newItem.price} onChange={e => setNewItem({...newItem, price: e.target.value})} className="w-full pl-8 pr-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white placeholder:text-slate-400 placeholder:font-medium" placeholder="0.00" />
                     </div>
                   </div>
                   
                   <div className="space-y-1.5">
                     <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Category</label>
                     <div className="relative">
-                      <select value={newItem.category} disabled={modalMode === 'view'} onChange={e => setNewItem({...newItem, category: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white disabled:opacity-70 appearance-none cursor-pointer disabled:cursor-auto">
+                      <select value={newItem.category} onChange={e => setNewItem({...newItem, category: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white appearance-none cursor-pointer">
                         <option>Appetizers</option>
                         <option>Main Course</option>
                         <option>Desserts</option>
@@ -356,7 +387,7 @@ export default function MenuTab() {
                 <div className="space-y-1.5">
                   <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Status</label>
                   <div className="relative">
-                    <select value={newItem.status} disabled={modalMode === 'view'} onChange={e => setNewItem({...newItem, status: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white disabled:opacity-70 appearance-none cursor-pointer disabled:cursor-auto">
+                    <select value={newItem.status} onChange={e => setNewItem({...newItem, status: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white appearance-none cursor-pointer">
                       <option value="available">✨ Available (Active)</option>
                       <option value="not available">⛔ Not Available (Out of stock)</option>
                       <option value="disabled">👁️‍🗨️ Hidden (Disabled)</option>
@@ -367,10 +398,11 @@ export default function MenuTab() {
 
                 <div className="space-y-1.5 pb-2">
                   <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Description</label>
-                  <textarea required rows="3" value={newItem.description} disabled={modalMode === 'view'} onChange={e => setNewItem({...newItem, description: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold text-slate-800 dark:text-white disabled:opacity-70 disabled:cursor-not-allowed resize-none placeholder:text-slate-400 placeholder:font-medium" placeholder="What makes this dish special?..."></textarea>
+                  <textarea required rows="3" value={newItem.description} onChange={e => setNewItem({...newItem, description: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold text-slate-800 dark:text-white resize-none placeholder:text-slate-400 placeholder:font-medium" placeholder="What makes this dish special?..."></textarea>
                 </div>
               </div>
             </form>
+            )}
 
             {/* Modal Footer */}
             <div className="p-6 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700/50 shrink-0 flex gap-4 justify-end">
