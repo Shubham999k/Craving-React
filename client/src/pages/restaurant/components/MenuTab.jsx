@@ -334,9 +334,9 @@ export default function MenuTab() {
            <p className="text-slate-500 font-medium">No menu items found. Add some delicious food!</p>
         </div>
       ) : (
-        <div className="w-full overflow-visible rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 bg-white dark:bg-slate-900/50">
+        <div className="w-full max-h-[calc(100vh-200px)] overflow-auto rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 bg-white dark:bg-slate-900/50">
           <table className="w-full text-left border-collapse min-w-[800px]">
-            <thead className="sticky -top-6 md:-top-1 z-20 shadow-md">
+            <thead className="sticky top-0 z-20 shadow-sm">
               <tr className="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] uppercase tracking-widest border-b border-slate-200/60 dark:border-slate-800/60">
                 <th className="px-6 py-5 font-black">Item Name & Description</th>
                 <th className="px-6 py-5 font-black">Type</th>
