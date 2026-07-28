@@ -292,7 +292,7 @@ export default function MenuTab() {
   return (
     <div className="w-full animate-fadeIn pb-10">
       {/* Header */}
-      <div className="sticky top-4 z-30 flex flex-col md:flex-row justify-between items-start md:items-center bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-6 md:p-8 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white dark:bg-slate-900/80 p-6 md:p-8 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 mb-8">
         <div>
           <h3 className="text-2xl font-black text-slate-800 dark:text-white flex items-center gap-2">
              <i className="bi bi-journal-text text-[#c74a09]"></i> Manage Menu
@@ -334,10 +334,10 @@ export default function MenuTab() {
            <p className="text-slate-500 font-medium">No menu items found. Add some delicious food!</p>
         </div>
       ) : (
-        <div className="w-full max-h-[calc(100vh-260px)] overflow-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 bg-white dark:bg-slate-900/50">
+        <div className="w-full overflow-x-auto rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 bg-white dark:bg-slate-900/50">
           <table className="w-full text-left border-collapse min-w-[800px]">
             <thead className="sticky top-0 z-20">
-              <tr className="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] uppercase tracking-widest border-b border-slate-200/60 dark:border-slate-800/60 shadow-sm">
+              <tr className="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] uppercase tracking-widest border-b border-slate-200/60 dark:border-slate-800/60 shadow-sm backdrop-blur-md">
                 <th className="px-6 py-5 font-black">Item Name & Description</th>
                 <th className="px-6 py-5 font-black">Type</th>
                 <th className="px-6 py-5 font-black">Price</th>
