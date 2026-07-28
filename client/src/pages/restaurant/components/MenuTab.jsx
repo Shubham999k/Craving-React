@@ -59,6 +59,59 @@ const CustomStatusDropdown = ({ value, onChange }) => {
     </div>
   );
 };
+
+const CustomFormDropdown = ({ value, onChange, options }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const dropdownRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const selectedOption = options.find(opt => opt.value === value) || options[0];
+
+  return (
+    <div className="relative w-full" ref={dropdownRef}>
+      <div 
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white cursor-pointer flex items-center justify-between"
+      >
+        <div className="flex items-center gap-2">
+           <span className={selectedOption.colorClass || ""}>{selectedOption.label}</span>
+        </div>
+        <i className="bi bi-chevron-down text-slate-400 text-sm"></i>
+      </div>
+      
+      {isOpen && (
+        <div className="absolute z-50 mt-2 w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl overflow-hidden py-2 animate-fadeIn">
+          {options.map(opt => (
+            <div 
+              key={opt.value}
+              onClick={() => {
+                onChange(opt.value);
+                setIsOpen(false);
+              }}
+              className={`px-4 py-3 text-sm font-bold cursor-pointer transition-colors ${
+                opt.value === value 
+                  ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400' 
+                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+              }`}
+            >
+              <span className={opt.colorClass || ""}>{opt.label}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default function MenuTab() {
   const [menuItems, setMenuItems] = useState(() => {
     try {
@@ -413,28 +466,30 @@ export default function MenuTab() {
                   
                   <div className="space-y-1.5">
                     <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Category</label>
-                    <div className="relative">
-                      <select value={newItem.category} onChange={e => setNewItem({...newItem, category: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white appearance-none cursor-pointer">
-                        <option className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-bold">Appetizers</option>
-                        <option className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-bold">Main Course</option>
-                        <option className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-bold">Desserts</option>
-                        <option className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-bold">Beverages</option>
-                      </select>
-                      <i className="bi bi-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none font-bold text-sm"></i>
-                    </div>
+                    <CustomFormDropdown 
+                      value={newItem.category} 
+                      onChange={val => setNewItem({...newItem, category: val})} 
+                      options={[
+                        { value: 'Appetizers', label: 'Appetizers' },
+                        { value: 'Main Course', label: 'Main Course' },
+                        { value: 'Desserts', label: 'Desserts' },
+                        { value: 'Beverages', label: 'Beverages' }
+                      ]} 
+                    />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
                   <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Status</label>
-                  <div className="relative">
-                    <select value={newItem.status} onChange={e => setNewItem({...newItem, status: e.target.value})} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white appearance-none cursor-pointer">
-                      <option value="available">✨ Available (Active)</option>
-                      <option value="not available">⛔ Not Available (Out of stock)</option>
-                      <option value="disabled">👁️‍🗨️ Hidden (Disabled)</option>
-                    </select>
-                    <i className="bi bi-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none font-bold text-sm"></i>
-                  </div>
+                  <CustomFormDropdown 
+                    value={newItem.status} 
+                    onChange={val => setNewItem({...newItem, status: val})} 
+                    options={[
+                      { value: 'available', label: '✨ Available (Active)', colorClass: 'text-green-600 dark:text-green-400' },
+                      { value: 'not available', label: '⛔ Not Available (Out of stock)', colorClass: 'text-amber-600 dark:text-amber-400' },
+                      { value: 'disabled', label: '👁️‍🗨️ Hidden (Disabled)', colorClass: 'text-slate-500 dark:text-slate-400' }
+                    ]} 
+                  />
                 </div>
 
                 <div className="space-y-1.5 pb-2">
