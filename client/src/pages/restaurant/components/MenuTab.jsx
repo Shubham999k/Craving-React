@@ -107,7 +107,7 @@ export default function MenuTab() {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-4">
                       <div className="w-14 h-14 shrink-0 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 relative">
-                        <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <img src={item.image} alt={item.name} onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80'; e.target.onerror = null; }} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                         <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
                       </div>
                       <div className="flex-1 min-w-0">
@@ -216,7 +216,7 @@ export default function MenuTab() {
               <div className="group relative w-full h-40 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-800/30 border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-orange-500 dark:hover:border-orange-500 transition-colors flex items-center justify-center cursor-pointer">
                 {newItem.image ? (
                   <>
-                    <img src={newItem.image} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={newItem.image} alt="Preview" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80'; e.target.onerror = null; }} className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <span className="bg-white/20 backdrop-blur-md text-white px-4 py-2 rounded-xl font-bold text-sm flex items-center gap-2">
                         <i className="bi bi-camera"></i> Change Image
