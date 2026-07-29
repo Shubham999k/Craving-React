@@ -13,6 +13,7 @@ const TABS = [
 
 function AdminDashboard() { 
   const [activeTab, setActiveTab] = useState('overview');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -29,8 +30,16 @@ function AdminDashboard() {
   return (
     <div className="h-full bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col md:flex-row transition-colors duration-300 font-sans">
       
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-30 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar Navigation */}
-      <aside className="w-full md:w-64 bg-slate-900 text-white flex flex-col shadow-2xl z-20 relative overflow-hidden">
+      <aside className={`w-[280px] md:w-64 bg-slate-900 text-white flex flex-col shadow-2xl z-40 fixed md:relative h-full overflow-hidden transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         
         {/* Decorative background glow in sidebar */}
         <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-orange-500/20 to-transparent pointer-events-none"></div>
@@ -53,7 +62,10 @@ function AdminDashboard() {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setIsSidebarOpen(false);
+                }}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 cursor-pointer ${
                   isActive
                     ? 'bg-gradient-to-r from-orange-600 to-[#c74a09] text-white shadow-lg shadow-orange-500/20 translate-x-1'
@@ -89,11 +101,19 @@ function AdminDashboard() {
         
         {/* Top Header */}
         <header className="h-20 px-6 md:px-10 flex items-center justify-between bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 z-10 sticky top-0">
-          <div>
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-              {currentTabName}
-            </h2>
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Control panel and system analytics.</p>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="md:hidden text-slate-900 dark:text-white hover:text-orange-600 focus:outline-none cursor-pointer"
+            >
+              <i className="bi bi-list text-3xl"></i>
+            </button>
+            <div>
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+                {currentTabName}
+              </h2>
+              <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Control panel and system analytics.</p>
+            </div>
           </div>
 
           {/* Quick Stats/Actions */}
