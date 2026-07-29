@@ -22,6 +22,7 @@ const UserDashboard = () => {
       return {};
     }
   });
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview'); // overview, menu, tracking, analytics, profile, wishlist
   const [wishlist, setWishlist] = useState([]);
   const [cart, setCart] = useState([]);
@@ -375,8 +376,16 @@ const UserDashboard = () => {
         </div>
       )}
 
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-30 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Left Sidebar Navigation */}
-      <aside className="w-full md:w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between shrink-0 md:h-full md:overflow-y-auto transition-colors duration-300">
+      <aside className={`w-[280px] md:w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between shrink-0 h-full fixed md:relative z-40 overflow-y-auto transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         <div>
           {/* User Profile Summary */}
           <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex flex-col items-center text-center">
@@ -392,6 +401,7 @@ const UserDashboard = () => {
                 onClick={() => {
                   setActiveTab('profile');
                   setIsCartOpen(false);
+                  setIsSidebarOpen(false);
                 }}
                 className="absolute top-0 -right-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-500 w-6 h-6 rounded-full flex items-center justify-center shadow-md border border-slate-200 dark:border-slate-700 hover:scale-110 transition cursor-pointer"
                 title="Edit Profile"
@@ -420,6 +430,7 @@ const UserDashboard = () => {
                 onClick={() => {
                   setActiveTab(item.id);
                   setIsCartOpen(false);
+                  setIsSidebarOpen(false);
                 }}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded font-semibold text-sm transition-all duration-300 transform cursor-pointer ${
                   activeTab === item.id 
@@ -444,7 +455,10 @@ const UserDashboard = () => {
         {/* Quick Cart Button */}
         <div className="p-4 border-t border-slate-100 dark:border-slate-800">
           <button
-            onClick={() => setIsCartOpen(true)}
+            onClick={() => {
+              setIsCartOpen(true);
+              setIsSidebarOpen(false);
+            }}
             className="w-full bg-slate-900 dark:bg-slate-800 hover:bg-slate-855 text-white font-bold py-3 px-4 rounded flex items-center justify-between transition duration-300 transform hover:scale-[1.02] cursor-pointer"
           >
             <div className="flex items-center gap-2">
@@ -462,11 +476,19 @@ const UserDashboard = () => {
         
         {/* TOP BAR / GREETING */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 m-1">
-          <div>
-            <h1 className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight flex items-center gap-2">
-              Hey {user.name || "Foodie"}! 
-            </h1>
-            <p className="text-slate-500 dark:text-slate-400 font-medium">Ready to treat your taste buds today?</p>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="md:hidden text-slate-800 dark:text-slate-100 hover:text-orange-600 focus:outline-none cursor-pointer"
+            >
+              <i className="bi bi-list text-3xl"></i>
+            </button>
+            <div>
+              <h1 className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight flex items-center gap-2">
+                Hey {user.name || "Foodie"}! 
+              </h1>
+              <p className="text-slate-500 dark:text-slate-400 font-medium">Ready to treat your taste buds today?</p>
+            </div>
           </div>
           <div className="flex items-center gap-3 bg-white dark:bg-slate-900 p-2 rounded-md shadow-sm border border-slate-100 dark:border-slate-800 transition-colors duration-300">
             <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping"></span>

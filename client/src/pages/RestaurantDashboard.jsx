@@ -16,6 +16,7 @@ const TABS = [
 function RestaurantDashboard() { 
   const [activeTab, setActiveTab] = useState('overview');
   const [isOpen, setIsOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -33,8 +34,16 @@ function RestaurantDashboard() {
   return (
     <div className="h-full bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 text-slate-800 dark:text-slate-100 flex flex-col md:flex-row transition-colors duration-300 font-sans">
       
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-30 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar Navigation */}
-      <aside className="w-full md:w-64 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-800/50 flex flex-col shadow-2xl z-20">
+      <aside className={`w-[280px] md:w-64 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-800/50 flex flex-col shadow-2xl z-40 fixed md:relative h-full transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         
         {/* Brand Area */}
         <div className="p-6 border-b border-slate-200/50 dark:border-slate-800/50 flex items-center gap-3">
@@ -54,7 +63,10 @@ function RestaurantDashboard() {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setIsSidebarOpen(false);
+                }}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 cursor-pointer ${
                   isActive
                     ? 'bg-[#c74a09] text-white shadow-md shadow-orange-500/20 translate-x-1'
@@ -88,9 +100,17 @@ function RestaurantDashboard() {
         
         {/* Top Header */}
         <header className="h-20 px-6 md:px-10 flex items-center justify-between bg-white/40 dark:bg-slate-900/40 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50 z-10 sticky top-0">
-          <div>
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{currentTabName}</h2>
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Manage your restaurant operations efficiently.</p>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="md:hidden text-slate-900 dark:text-white hover:text-orange-600 focus:outline-none cursor-pointer"
+            >
+              <i className="bi bi-list text-3xl"></i>
+            </button>
+            <div>
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{currentTabName}</h2>
+              <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Manage your restaurant operations efficiently.</p>
+            </div>
           </div>
 
           {/* Glowing On/Off Toggle */}
