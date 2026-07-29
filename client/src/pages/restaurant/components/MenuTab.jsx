@@ -357,7 +357,7 @@ export default function MenuTab() {
                           {item.name}
                         </h4>
                         <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 font-medium" title={item.description}>
-                          {item.description}
+                          {item.description} 
                         </p>
                       </div>
                     </div>
