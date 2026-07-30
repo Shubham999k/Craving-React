@@ -340,7 +340,7 @@ export default function MenuTab() {
                 <th className="px-6 py-5 font-black w-[15%]">Type</th>
                 <th className="px-6 py-5 font-black w-[15%]">Price</th>
                 <th className="px-6 py-5 font-black w-[20%]">Status</th>
-                <th className="px-6 py-5 font-black w-[15%] text-right">Action</th>
+                <th className="px-6 py-5 font-black w-[15%] text-right">Action</th> 
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
