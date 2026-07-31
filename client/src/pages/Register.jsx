@@ -4,39 +4,7 @@ import toast from "react-hot-toast";
 import bgImage from "../assets/images/foodTable.webp";
 import api from "../config/api.config.js";
 
-const styles = {
-    section: "relative flex h-[90vh] items-center justify-end overflow-hidden bg-cover bg-center px-6",
-    overlay: "absolute inset-0 bg-black/40",
-    cardWrapper: "relative z-10 w-full lg:w-[30%]",
-    card: "rounded-xl bg-white dark:bg-slate-900 border border-slate-100/50 dark:border-slate-800 px-5 py-8 shadow-2xl text-slate-800 dark:text-slate-100",
-    heading: "mb-1 text-center text-2xl font-bold text-[#c74a09]",
-    subHeading: "mb-4 text-center text-sm text-gray-500 dark:text-slate-400",
-    form: {
-        roleLabel: "mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300",
-        roleGrid: "grid grid-cols-3 gap-2 mb-4",
-        roleCardBase: "flex items-center justify-between p-2 rounded-lg border transition-all duration-300 cursor-pointer select-none",
-        roleCardActive: "bg-orange-500/10 border-[#c74a09] text-[#c74a09] dark:text-orange-400 font-extrabold",
-        roleCardInactive: "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50/50 dark:hover:bg-slate-700/50",
-        roleText: "text-[11px] font-bold tracking-tight",
-        roleCheckboxBase: "w-4.5 h-4.5 shrink-0 rounded border flex items-center justify-center transition-all",
-        roleCheckboxActive: "bg-[#c74a09] border-white text-white",
-        roleCheckboxInactive: "border-slate-300 dark:border-slate-600 bg-transparent",
-        input: "mb-2 w-full rounded-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 py-2 outline-none focus:border-orange-500",
-        error: "mb-3 text-sm text-red-500",
-        termsWrapper: "mb-3 flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300",
-        termsLabel: "flex items-center gap-2 cursor-pointer select-none",
-        checkboxWrapperBase: "w-4.5 h-4.5 rounded border flex items-center justify-center transition-all",
-        checkboxActive: "bg-[#c74a09] border-white text-white animate-scaleUp",
-        checkboxInactive: "border-gray-300 dark:border-slate-700 bg-transparent",
-        termsLink: "font-medium text-orange-600 hover:underline",
-        submitBtn: "mb-3 w-full rounded-md bg-[#c74a09] py-2.5 font-semibold text-white transition hover:bg-[#b34006]"
-    },
-    login: {
-        wrapper: "text-center text-sm",
-        text: "text-gray-500 dark:text-slate-400",
-        link: "font-semibold text-orange-600 hover:underline"
-    }
-};
+
 
 function Register() {
     const navigate = useNavigate();
