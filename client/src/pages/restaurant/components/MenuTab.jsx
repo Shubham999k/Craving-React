@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import toast from 'react-hot-toast';
 
+const baseInputStyles = "w-full py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 transition-all text-slate-800 dark:text-white";
+const inputStyles = `${baseInputStyles} focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 placeholder:text-slate-400 placeholder:font-medium`;
+
 const CustomStatusDropdown = ({ value, onChange }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dropdownRef = React.useRef(null);
@@ -138,7 +141,7 @@ const CustomFormDropdown = ({ value, onChange, options }) => {
     <div className="relative w-full" ref={dropdownRef}>
       <div
         onClick={toggleDropdown}
-        className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white cursor-pointer flex items-center justify-between"
+        className={`${baseInputStyles} px-4 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-500/10 font-bold cursor-pointer flex items-center justify-between`}
       >
         <div className="flex items-center gap-2">
           <span className={selectedOption.colorClass || ""}>{selectedOption.label}</span>
@@ -508,7 +511,7 @@ export default function MenuTab() {
                 {!newItem.image && (
                   <div className="relative group">
                     <i className="bi bi-link-45deg absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-orange-500 transition-colors text-lg"></i>
-                    <input type="url" value={newItem.image} onChange={e => setNewItem({ ...newItem, image: e.target.value })} className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold text-slate-800 dark:text-white" placeholder="https://example.com/image.jpg" />
+                    <input type="url" value={newItem.image} onChange={e => setNewItem({ ...newItem, image: e.target.value })} className={`${inputStyles} pl-11 pr-4 font-semibold`} placeholder="https://example.com/image.jpg" />
                   </div>
                 )}
 
@@ -516,7 +519,7 @@ export default function MenuTab() {
                 <div className="space-y-5">
                   <div className="space-y-1.5">
                     <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Item Name</label>
-                    <input required type="text" value={newItem.name} onChange={e => setNewItem({ ...newItem, name: e.target.value })} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white placeholder:text-slate-400 placeholder:font-medium" placeholder="e.g. Signature Truffle Burger" />
+                    <input required type="text" value={newItem.name} onChange={e => setNewItem({ ...newItem, name: e.target.value })} className={`${inputStyles} px-4 font-bold`} placeholder="e.g. Signature Truffle Burger" />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -524,7 +527,7 @@ export default function MenuTab() {
                       <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Price</label>
                       <div className="relative group">
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-400 group-focus-within:text-orange-500 transition-colors">$</span>
-                        <input required type="number" step="0.01" value={newItem.price} onChange={e => setNewItem({ ...newItem, price: e.target.value })} className="w-full pl-8 pr-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white placeholder:text-slate-400 placeholder:font-medium" placeholder="0.00" />
+                        <input required type="number" step="0.01" value={newItem.price} onChange={e => setNewItem({ ...newItem, price: e.target.value })} className={`${inputStyles} pl-8 pr-4 font-bold`} placeholder="0.00" />
                       </div>
                     </div>
 
@@ -558,7 +561,7 @@ export default function MenuTab() {
 
                   <div className="space-y-1.5 pb-2">
                     <label className="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Description</label>
-                    <textarea required rows="3" value={newItem.description} onChange={e => setNewItem({ ...newItem, description: e.target.value })} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-semibold text-slate-800 dark:text-white resize-none placeholder:text-slate-400 placeholder:font-medium" placeholder="What makes this dish special?..."></textarea>
+                    <textarea required rows="3" value={newItem.description} onChange={e => setNewItem({ ...newItem, description: e.target.value })} className={`${inputStyles} px-4 font-semibold resize-none`} placeholder="What makes this dish special?..."></textarea>
                   </div>
                 </div>
               </form>
