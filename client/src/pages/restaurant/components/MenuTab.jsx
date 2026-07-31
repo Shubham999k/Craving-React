@@ -6,6 +6,55 @@ const styles = {
   form: {
     input: "w-full py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all text-slate-800 dark:text-white placeholder:text-slate-400 placeholder:font-medium",
     dropdown: "w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white cursor-pointer flex items-center justify-between"
+  },
+  header: {
+    wrapper: "flex flex-col md:flex-row justify-between items-start md:items-center bg-white dark:bg-slate-900/80 p-6 md:p-8 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 mb-8",
+    title: "text-2xl font-black text-slate-800 dark:text-white flex items-center gap-2",
+    subtitle: "text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium",
+    actionsWrapper: "mt-4 md:mt-0 flex items-center gap-3",
+    historyWrapper: "flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl shadow-inner border border-slate-200 dark:border-slate-700",
+    historyBtnActive: "w-10 h-10 rounded-lg flex items-center justify-center transition-all text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 shadow-sm",
+    historyBtnInactive: "w-10 h-10 rounded-lg flex items-center justify-center transition-all text-slate-400 dark:text-slate-600 cursor-not-allowed",
+    addBtn: "bg-gradient-to-r from-orange-600 to-rose-600 text-white px-6 py-3.5 rounded-xl text-sm font-black shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
+  },
+  table: {
+    wrapper: "w-full max-h-[calc(100vh-180px)] overflow-auto scrollbar-none rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 bg-white dark:bg-slate-900/50",
+    table: "w-full text-left border-collapse table-fixed min-w-[800px]",
+    thead: "sticky top-0 z-20 shadow-sm",
+    trHead: "bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] uppercase tracking-widest border-b border-slate-200/60 dark:border-slate-800/60",
+    th: "px-6 py-5 font-black",
+    tbody: "divide-y divide-slate-100 dark:divide-slate-800/60",
+    trBody: "hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors group",
+    td: "px-6 py-4",
+    imageWrapper: "w-14 h-14 shrink-0 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 relative",
+    image: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
+    itemTitle: "font-bold text-slate-800 dark:text-slate-100 text-sm mb-0.5 truncate group-hover:text-[#c74a09] transition-colors",
+    itemDesc: "text-xs text-slate-500 dark:text-slate-400 line-clamp-2 font-medium",
+    categoryBadge: "px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-black uppercase tracking-wider border border-slate-200 dark:border-slate-700 shadow-sm truncate block w-fit max-w-full",
+    priceText: "font-black text-slate-800 dark:text-slate-100 truncate block max-w-full",
+    actionBtn: "w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-all hover:scale-105 active:scale-95",
+    deleteBtn: "w-9 h-9 rounded-xl bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+  },
+  modal: {
+    overlay: "absolute inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md",
+    container: "relative w-full max-w-xl bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden animate-zoomIn border border-white/20 dark:border-slate-700/50 flex flex-col max-h-[90vh]",
+    header: "relative pt-8 pb-6 px-8 overflow-hidden shrink-0",
+    title: "text-2xl font-black text-slate-800 dark:text-white flex items-center gap-3 tracking-tight",
+    subtitle: "text-slate-500 dark:text-slate-400 text-sm font-medium mt-2 ml-[52px]",
+    closeBtn: "group w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 dark:text-slate-400 hover:text-rose-500 transition-all duration-300 relative z-10",
+    body: "flex-1 overflow-y-auto px-6 py-2 pb-8 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700",
+    footer: "p-6 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700/50 shrink-0 flex gap-4 justify-end",
+    cancelBtn: "px-6 py-3.5 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors",
+    submitBtn: "px-8 py-3.5 bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-500 hover:to-rose-500 text-white font-black rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-0.5 transition-all flex items-center gap-2"
+  },
+  deleteModal: {
+    container: "relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden animate-zoomIn border border-white/20 dark:border-slate-700/50 flex flex-col",
+    iconWrapper: "w-16 h-16 rounded-full bg-red-100 dark:bg-red-500/20 text-red-500 flex items-center justify-center mx-auto shadow-inner",
+    title: "text-xl font-black text-slate-800 dark:text-white",
+    desc: "text-sm text-slate-500 dark:text-slate-400 font-medium",
+    footer: "p-6 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700/50 flex gap-3",
+    cancelBtn: "flex-1 py-3 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors",
+    confirmBtn: "flex-1 py-3 bg-red-500 hover:bg-red-600 text-white font-black rounded-xl shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 transition-all"
   }
 };
 
@@ -297,19 +346,19 @@ export default function MenuTab() {
   return (
     <div className="w-full animate-fadeIn pb-4">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white dark:bg-slate-900/80 p-6 md:p-8 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 mb-8">
+      <div className={styles.header.wrapper}>
         <div>
-          <h3 className="text-2xl font-black text-slate-800 dark:text-white flex items-center gap-2">
+          <h3 className={styles.header.title}>
             <i className="bi bi-journal-text text-[#c74a09]"></i> Manage Menu
           </h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Add, edit, or remove items from your restaurant menu.</p>
+          <p className={styles.header.subtitle}>Add, edit, or remove items from your restaurant menu.</p>
         </div>
-        <div className="mt-4 md:mt-0 flex items-center gap-3">
-          <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl shadow-inner border border-slate-200 dark:border-slate-700">
+        <div className={styles.header.actionsWrapper}>
+          <div className={styles.header.historyWrapper}>
             <button
               onClick={undo}
               disabled={past.length === 0}
-              className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${past.length > 0 ? 'text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 shadow-sm' : 'text-slate-400 dark:text-slate-600 cursor-not-allowed'}`}
+              className={past.length > 0 ? styles.header.historyBtnActive : styles.header.historyBtnInactive}
               title="Undo"
             >
               <i className="bi bi-arrow-90deg-left"></i>
@@ -317,7 +366,7 @@ export default function MenuTab() {
             <button
               onClick={redo}
               disabled={future.length === 0}
-              className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${future.length > 0 ? 'text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 shadow-sm' : 'text-slate-400 dark:text-slate-600 cursor-not-allowed'}`}
+              className={future.length > 0 ? styles.header.historyBtnActive : styles.header.historyBtnInactive}
               title="Redo"
             >
               <i className="bi bi-arrow-90deg-right"></i>
@@ -325,7 +374,7 @@ export default function MenuTab() {
           </div>
           <button
             onClick={() => openModal('add')}
-            className="bg-gradient-to-r from-orange-600 to-rose-600 text-white px-6 py-3.5 rounded-xl text-sm font-black shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
+            className={styles.header.addBtn}
           >
             <i className="bi bi-plus-circle-fill text-lg"></i> Add New Item
           </button>
@@ -339,47 +388,47 @@ export default function MenuTab() {
           <p className="text-slate-500 font-medium">No menu items found. Add some delicious food!</p>
         </div>
       ) : (
-        <div className="w-full max-h-[calc(100vh-180px)] overflow-auto scrollbar-none rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 bg-white dark:bg-slate-900/50">
-          <table className="w-full text-left border-collapse table-fixed min-w-[800px]">
-            <thead className="sticky top-0 z-20 shadow-sm">
-              <tr className="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] uppercase tracking-widest border-b border-slate-200/60 dark:border-slate-800/60">
-                <th className="px-6 py-5 font-black w-[40%]">Item Name & Description</th>
-                <th className="px-6 py-5 font-black w-[15%]">Type</th>
-                <th className="px-6 py-5 font-black w-[15%]">Price</th>
-                <th className="px-6 py-5 font-black w-[20%]">Status</th>
-                <th className="px-6 py-5 font-black w-[15%] text-right">Action</th>
+        <div className={styles.table.wrapper}>
+          <table className={styles.table.table}>
+            <thead className={styles.table.thead}>
+              <tr className={styles.table.trHead}>
+                <th className={`${styles.table.th} w-[40%]`}>Item Name & Description</th>
+                <th className={`${styles.table.th} w-[15%]`}>Type</th>
+                <th className={`${styles.table.th} w-[15%]`}>Price</th>
+                <th className={`${styles.table.th} w-[20%]`}>Status</th>
+                <th className={`${styles.table.th} w-[15%] text-right`}>Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+            <tbody className={styles.table.tbody}>
               {menuItems.map(item => (
-                <tr key={item.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors group">
-                  <td className="px-6 py-4">
+                <tr key={item.id} className={styles.table.trBody}>
+                  <td className={styles.table.td}>
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 shrink-0 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 relative">
-                        <img src={item.image} alt={item.name} onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80'; e.target.onerror = null; }} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                      <div className={styles.table.imageWrapper}>
+                        <img src={item.image} alt={item.name} onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80'; e.target.onerror = null; }} className={styles.table.image} />
                         <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
                       </div>
                       <div className="flex-1 min-w-0 pr-4">
-                        <h4 className="font-bold text-slate-800 dark:text-slate-100 text-sm mb-0.5 truncate group-hover:text-[#c74a09] transition-colors" title={item.name}>
+                        <h4 className={styles.table.itemTitle} title={item.name}>
                           {item.name}
                         </h4>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 font-medium" title={item.description}>
+                        <p className={styles.table.itemDesc} title={item.description}>
                           {item.description}
                         </p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-black uppercase tracking-wider border border-slate-200 dark:border-slate-700 shadow-sm truncate block w-fit max-w-full" title={item.category}>
+                  <td className={styles.table.td}>
+                    <span className={styles.table.categoryBadge} title={item.category}>
                       {item.category}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="font-black text-slate-800 dark:text-slate-100 truncate block max-w-full">
+                  <td className={styles.table.td}>
+                    <span className={styles.table.priceText}>
                       ${parseFloat(item.price).toFixed(2)}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className={styles.table.td}>
                     <div className="relative inline-block">
                       <CustomStatusDropdown
                         value={item.status}
@@ -387,17 +436,17 @@ export default function MenuTab() {
                       />
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className={`${styles.table.td} text-right`}>
                     <div className="flex items-center justify-end gap-2">
-                      <button onClick={() => openModal('view', item)} className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-all hover:scale-105 active:scale-95" title="View Details">
+                      <button onClick={() => openModal('view', item)} className={styles.table.actionBtn} title="View Details">
                         <i className="bi bi-eye text-sm"></i>
                       </button>
-                      <button onClick={() => openModal('edit', item)} className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-all hover:scale-105 active:scale-95" title="Edit Item">
+                      <button onClick={() => openModal('edit', item)} className={styles.table.actionBtn} title="Edit Item">
                         <i className="bi bi-pencil-square text-sm"></i>
                       </button>
                       <button
                         onClick={() => setItemToDelete(item)}
-                        className="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+                        className={styles.table.deleteBtn}
                         title="Delete Item"
                       >
                         <i className="bi bi-trash text-sm"></i>
@@ -414,30 +463,30 @@ export default function MenuTab() {
       {/* Add/Edit/View Item Modal */}
       {isModalOpen && createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
-          <div className="absolute inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md" onClick={() => setIsModalOpen(false)}></div>
-          <div className="relative w-full max-w-xl bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden animate-zoomIn border border-white/20 dark:border-slate-700/50 flex flex-col max-h-[90vh]">
+          <div className={styles.modal.overlay} onClick={() => setIsModalOpen(false)}></div>
+          <div className={styles.modal.container}>
 
             {/* Modal Header with Decorative Gradient Background */}
-            <div className="relative pt-8 pb-6 px-8 overflow-hidden shrink-0">
+            <div className={styles.modal.header}>
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-orange-500 via-rose-500 to-amber-500"></div>
               <div className="absolute -top-24 -right-24 w-48 h-48 bg-orange-500/10 dark:bg-orange-500/20 rounded-full blur-3xl"></div>
               <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-rose-500/10 dark:bg-rose-500/20 rounded-full blur-3xl"></div>
 
               <div className="relative flex justify-between items-start">
                 <div>
-                  <h3 className="text-2xl font-black text-slate-800 dark:text-white flex items-center gap-3 tracking-tight">
+                  <h3 className={styles.modal.title}>
                     <span className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-400 to-rose-600 text-white flex items-center justify-center shadow-lg shadow-orange-500/30">
                       <i className="bi bi-stars text-xl"></i>
                     </span>
                     {modalMode === 'view' ? 'View Menu Item' : modalMode === 'edit' ? 'Edit Menu Item' : 'Create Menu Item'}
                   </h3>
-                  <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mt-2 ml-[52px]">
+                  <p className={styles.modal.subtitle}>
                     {modalMode === 'view' ? 'Details of your menu item.' : modalMode === 'edit' ? 'Update your menu item details.' : 'Craft a new delicious addition to your menu.'}
                   </p>
                 </div>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="group w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 dark:text-slate-400 hover:text-rose-500 transition-all duration-300 relative z-10"
+                  className={styles.modal.closeBtn}
                 >
                   <i className="bi bi-x-lg group-hover:rotate-90 transition-transform duration-300"></i>
                 </button>
@@ -572,12 +621,12 @@ export default function MenuTab() {
             )}
 
             {/* Modal Footer */}
-            <div className="p-6 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700/50 shrink-0 flex gap-4 justify-end">
-              <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3.5 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+            <div className={styles.modal.footer}>
+              <button type="button" onClick={() => setIsModalOpen(false)} className={styles.modal.cancelBtn}>
                 {modalMode === 'view' ? 'Close' : 'Cancel'}
               </button>
               {modalMode !== 'view' && (
-                <button type="submit" form="add-item-form" className="px-8 py-3.5 bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-500 hover:to-rose-500 text-white font-black rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                <button type="submit" form="add-item-form" className={styles.modal.submitBtn}>
                   <i className="bi bi-check2-circle text-lg"></i> {modalMode === 'edit' ? 'Save Changes' : 'Add Item'}
                 </button>
               )}
@@ -591,22 +640,22 @@ export default function MenuTab() {
       {/* Delete Confirmation Modal */}
       {itemToDelete && createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
-          <div className="absolute inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md" onClick={() => setItemToDelete(null)}></div>
-          <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden animate-zoomIn border border-white/20 dark:border-slate-700/50 flex flex-col">
+          <div className={styles.modal.overlay} onClick={() => setItemToDelete(null)}></div>
+          <div className={styles.deleteModal.container}>
             <div className="p-8 text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-500/20 text-red-500 flex items-center justify-center mx-auto shadow-inner">
+              <div className={styles.deleteModal.iconWrapper}>
                 <i className="bi bi-exclamation-triangle text-3xl"></i>
               </div>
-              <h3 className="text-xl font-black text-slate-800 dark:text-white">Delete Item?</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+              <h3 className={styles.deleteModal.title}>Delete Item?</h3>
+              <p className={styles.deleteModal.desc}>
                 Are you sure you want to delete <span className="text-slate-700 dark:text-slate-200 font-bold">{itemToDelete.name}</span>? This action can be undone later using the undo button.
               </p>
             </div>
-            <div className="p-6 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700/50 flex gap-3">
-              <button onClick={() => setItemToDelete(null)} className="flex-1 py-3 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+            <div className={styles.deleteModal.footer}>
+              <button onClick={() => setItemToDelete(null)} className={styles.deleteModal.cancelBtn}>
                 Cancel
               </button>
-              <button onClick={confirmDelete} className="flex-1 py-3 bg-red-500 hover:bg-red-600 text-white font-black rounded-xl shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 transition-all">
+              <button onClick={confirmDelete} className={styles.deleteModal.confirmBtn}>
                 Delete
               </button>
             </div>
