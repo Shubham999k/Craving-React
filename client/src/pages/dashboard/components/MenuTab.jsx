@@ -1,9 +1,4 @@
 import { FOOD_ITEMS } from '../../../data/mockData';
-import LottieLib from 'lottie-react';
-import emptyBoxAnimation from '../../../assets/empty-box.json';
-
-const Lottie = LottieLib.default || LottieLib;
-
 
 
 const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCategory, addToCart, wishlist = [], toggleWishlist }) => {
@@ -46,10 +41,17 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
       addBtnInactive: "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
     },
     emptyState: {
-      wrapper: "flex flex-col items-center justify-center py-16 px-4 animate-fadeIn",
-      animation: "w-64 h-64 mb-6",
-      title: "text-2xl font-black text-slate-800 dark:text-slate-100 mb-2",
-      desc: "text-slate-500 dark:text-slate-400 text-center max-w-md font-medium"
+      wrapper: "flex flex-col items-center justify-center py-24 px-4 animate-fadeIn relative overflow-hidden",
+      iconWrapper: "relative w-48 h-48 flex items-center justify-center mb-10",
+      circleBg: "absolute inset-0 bg-orange-100 dark:bg-orange-950/40 rounded-full animate-ping opacity-75 duration-1000",
+      circleBg2: "absolute inset-4 bg-orange-200 dark:bg-orange-900/50 rounded-full animate-pulse",
+      mainIcon: "relative z-10 text-[80px] text-orange-500 drop-shadow-xl transform transition-transform hover:scale-110 hover:rotate-3",
+      floatingIcon1: "absolute -top-2 -left-2 text-4xl text-amber-500 animate-bounce drop-shadow-md z-20",
+      floatingIcon2: "absolute bottom-0 -right-4 text-4xl text-rose-500 animate-bounce drop-shadow-md z-20",
+      floatingIcon3: "absolute top-8 -right-6 text-3xl text-emerald-500 animate-bounce drop-shadow-md z-20",
+      title: "text-3xl font-black text-slate-800 dark:text-slate-100 mb-4 text-center tracking-tight",
+      desc: "text-slate-500 dark:text-slate-400 text-center max-w-md font-medium text-lg leading-relaxed",
+      highlight: "text-orange-600 dark:text-orange-500 font-bold px-1"
     }
   };
 
@@ -165,14 +167,23 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
         </div>
       ) : (
         <div className={styles.emptyState.wrapper}>
-          <div className={styles.emptyState.animation}>
-            <Lottie
-              animationData={emptyBoxAnimation}
-              loop={true}
-            />
+          <div className={styles.emptyState.iconWrapper}>
+            <div className={styles.emptyState.circleBg} style={{ animationDuration: '3s' }}></div>
+            <div className={styles.emptyState.circleBg2} style={{ animationDuration: '2s' }}></div>
+            
+            <i className={`bi bi-basket2-fill ${styles.emptyState.mainIcon}`}></i>
+            
+            <i className={`bi bi-egg-fried ${styles.emptyState.floatingIcon1}`} style={{ animationDelay: '0ms', animationDuration: '2s' }}></i>
+            <i className={`bi bi-cup-hot-fill ${styles.emptyState.floatingIcon2}`} style={{ animationDelay: '400ms', animationDuration: '2.5s' }}></i>
+            <i className={`bi bi-cup-straw ${styles.emptyState.floatingIcon3}`} style={{ animationDelay: '800ms', animationDuration: '2.2s' }}></i>
           </div>
-          <h3 className={styles.emptyState.title}>No Items Found</h3>
-          <p className={styles.emptyState.desc}>We couldn't find anything matching "{searchQuery}". Try exploring other yummy categories!</p>
+          
+          <h3 className={styles.emptyState.title}>Oh crumbs!</h3>
+          <p className={styles.emptyState.desc}>
+            We searched the whole kitchen but couldn't find any 
+            <span className={styles.emptyState.highlight}>"{searchQuery}"</span>. 
+            Try a different craving!
+          </p>
         </div>
       )}
     </div>
