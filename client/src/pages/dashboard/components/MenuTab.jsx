@@ -1,6 +1,8 @@
 import { FOOD_ITEMS } from '../../../data/mockData';
-import Lottie from 'lottie-react';
+import LottieLib from 'lottie-react';
 import emptyBoxAnimation from '../../../assets/empty-box.json';
+
+const Lottie = LottieLib.default || LottieLib;
 
 
 
