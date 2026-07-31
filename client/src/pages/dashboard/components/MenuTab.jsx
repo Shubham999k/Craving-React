@@ -13,7 +13,7 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
       input: "w-full h-12 pl-12 pr-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100 dark:focus:ring-orange-950/20 text-slate-800 dark:text-slate-100 transition shadow-sm font-semibold"
     },
     categories: {
-      wrapper: "flex gap-2 overflow-x-auto scrollbar-none w-full md:w-auto md:min-w-0 md:max-w-2xl",
+      wrapper: "flex gap-2 overflow-x-auto scrollbar-none w-full md:w-auto",
       buttonBase: "h-12 px-5 rounded font-bold text-sm shrink-0 cursor-pointer transition flex items-center justify-center",
       buttonActive: "bg-orange-600 text-white",
       buttonInactive: "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850"
@@ -65,9 +65,8 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`${styles.categories.buttonBase} ${
-                selectedCategory === cat ? styles.categories.buttonActive : styles.categories.buttonInactive
-              }`}
+              className={`${styles.categories.buttonBase} ${selectedCategory === cat ? styles.categories.buttonActive : styles.categories.buttonInactive
+                }`}
             >
               {cat}
             </button>
@@ -81,7 +80,7 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
           .filter(item => selectedCategory === 'All' || item.category === selectedCategory)
           .filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
           .map((item, index) => (
-            <div 
+            <div
               key={item.id}
               className={styles.card.wrapper}
               style={{
@@ -103,7 +102,7 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
                   </span>
                   {!item.isAvailable && (
                     <span className={styles.card.outOfStockBadge}>
-                        Out of Stock
+                      Out of Stock
                     </span>
                   )}
                 </div>
@@ -113,16 +112,15 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
                   <span>{item.rating}</span>
                   <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">({item.reviews})</span>
                 </span>
-                
+
                 {/* Wishlist Heart Toggle */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleWishlist(item);
                   }}
-                  className={`${styles.card.wishlistBtnBase} ${
-                    wishlist.some(w => w.id === item.id) ? styles.card.wishlistActive : styles.card.wishlistInactive
-                  }`}
+                  className={`${styles.card.wishlistBtnBase} ${wishlist.some(w => w.id === item.id) ? styles.card.wishlistActive : styles.card.wishlistInactive
+                    }`}
                 >
                   <i className={`bi ${wishlist.some(w => w.id === item.id) ? 'bi-heart-fill' : 'bi-heart'} text-base`}></i>
                 </button>
@@ -143,9 +141,8 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
                   <button
                     onClick={() => item.isAvailable && addToCart(item)}
                     disabled={!item.isAvailable}
-                    className={`${styles.card.addBtnBase} ${
-                        item.isAvailable ? styles.card.addBtnActive : styles.card.addBtnInactive
-                    }`}
+                    className={`${styles.card.addBtnBase} ${item.isAvailable ? styles.card.addBtnActive : styles.card.addBtnInactive
+                      }`}
                   >
                     <i className={item.isAvailable ? "bi bi-plus-lg text-sm" : "bi bi-x-lg text-sm"}></i>
                     <span>{item.isAvailable ? 'Add to Cart' : 'Unavailable'}</span>
