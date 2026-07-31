@@ -1,5 +1,6 @@
 
 import { FOOD_ITEMS } from '../../../data/mockData';
+import Lottie from 'lottie-react';
 
 
 
@@ -41,8 +42,18 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
       addBtnBase: "font-extrabold text-xs py-3 px-5 rounded flex items-center gap-1.5 transition-all duration-300 shadow-md transform",
       addBtnActive: "bg-slate-900 dark:bg-slate-850 hover:bg-[#c74a09] dark:hover:bg-[#c74a09] text-white hover:shadow-orange-200 dark:hover:shadow-none active:scale-95 cursor-pointer",
       addBtnInactive: "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
+    },
+    emptyState: {
+      wrapper: "flex flex-col items-center justify-center py-16 px-4 animate-fadeIn",
+      animation: "w-64 h-64 mb-6",
+      title: "text-2xl font-black text-slate-800 dark:text-slate-100 mb-2",
+      desc: "text-slate-500 dark:text-slate-400 text-center max-w-md font-medium"
     }
   };
+
+  const filteredItems = FOOD_ITEMS
+    .filter(item => selectedCategory === 'All' || item.category === selectedCategory)
+    .filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
     <div className={styles.container}>
@@ -75,11 +86,9 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
       </div>
 
       {/* Food Cards Grid */}
-      <div className={styles.grid}>
-        {FOOD_ITEMS
-          .filter(item => selectedCategory === 'All' || item.category === selectedCategory)
-          .filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
-          .map((item, index) => (
+      {filteredItems.length > 0 ? (
+        <div className={styles.grid}>
+          {filteredItems.map((item, index) => (
             <div
               key={item.id}
               className={styles.card.wrapper}
@@ -151,7 +160,20 @@ const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCat
               </div>
             </div>
           ))}
-      </div>
+        </div>
+      ) : (
+        <div className={styles.emptyState.wrapper}>
+          <div className={styles.emptyState.animation}>
+            <Lottie
+              animationData={null}
+              path="https://lottie.host/762dcab3-8d06-4b8c-b0cf-5b72e11894a4/TfT01p2n2b.json"
+              loop={true}
+            />
+          </div>
+          <h3 className={styles.emptyState.title}>No Items Found</h3>
+          <p className={styles.emptyState.desc}>We couldn't find anything matching "{searchQuery}". Try exploring other yummy categories!</p>
+        </div>
+      )}
     </div>
   );
 };
