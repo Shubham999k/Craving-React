@@ -1,9 +1,6 @@
 @import "tailwindcss";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
-html {
-    overflow-y: scroll;
-}
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -99,11 +96,22 @@ html::-webkit-scrollbar-thumb:hover,
 /* Firefox compatibility */
 * {
     scrollbar-width: thin;
-    scrollbar-color: #cbd5e1 #f8fafc;
+    scrollbar-color: #cbd5e1 transparent;
 }
 
 .dark * {
-    scrollbar-color: #334155 #090d16;
+    scrollbar-color: #334155 transparent;
+}
+
+/* Hide global outer scrollbar */
+html, body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
 }
 
 /* Hide scrollbar utility class */
