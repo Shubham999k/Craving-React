@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+html {
+    overflow-y: scroll;
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* Prevent chrome browser autofill from making input backgrounds white */
