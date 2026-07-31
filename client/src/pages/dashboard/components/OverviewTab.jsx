@@ -27,7 +27,7 @@ const OverviewTab = ({ orderItems, orderStep, addToCart, setSelectedCategory, se
       </div>
 
       {/* Quick Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {[
           { title: "Total Orders", value: totalOrders.toString(), icon: "bi-bag-check-fill", gradient: "from-blue-500 to-indigo-600", lightBg: "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400", action: () => setActiveTab('menu') },
           { title: "Amount Spent", value: `₹${totalSpent.toLocaleString()}`, icon: "bi-wallet2", gradient: "from-emerald-500 to-teal-600", lightBg: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400", action: () => setActiveTab('analytics') },
