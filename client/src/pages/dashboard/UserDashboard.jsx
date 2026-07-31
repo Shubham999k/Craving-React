@@ -362,7 +362,7 @@ const UserDashboard = () => {
   }, [orders]);
 
   return (
-    <div className="min-h-[calc(100vh-64px)] md:h-[calc(100vh-64px)] bg-slate-50 dark:bg-slate-950 flex flex-col md:flex-row relative overflow-hidden transition-colors duration-300">
+    <div className="h-[calc(100dvh-64px)] md:h-[calc(100vh-64px)] bg-slate-50 dark:bg-slate-950 flex flex-col md:flex-row relative overflow-hidden transition-colors duration-300">
       
       {/* Confetti Animation overlay for checkout success */}
       {isConfettiActive && (
