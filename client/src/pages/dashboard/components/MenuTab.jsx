@@ -1,47 +1,49 @@
 
 import { FOOD_ITEMS } from '../../../data/mockData';
 
-const styles = {
-  container: "space-y-6 animate-fadeIn duration-500",
-  searchBar: {
-    wrapper: "flex flex-col md:flex-row gap-4 justify-between items-center",
-    inputContainer: "relative flex-1 w-full",
-    icon: "bi bi-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400",
-    input: "w-full h-12 pl-12 pr-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100 dark:focus:ring-orange-950/20 text-slate-800 dark:text-slate-100 transition shadow-sm font-semibold"
-  },
-  categories: {
-    wrapper: "flex gap-2 overflow-x-auto scrollbar-none w-full md:w-auto",
-    buttonBase: "h-12 px-5 rounded font-bold text-sm shrink-0 cursor-pointer transition flex items-center justify-center",
-    buttonActive: "bg-orange-600 text-white",
-    buttonInactive: "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850"
-  },
-  grid: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6",
-  card: {
-    wrapper: "bg-white dark:bg-slate-900 rounded-md overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group transform hover:-translate-y-1.5 animate-fadeIn",
-    imageContainer: "relative overflow-hidden aspect-[4/3] bg-slate-100 dark:bg-slate-800",
-    image: "w-full h-full object-cover transform group-hover:scale-110 transition duration-500 ease-out",
-    badgesWrapper: "absolute top-4 left-4 flex flex-col gap-2 items-start",
-    typeBadge: "px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 backdrop-blur-md shadow-md",
-    typeBadgeDot: "w-1.5 h-1.5 rounded-full bg-white animate-pulse",
-    outOfStockBadge: "px-2 py-1 rounded-sm bg-slate-900/90 text-white text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-md",
-    ratingBadge: "absolute top-4 right-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xs px-2.5 py-1 rounded-sm text-xs font-black text-slate-800 dark:text-slate-100 shadow-md flex items-center gap-1",
-    wishlistBtnBase: "absolute bottom-4 right-4 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md transition-all duration-300 transform hover:scale-110 active:scale-95 cursor-pointer",
-    wishlistActive: "bg-red-500 text-white",
-    wishlistInactive: "bg-white/90 dark:bg-slate-900/90 text-slate-400 dark:text-slate-500 hover:text-red-500",
-    content: "p-5 flex-1 flex flex-col justify-between space-y-4",
-    category: "text-[10px] font-extrabold text-orange-600 uppercase tracking-widest",
-    title: "font-extrabold text-slate-800 dark:text-slate-100 text-base mt-1 group-hover:text-[#c74a09] transition-colors line-clamp-1",
-    desc: "text-xs text-slate-400 dark:text-slate-400 mt-1 font-medium leading-relaxed line-clamp-2",
-    footer: "flex justify-between items-center pt-4 border-t border-slate-100 dark:border-slate-800",
-    priceLabel: "text-xs text-slate-400 dark:text-slate-500 font-bold leading-none",
-    price: "text-xl font-black text-slate-800 dark:text-slate-100",
-    addBtnBase: "font-extrabold text-xs py-3 px-5 rounded flex items-center gap-1.5 transition-all duration-300 shadow-md transform",
-    addBtnActive: "bg-slate-900 dark:bg-slate-850 hover:bg-[#c74a09] dark:hover:bg-[#c74a09] text-white hover:shadow-orange-200 dark:hover:shadow-none active:scale-95 cursor-pointer",
-    addBtnInactive: "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
-  }
-};
+
 
 const MenuTab = ({ searchQuery, setSearchQuery, selectedCategory, setSelectedCategory, addToCart, wishlist = [], toggleWishlist }) => {
+  const styles = {
+    container: "space-y-6 animate-fadeIn duration-500",
+    searchBar: {
+      wrapper: "flex flex-col md:flex-row gap-4 justify-between items-center",
+      inputContainer: "relative flex-1 w-full",
+      icon: "bi bi-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400",
+      input: "w-full h-12 pl-12 pr-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100 dark:focus:ring-orange-950/20 text-slate-800 dark:text-slate-100 transition shadow-sm font-semibold"
+    },
+    categories: {
+      wrapper: "flex gap-2 overflow-x-auto scrollbar-none w-full md:w-auto",
+      buttonBase: "h-12 px-5 rounded font-bold text-sm shrink-0 cursor-pointer transition flex items-center justify-center",
+      buttonActive: "bg-orange-600 text-white",
+      buttonInactive: "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850"
+    },
+    grid: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6",
+    card: {
+      wrapper: "bg-white dark:bg-slate-900 rounded-md overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group transform hover:-translate-y-1.5 animate-fadeIn",
+      imageContainer: "relative overflow-hidden aspect-[4/3] bg-slate-100 dark:bg-slate-800",
+      image: "w-full h-full object-cover transform group-hover:scale-110 transition duration-500 ease-out",
+      badgesWrapper: "absolute top-4 left-4 flex flex-col gap-2 items-start",
+      typeBadge: "px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 backdrop-blur-md shadow-md",
+      typeBadgeDot: "w-1.5 h-1.5 rounded-full bg-white animate-pulse",
+      outOfStockBadge: "px-2 py-1 rounded-sm bg-slate-900/90 text-white text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-md",
+      ratingBadge: "absolute top-4 right-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xs px-2.5 py-1 rounded-sm text-xs font-black text-slate-800 dark:text-slate-100 shadow-md flex items-center gap-1",
+      wishlistBtnBase: "absolute bottom-4 right-4 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md transition-all duration-300 transform hover:scale-110 active:scale-95 cursor-pointer",
+      wishlistActive: "bg-red-500 text-white",
+      wishlistInactive: "bg-white/90 dark:bg-slate-900/90 text-slate-400 dark:text-slate-500 hover:text-red-500",
+      content: "p-5 flex-1 flex flex-col justify-between space-y-4",
+      category: "text-[10px] font-extrabold text-orange-600 uppercase tracking-widest",
+      title: "font-extrabold text-slate-800 dark:text-slate-100 text-base mt-1 group-hover:text-[#c74a09] transition-colors line-clamp-1",
+      desc: "text-xs text-slate-400 dark:text-slate-400 mt-1 font-medium leading-relaxed line-clamp-2",
+      footer: "flex justify-between items-center pt-4 border-t border-slate-100 dark:border-slate-800",
+      priceLabel: "text-xs text-slate-400 dark:text-slate-500 font-bold leading-none",
+      price: "text-xl font-black text-slate-800 dark:text-slate-100",
+      addBtnBase: "font-extrabold text-xs py-3 px-5 rounded flex items-center gap-1.5 transition-all duration-300 shadow-md transform",
+      addBtnActive: "bg-slate-900 dark:bg-slate-850 hover:bg-[#c74a09] dark:hover:bg-[#c74a09] text-white hover:shadow-orange-200 dark:hover:shadow-none active:scale-95 cursor-pointer",
+      addBtnInactive: "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
+    }
+  };
+
   return (
     <div className={styles.container}>
       {/* Search & Filter Bar */}
