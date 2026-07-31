@@ -2,61 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import toast from 'react-hot-toast';
 
-const styles = {
-  form: {
-    input: "w-full py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all text-slate-800 dark:text-white placeholder:text-slate-400 placeholder:font-medium",
-    dropdown: "w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white cursor-pointer flex items-center justify-between"
-  },
-  header: {
-    wrapper: "flex flex-col md:flex-row justify-between items-start md:items-center bg-white dark:bg-slate-900/80 p-6 md:p-8 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 mb-8",
-    title: "text-2xl font-black text-slate-800 dark:text-white flex items-center gap-2",
-    subtitle: "text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium",
-    actionsWrapper: "mt-4 md:mt-0 flex items-center gap-3",
-    historyWrapper: "flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl shadow-inner border border-slate-200 dark:border-slate-700",
-    historyBtnActive: "w-10 h-10 rounded-lg flex items-center justify-center transition-all text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 shadow-sm",
-    historyBtnInactive: "w-10 h-10 rounded-lg flex items-center justify-center transition-all text-slate-400 dark:text-slate-600 cursor-not-allowed",
-    addBtn: "bg-gradient-to-r from-orange-600 to-rose-600 text-white px-6 py-3.5 rounded-xl text-sm font-black shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
-  },
-  table: {
-    wrapper: "w-full max-h-[calc(100vh-180px)] overflow-auto scrollbar-none rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 bg-white dark:bg-slate-900/50",
-    table: "w-full text-left border-collapse table-fixed min-w-[800px]",
-    thead: "sticky top-0 z-20 shadow-sm",
-    trHead: "bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] uppercase tracking-widest border-b border-slate-200/60 dark:border-slate-800/60",
-    th: "px-6 py-5 font-black",
-    tbody: "divide-y divide-slate-100 dark:divide-slate-800/60",
-    trBody: "hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors group",
-    td: "px-6 py-4",
-    imageWrapper: "w-14 h-14 shrink-0 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 relative",
-    image: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
-    itemTitle: "font-bold text-slate-800 dark:text-slate-100 text-sm mb-0.5 truncate group-hover:text-[#c74a09] transition-colors",
-    itemDesc: "text-xs text-slate-500 dark:text-slate-400 line-clamp-2 font-medium",
-    categoryBadge: "px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-black uppercase tracking-wider border border-slate-200 dark:border-slate-700 shadow-sm truncate block w-fit max-w-full",
-    priceText: "font-black text-slate-800 dark:text-slate-100 truncate block max-w-full",
-    actionBtn: "w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-all hover:scale-105 active:scale-95",
-    deleteBtn: "w-9 h-9 rounded-xl bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 flex items-center justify-center transition-all hover:scale-105 active:scale-95"
-  },
-  modal: {
-    overlay: "absolute inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md",
-    container: "relative w-full max-w-xl bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden animate-zoomIn border border-white/20 dark:border-slate-700/50 flex flex-col max-h-[90vh]",
-    header: "relative pt-8 pb-6 px-8 overflow-hidden shrink-0",
-    title: "text-2xl font-black text-slate-800 dark:text-white flex items-center gap-3 tracking-tight",
-    subtitle: "text-slate-500 dark:text-slate-400 text-sm font-medium mt-2 ml-[52px]",
-    closeBtn: "group w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 dark:text-slate-400 hover:text-rose-500 transition-all duration-300 relative z-10",
-    body: "flex-1 overflow-y-auto px-6 py-2 pb-8 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700",
-    footer: "p-6 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700/50 shrink-0 flex gap-4 justify-end",
-    cancelBtn: "px-6 py-3.5 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors",
-    submitBtn: "px-8 py-3.5 bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-500 hover:to-rose-500 text-white font-black rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-0.5 transition-all flex items-center gap-2"
-  },
-  deleteModal: {
-    container: "relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden animate-zoomIn border border-white/20 dark:border-slate-700/50 flex flex-col",
-    iconWrapper: "w-16 h-16 rounded-full bg-red-100 dark:bg-red-500/20 text-red-500 flex items-center justify-center mx-auto shadow-inner",
-    title: "text-xl font-black text-slate-800 dark:text-white",
-    desc: "text-sm text-slate-500 dark:text-slate-400 font-medium",
-    footer: "p-6 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700/50 flex gap-3",
-    cancelBtn: "flex-1 py-3 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors",
-    confirmBtn: "flex-1 py-3 bg-red-500 hover:bg-red-600 text-white font-black rounded-xl shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 transition-all"
-  }
-};
 
 const CustomStatusDropdown = ({ value, onChange }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -189,6 +134,12 @@ const CustomFormDropdown = ({ value, onChange, options }) => {
   };
 
   const selectedOption = options.find(opt => opt.value === value) || options[0];
+
+  const styles = {
+    form: {
+      dropdown: "w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white cursor-pointer flex items-center justify-between"
+    }
+  };
 
   return (
     <div className="relative w-full" ref={dropdownRef}>
@@ -341,6 +292,62 @@ export default function MenuTab() {
   const handleStatusChange = (id, newStatus) => {
     saveWithHistory(menuItems.map(item => item.id === id ? { ...item, status: newStatus } : item));
     toast.success("Status updated");
+  };
+
+  const styles = {
+    form: {
+      input: "w-full py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all text-slate-800 dark:text-white placeholder:text-slate-400 placeholder:font-medium",
+      dropdown: "w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-500/10 transition-all font-bold text-slate-800 dark:text-white cursor-pointer flex items-center justify-between"
+    },
+    header: {
+      wrapper: "flex flex-col md:flex-row justify-between items-start md:items-center bg-white dark:bg-slate-900/80 p-6 md:p-8 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 mb-8",
+      title: "text-2xl font-black text-slate-800 dark:text-white flex items-center gap-2",
+      subtitle: "text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium",
+      actionsWrapper: "mt-4 md:mt-0 flex items-center gap-3",
+      historyWrapper: "flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl shadow-inner border border-slate-200 dark:border-slate-700",
+      historyBtnActive: "w-10 h-10 rounded-lg flex items-center justify-center transition-all text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 shadow-sm",
+      historyBtnInactive: "w-10 h-10 rounded-lg flex items-center justify-center transition-all text-slate-400 dark:text-slate-600 cursor-not-allowed",
+      addBtn: "bg-gradient-to-r from-orange-600 to-rose-600 text-white px-6 py-3.5 rounded-xl text-sm font-black shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
+    },
+    table: {
+      wrapper: "w-full max-h-[calc(100vh-180px)] overflow-auto scrollbar-none rounded-3xl border border-slate-200/60 dark:border-slate-800/60 shadow-xl shadow-slate-200/20 dark:shadow-black/20 bg-white dark:bg-slate-900/50",
+      table: "w-full text-left border-collapse table-fixed min-w-[800px]",
+      thead: "sticky top-0 z-20 shadow-sm",
+      trHead: "bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] uppercase tracking-widest border-b border-slate-200/60 dark:border-slate-800/60",
+      th: "px-6 py-5 font-black",
+      tbody: "divide-y divide-slate-100 dark:divide-slate-800/60",
+      trBody: "hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors group",
+      td: "px-6 py-4",
+      imageWrapper: "w-14 h-14 shrink-0 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 relative",
+      image: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
+      itemTitle: "font-bold text-slate-800 dark:text-slate-100 text-sm mb-0.5 truncate group-hover:text-[#c74a09] transition-colors",
+      itemDesc: "text-xs text-slate-500 dark:text-slate-400 line-clamp-2 font-medium",
+      categoryBadge: "px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-black uppercase tracking-wider border border-slate-200 dark:border-slate-700 shadow-sm truncate block w-fit max-w-full",
+      priceText: "font-black text-slate-800 dark:text-slate-100 truncate block max-w-full",
+      actionBtn: "w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-all hover:scale-105 active:scale-95",
+      deleteBtn: "w-9 h-9 rounded-xl bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+    },
+    modal: {
+      overlay: "absolute inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md",
+      container: "relative w-full max-w-xl bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden animate-zoomIn border border-white/20 dark:border-slate-700/50 flex flex-col max-h-[90vh]",
+      header: "relative pt-8 pb-6 px-8 overflow-hidden shrink-0",
+      title: "text-2xl font-black text-slate-800 dark:text-white flex items-center gap-3 tracking-tight",
+      subtitle: "text-slate-500 dark:text-slate-400 text-sm font-medium mt-2 ml-[52px]",
+      closeBtn: "group w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 dark:text-slate-400 hover:text-rose-500 transition-all duration-300 relative z-10",
+      body: "flex-1 overflow-y-auto px-6 py-2 pb-8 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700",
+      footer: "p-6 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700/50 shrink-0 flex gap-4 justify-end",
+      cancelBtn: "px-6 py-3.5 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors",
+      submitBtn: "px-8 py-3.5 bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-500 hover:to-rose-500 text-white font-black rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-0.5 transition-all flex items-center gap-2"
+    },
+    deleteModal: {
+      container: "relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden animate-zoomIn border border-white/20 dark:border-slate-700/50 flex flex-col",
+      iconWrapper: "w-16 h-16 rounded-full bg-red-100 dark:bg-red-500/20 text-red-500 flex items-center justify-center mx-auto shadow-inner",
+      title: "text-xl font-black text-slate-800 dark:text-white",
+      desc: "text-sm text-slate-500 dark:text-slate-400 font-medium",
+      footer: "p-6 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700/50 flex gap-3",
+      cancelBtn: "flex-1 py-3 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors",
+      confirmBtn: "flex-1 py-3 bg-red-500 hover:bg-red-600 text-white font-black rounded-xl shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 transition-all"
+    }
   };
 
   return (
