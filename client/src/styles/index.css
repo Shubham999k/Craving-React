@@ -2,10 +2,11 @@
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
 /* Prevent chrome browser autofill from making input backgrounds white */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
 input:-webkit-autofill:active,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
@@ -22,8 +23,8 @@ select:-webkit-autofill:active {
 
 /* Dark mode text fill override for autofill */
 .dark input:-webkit-autofill,
-.dark input:-webkit-autofill:hover, 
-.dark input:-webkit-autofill:focus, 
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
 .dark input:-webkit-autofill:active,
 .dark textarea:-webkit-autofill,
 .dark textarea:-webkit-autofill:hover,
@@ -54,35 +55,41 @@ html::-webkit-scrollbar,
 /* Light mode track and thumb */
 html::-webkit-scrollbar-track,
 ::-webkit-scrollbar-track {
-    background: #f8fafc; /* Slate-50 */
+    background: #f8fafc;
+    /* Slate-50 */
 }
 
 html::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-thumb {
-    background: #cbd5e1; /* Slate-300 */
+    background: #cbd5e1;
+    /* Slate-300 */
     border-radius: 9999px;
 }
 
 html::-webkit-scrollbar-thumb:hover,
 ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8; /* Slate-400 */
+    background: #94a3b8;
+    /* Slate-400 */
 }
 
 /* Dark mode track and thumb */
 .dark ::-webkit-scrollbar-track,
 .dark::-webkit-scrollbar-track {
-    background: #090d16; /* Slate-950/Black area */
+    background: #090d16;
+    /* Slate-950/Black area */
 }
 
 .dark ::-webkit-scrollbar-thumb,
 .dark::-webkit-scrollbar-thumb {
-    background: #334155; /* Slate-700 */
+    background: #334155;
+    /* Slate-700 */
     border-radius: 9999px;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover,
 .dark::-webkit-scrollbar-thumb:hover {
-    background: #475569; /* Slate-600 */
+    background: #475569;
+    /* Slate-600 */
 }
 
 /* Firefox compatibility */
@@ -99,56 +106,131 @@ html::-webkit-scrollbar-thumb:hover,
 .scrollbar-none::-webkit-scrollbar {
     display: none !important;
 }
+
 .scrollbar-none {
-    -ms-overflow-style: none !important;  /* IE and Edge */
-    scrollbar-width: none !important;  /* Firefox */
+    -ms-overflow-style: none !important;
+    /* IE and Edge */
+    scrollbar-width: none !important;
+    /* Firefox */
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
 }
+
 @keyframes float-slow {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
 }
+
 @keyframes fade-in-up {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
+
 @keyframes pulse-glow {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
 }
+
 @keyframes gradient-x {
-    0%, 100% {
+
+    0%,
+    100% {
         background-size: 200% 200%;
         background-position: left center;
     }
+
     50% {
         background-size: 200% 200%;
         background-position: right center;
     }
 }
 
+@layer components {
+    .menu-input,
+    .menu-textarea,
+    .menu-dropdown-btn {
+        @apply w-full py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 transition-all text-slate-800 dark:text-white;
+    }
+
+    .menu-input,
+    .menu-textarea {
+        @apply px-4 font-bold focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 placeholder:text-slate-400 placeholder:font-medium;
+    }
+
+    .menu-dropdown-btn {
+        @apply px-4 font-bold focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-500/10 cursor-pointer flex items-center justify-between;
+    }
+}
+
 .animate-float {
     animation: float 6s ease-in-out infinite;
 }
+
 .animate-float-slow {
     animation: float-slow 8s ease-in-out infinite;
 }
+
 .animate-fade-in-up {
     animation: fade-in-up 0.6s ease-out forwards;
 }
+
 .animate-pulse-glow {
     animation: pulse-glow 4s ease-in-out infinite;
 }
+
 .animate-gradient-x {
     animation: gradient-x 15s ease infinite;
 }
 
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
+.delay-100 {
+    animation-delay: 100ms;
+}
+
+.delay-200 {
+    animation-delay: 200ms;
+}
+
+.delay-300 {
+    animation-delay: 300ms;
+}
+
+.delay-400 {
+    animation-delay: 400ms;
+}
+
+.delay-500 {
+    animation-delay: 500ms;
+}

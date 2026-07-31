@@ -80,8 +80,8 @@ const CustomStatusDropdown = ({ value, onChange }) => {
                 setIsOpen(false);
               }}
               className={`px-3 py-2 text-[10px] font-black uppercase tracking-wider cursor-pointer transition-colors ${opt.value === (value || 'available')
-                  ? 'bg-orange-50 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400'
-                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
+                ? 'bg-orange-50 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400'
+                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
                 }`}
             >
               {opt.label}
@@ -163,8 +163,8 @@ const CustomFormDropdown = ({ value, onChange, options }) => {
                 setIsOpen(false);
               }}
               className={`px-4 py-3 text-sm font-bold cursor-pointer transition-colors ${opt.value === value
-                  ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400'
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400'
+                : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                 }`}
             >
               <span className={opt.colorClass || ""}>{opt.label}</span>
@@ -343,7 +343,7 @@ export default function MenuTab() {
                 <th className="px-6 py-5 font-black w-[15%]">Type</th>
                 <th className="px-6 py-5 font-black w-[15%]">Price</th>
                 <th className="px-6 py-5 font-black w-[20%]">Status</th>
-                <th className="px-6 py-5 font-black w-[15%] text-right">Action</th> 
+                <th className="px-6 py-5 font-black w-[15%] text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
@@ -360,7 +360,7 @@ export default function MenuTab() {
                           {item.name}
                         </h4>
                         <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 font-medium" title={item.description}>
-                          {item.description} 
+                          {item.description}
                         </p>
                       </div>
                     </div>
