@@ -472,7 +472,7 @@ const UserDashboard = () => {
         </div>
       </aside>
 
-      <main className={`flex-1 p-6 md:p-8 md:h-full pb-24 md:pb-8 ${activeTab === 'tracking' ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+      <main className={`flex-1 min-h-0 w-full p-6 md:p-8 md:h-full pb-24 md:pb-8 scroll-smooth [-webkit-overflow-scrolling:touch] ${activeTab === 'tracking' ? 'overflow-hidden' : 'overflow-y-auto'}`}>
         
         {/* TOP BAR / GREETING */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 m-1">
