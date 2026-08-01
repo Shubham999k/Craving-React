@@ -16,62 +16,28 @@ export default function ActiveTripTab() {
   // Map placeholders
   const mapImage = "https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80";
 
-  const styles = {
-    layoutGrid: "grid grid-cols-1 lg:grid-cols-3 gap-6",
-    leftColumn: "lg:col-span-2 space-y-6",
-    cardBase: "bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col",
-    mapContainer: "h-64 sm:h-80 w-full relative bg-slate-200 dark:bg-slate-800",
-    mapImage: "w-full h-full object-cover opacity-80",
-    mapGradient: "absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent",
-    mapFab: "absolute bottom-4 right-4 bg-white dark:bg-slate-800 text-slate-800 dark:text-white p-3 rounded-full shadow-lg border border-slate-200 dark:border-slate-700 hover:scale-105 transition-transform cursor-pointer",
-    mapFabIcon: "bi bi-geo-alt-fill text-xl text-orange-600",
-    statusBadge: "bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-slate-800 dark:text-white px-4 py-2 rounded-xl text-sm font-black shadow-lg flex items-center gap-2 border border-slate-200/50 dark:border-slate-700/50",
-    pulseIndicator: "w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse",
-    headerFlex: "flex justify-between items-end mb-8",
-    labelSmall: "text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1",
-    valueLarge: "text-xl font-black text-slate-800 dark:text-white",
-    payoutAmount: "text-3xl font-black text-green-600 dark:text-green-500",
-    timelineContainer: "relative pl-6 space-y-8 before:content-[''] before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-200 dark:before:bg-slate-800",
-    timelineNodeBase: "absolute -left-[31px] w-6 h-6 rounded-full border-4 border-white dark:border-slate-900 flex items-center justify-center",
-    timelineTitle: "font-extrabold text-slate-800 dark:text-white",
-    timelineDesc: "text-sm text-slate-600 dark:text-slate-400 font-medium mt-1",
-    timelineAlert: "text-xs font-bold text-orange-600 dark:text-orange-500 mt-2 flex items-center gap-1",
-    timelineAlertBlue: "text-xs font-bold text-blue-600 dark:text-blue-500 mt-2 flex items-center gap-1",
-    actionCard: "bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm",
-    cardTitle: "font-black text-slate-800 dark:text-white text-lg mb-4",
-    primaryBtn: "w-full bg-[#c74a09] hover:bg-orange-700 text-white font-black py-4 rounded-xl text-sm transition shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2 cursor-pointer",
-    successBtn: "w-full bg-green-600 hover:bg-green-700 text-white font-black py-4 rounded-xl text-sm transition shadow-lg shadow-green-500/30 flex items-center justify-center gap-2 cursor-pointer",
-    secondaryBtn: "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-xl text-xs transition cursor-pointer flex items-center justify-center gap-2",
-    dangerBtn: "bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-600 dark:text-red-400 font-bold py-3 rounded-xl text-xs transition cursor-pointer flex items-center justify-center gap-2",
-    notesBox: "bg-orange-50 dark:bg-orange-500/10 border border-orange-100 dark:border-orange-500/20 p-4 rounded-xl",
-    notesText: "text-sm text-slate-700 dark:text-slate-300 font-medium italic",
-    customerRow: "mt-6 flex items-center gap-4 pt-6 border-t border-slate-100 dark:border-slate-800",
-    customerAvatar: "w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-xl",
-    callBtn: "ml-auto w-10 h-10 rounded-full bg-green-100 text-green-600 dark:bg-green-500/20 dark:text-green-400 flex items-center justify-center hover:bg-green-200 dark:hover:bg-green-500/30 transition cursor-pointer"
-  };
-
   return (
     <div className="space-y-6">
-      
-      <div className={styles.layoutGrid}>
-        
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
         {/* Left Column: Map & Route Info */}
-        <div className={styles.leftColumn}>
-          <div className={styles.cardBase}>
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
             {/* Fake Map Area */}
-            <div className={styles.mapContainer}>
-              <img src={mapImage} alt="Map Route" className={styles.mapImage} />
-              <div className={styles.mapGradient}></div>
-              
+            <div className="h-64 sm:h-80 w-full relative bg-slate-200 dark:bg-slate-800">
+              <img src={mapImage} alt="Map Route" className="w-full h-full object-cover opacity-80" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"></div>
+
               {/* Floating Action Button on Map */}
-              <button className={styles.mapFab}>
-                <i className={styles.mapFabIcon}></i>
+              <button className="absolute bottom-4 right-4 bg-white dark:bg-slate-800 text-slate-800 dark:text-white p-3 rounded-full shadow-lg border border-slate-200 dark:border-slate-700 hover:scale-105 transition-transform cursor-pointer">
+                <i className="bi bi-geo-alt-fill text-xl text-orange-600"></i>
               </button>
 
               {/* Status Badge */}
               <div className="absolute top-4 left-4">
-                <span className={styles.statusBadge}>
-                  <span className={styles.pulseIndicator}></span>
+                <span className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-slate-800 dark:text-white px-4 py-2 rounded-xl text-sm font-black shadow-lg flex items-center gap-2 border border-slate-200/50 dark:border-slate-700/50">
+                  <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
                   {tripStatus === 'picking_up' ? 'Heading to Restaurant' : 'Heading to Customer'}
                 </span>
               </div>
@@ -79,29 +45,29 @@ export default function ActiveTripTab() {
 
             {/* Trip Timeline Details */}
             <div className="p-6">
-              <div className={styles.headerFlex}>
+              <div className="flex justify-between items-end mb-8">
                 <div>
-                  <p className={styles.labelSmall}>Order ID</p>
-                  <h3 className={styles.valueLarge}>{activeDelivery.id}</h3>
+                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Order ID</p>
+                  <h3 className="text-xl font-black text-slate-800 dark:text-white">{activeDelivery.id}</h3>
                 </div>
                 <div className="text-right">
-                  <h2 className={styles.payoutAmount}>₹{activeDelivery.payout}</h2>
+                  <h2 className="text-3xl font-black text-green-600 dark:text-green-500">₹{activeDelivery.payout}</h2>
                   <p className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1">Est. Payout</p>
                 </div>
               </div>
 
               {/* Timeline */}
-              <div className={styles.timelineContainer}>
+              <div className="relative pl-6 space-y-8 before:content-[''] before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-200 dark:before:bg-slate-800">
                 {/* Pickup Node */}
                 <div className="relative">
-                  <div className={`${styles.timelineNodeBase} ${tripStatus === 'picking_up' ? 'bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.5)]' : 'bg-slate-300 dark:bg-slate-700'}`}>
+                  <div className={`absolute -left-[31px] w-6 h-6 rounded-full border-4 border-white dark:border-slate-900 flex items-center justify-center ${tripStatus === 'picking_up' ? 'bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.5)]' : 'bg-slate-300 dark:bg-slate-700'}`}>
                     {tripStatus !== 'picking_up' && <i className="bi bi-check text-white text-xs"></i>}
                   </div>
                   <div className={`${tripStatus === 'picking_up' ? 'opacity-100' : 'opacity-50'} transition-opacity`}>
-                    <h4 className={styles.timelineTitle}>Pickup</h4>
-                    <p className={styles.timelineDesc}>{activeDelivery.pickup}</p>
+                    <h4 className="font-extrabold text-slate-800 dark:text-white">Pickup</h4>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mt-1">{activeDelivery.pickup}</p>
                     {tripStatus === 'picking_up' && (
-                      <p className={styles.timelineAlert}>
+                      <p className="text-xs font-bold text-orange-600 dark:text-orange-500 mt-2 flex items-center gap-1">
                         <i className="bi bi-clock-fill"></i> Arriving in 4 mins
                       </p>
                     )}
@@ -110,12 +76,12 @@ export default function ActiveTripTab() {
 
                 {/* Dropoff Node */}
                 <div className="relative">
-                  <div className={`${styles.timelineNodeBase} bg-slate-300 dark:bg-slate-700 ${tripStatus === 'delivering' ? 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]' : ''}`}></div>
+                  <div className={`absolute -left-[31px] w-6 h-6 rounded-full border-4 border-white dark:border-slate-900 bg-slate-300 dark:bg-slate-700 flex items-center justify-center ${tripStatus === 'delivering' ? 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]' : ''}`}></div>
                   <div className={`${tripStatus === 'delivering' ? 'opacity-100' : 'opacity-50'} transition-opacity`}>
-                    <h4 className={styles.timelineTitle}>Dropoff</h4>
-                    <p className={styles.timelineDesc}>{activeDelivery.dropoff}</p>
+                    <h4 className="font-extrabold text-slate-800 dark:text-white">Dropoff</h4>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mt-1">{activeDelivery.dropoff}</p>
                     {tripStatus === 'delivering' && (
-                      <p className={styles.timelineAlertBlue}>
+                      <p className="text-xs font-bold text-blue-600 dark:text-blue-500 mt-2 flex items-center gap-1">
                         <i className="bi bi-clock-fill"></i> {activeDelivery.timeRemaining} away ({activeDelivery.distance})
                       </p>
                     )}
@@ -129,55 +95,55 @@ export default function ActiveTripTab() {
 
         {/* Right Column: Actions & Customer Info */}
         <div className="space-y-6">
-          
+
           {/* Action Card */}
-          <div className={styles.actionCard}>
-            <h3 className={styles.cardTitle}>Trip Actions</h3>
-            
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+            <h3 className="font-black text-slate-800 dark:text-white text-lg mb-4">Trip Actions</h3>
+
             {tripStatus === 'picking_up' ? (
-              <button 
+              <button
                 onClick={() => setTripStatus('delivering')}
-                className={styles.primaryBtn}
+                className="w-full bg-[#c74a09] hover:bg-orange-700 text-white font-black py-4 rounded-xl text-sm transition shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2 cursor-pointer"
               >
                 Confirm Pickup <i className="bi bi-arrow-right"></i>
               </button>
             ) : (
-              <button 
+              <button
                 onClick={() => setTripStatus('picking_up')} // Reset for demo
-                className={styles.successBtn}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-black py-4 rounded-xl text-sm transition shadow-lg shadow-green-500/30 flex items-center justify-center gap-2 cursor-pointer"
               >
                 Complete Delivery <i className="bi bi-check-circle-fill"></i>
               </button>
             )}
 
             <div className="grid grid-cols-2 gap-3 mt-4">
-              <button className={styles.secondaryBtn}>
+              <button className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-xl text-xs transition cursor-pointer flex items-center justify-center gap-2">
                 <i className="bi bi-telephone-fill"></i> Call Rest.
               </button>
-              <button className={styles.dangerBtn}>
+              <button className="bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-600 dark:text-red-400 font-bold py-3 rounded-xl text-xs transition cursor-pointer flex items-center justify-center gap-2">
                 <i className="bi bi-x-circle-fill"></i> Issue
               </button>
             </div>
           </div>
 
           {/* Customer Details */}
-          <div className={styles.actionCard}>
-            <h3 className={styles.cardTitle}>Delivery Notes</h3>
-            <div className={styles.notesBox}>
-              <p className={styles.notesText}>
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+            <h3 className="font-black text-slate-800 dark:text-white text-lg mb-4">Delivery Notes</h3>
+            <div className="bg-orange-50 dark:bg-orange-500/10 border border-orange-100 dark:border-orange-500/20 p-4 rounded-xl">
+              <p className="text-sm text-slate-700 dark:text-slate-300 font-medium italic">
                 "Please ring the doorbell and leave the package on the small table near the door. Beware of dog."
               </p>
             </div>
 
-            <div className={styles.customerRow}>
-              <div className={styles.customerAvatar}>
+            <div className="mt-6 flex items-center gap-4 pt-6 border-t border-slate-100 dark:border-slate-800">
+              <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-xl">
                 👤
               </div>
               <div>
                 <h4 className="font-bold text-slate-800 dark:text-white">Aman Verma</h4>
                 <p className="text-xs text-slate-500 dark:text-slate-400">Customer</p>
               </div>
-              <button className={styles.callBtn}>
+              <button className="ml-auto w-10 h-10 rounded-full bg-green-100 text-green-600 dark:bg-green-500/20 dark:text-green-400 flex items-center justify-center hover:bg-green-200 dark:hover:bg-green-500/30 transition cursor-pointer">
                 <i className="bi bi-telephone-fill"></i>
               </button>
             </div>
