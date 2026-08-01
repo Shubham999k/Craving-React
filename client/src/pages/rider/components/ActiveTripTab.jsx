@@ -16,6 +16,16 @@ export default function ActiveTripTab() {
   // Map placeholders
   const mapImage = "https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80";
 
+  const styles = {
+    card: "bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm",
+    btnLg: "w-full text-white font-black py-4 rounded-xl text-sm transition shadow-lg flex items-center justify-center gap-2 cursor-pointer",
+    btnSm: "font-bold py-3 rounded-xl text-xs transition cursor-pointer flex items-center justify-center gap-2",
+    node: "absolute -left-[31px] w-6 h-6 rounded-full border-4 border-white dark:border-slate-900 flex items-center justify-center",
+    textDesc: "text-sm text-slate-600 dark:text-slate-400 font-medium mt-1",
+    textTitle: "font-extrabold text-slate-800 dark:text-white",
+    cardTitle: "font-black text-slate-800 dark:text-white text-lg mb-4"
+  };
+
   return (
     <div className="space-y-6">
 
@@ -23,7 +33,7 @@ export default function ActiveTripTab() {
 
         {/* Left Column: Map & Route Info */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+          <div className={`${styles.card} overflow-hidden flex flex-col`}>
             {/* Fake Map Area */}
             <div className="h-64 sm:h-80 w-full relative bg-slate-200 dark:bg-slate-800">
               <img src={mapImage} alt="Map Route" className="w-full h-full object-cover opacity-80" />
@@ -60,12 +70,12 @@ export default function ActiveTripTab() {
               <div className="relative pl-6 space-y-8 before:content-[''] before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-200 dark:before:bg-slate-800">
                 {/* Pickup Node */}
                 <div className="relative">
-                  <div className={`absolute -left-[31px] w-6 h-6 rounded-full border-4 border-white dark:border-slate-900 flex items-center justify-center ${tripStatus === 'picking_up' ? 'bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.5)]' : 'bg-slate-300 dark:bg-slate-700'}`}>
+                  <div className={`${styles.node} ${tripStatus === 'picking_up' ? 'bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.5)]' : 'bg-slate-300 dark:bg-slate-700'}`}>
                     {tripStatus !== 'picking_up' && <i className="bi bi-check text-white text-xs"></i>}
                   </div>
                   <div className={`${tripStatus === 'picking_up' ? 'opacity-100' : 'opacity-50'} transition-opacity`}>
-                    <h4 className="font-extrabold text-slate-800 dark:text-white">Pickup</h4>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mt-1">{activeDelivery.pickup}</p>
+                    <h4 className={styles.textTitle}>Pickup</h4>
+                    <p className={styles.textDesc}>{activeDelivery.pickup}</p>
                     {tripStatus === 'picking_up' && (
                       <p className="text-xs font-bold text-orange-600 dark:text-orange-500 mt-2 flex items-center gap-1">
                         <i className="bi bi-clock-fill"></i> Arriving in 4 mins
@@ -76,10 +86,10 @@ export default function ActiveTripTab() {
 
                 {/* Dropoff Node */}
                 <div className="relative">
-                  <div className={`absolute -left-[31px] w-6 h-6 rounded-full border-4 border-white dark:border-slate-900 bg-slate-300 dark:bg-slate-700 flex items-center justify-center ${tripStatus === 'delivering' ? 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]' : ''}`}></div>
+                  <div className={`${styles.node} ${tripStatus === 'delivering' ? 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'bg-slate-300 dark:bg-slate-700'}`}></div>
                   <div className={`${tripStatus === 'delivering' ? 'opacity-100' : 'opacity-50'} transition-opacity`}>
-                    <h4 className="font-extrabold text-slate-800 dark:text-white">Dropoff</h4>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mt-1">{activeDelivery.dropoff}</p>
+                    <h4 className={styles.textTitle}>Dropoff</h4>
+                    <p className={styles.textDesc}>{activeDelivery.dropoff}</p>
                     {tripStatus === 'delivering' && (
                       <p className="text-xs font-bold text-blue-600 dark:text-blue-500 mt-2 flex items-center gap-1">
                         <i className="bi bi-clock-fill"></i> {activeDelivery.timeRemaining} away ({activeDelivery.distance})
@@ -97,38 +107,38 @@ export default function ActiveTripTab() {
         <div className="space-y-6">
 
           {/* Action Card */}
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
-            <h3 className="font-black text-slate-800 dark:text-white text-lg mb-4">Trip Actions</h3>
+          <div className={`${styles.card} p-6`}>
+            <h3 className={styles.cardTitle}>Trip Actions</h3>
 
             {tripStatus === 'picking_up' ? (
               <button
                 onClick={() => setTripStatus('delivering')}
-                className="w-full bg-[#c74a09] hover:bg-orange-700 text-white font-black py-4 rounded-xl text-sm transition shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2 cursor-pointer"
+                className={`${styles.btnLg} bg-[#c74a09] hover:bg-orange-700 shadow-orange-500/30`}
               >
                 Confirm Pickup <i className="bi bi-arrow-right"></i>
               </button>
             ) : (
               <button
                 onClick={() => setTripStatus('picking_up')} // Reset for demo
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-black py-4 rounded-xl text-sm transition shadow-lg shadow-green-500/30 flex items-center justify-center gap-2 cursor-pointer"
+                className={`${styles.btnLg} bg-green-600 hover:bg-green-700 shadow-green-500/30`}
               >
                 Complete Delivery <i className="bi bi-check-circle-fill"></i>
               </button>
             )}
 
             <div className="grid grid-cols-2 gap-3 mt-4">
-              <button className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-xl text-xs transition cursor-pointer flex items-center justify-center gap-2">
+              <button className={`${styles.btnSm} bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300`}>
                 <i className="bi bi-telephone-fill"></i> Call Rest.
               </button>
-              <button className="bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-600 dark:text-red-400 font-bold py-3 rounded-xl text-xs transition cursor-pointer flex items-center justify-center gap-2">
+              <button className={`${styles.btnSm} bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-600 dark:text-red-400`}>
                 <i className="bi bi-x-circle-fill"></i> Issue
               </button>
             </div>
           </div>
 
           {/* Customer Details */}
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
-            <h3 className="font-black text-slate-800 dark:text-white text-lg mb-4">Delivery Notes</h3>
+          <div className={`${styles.card} p-6`}>
+            <h3 className={styles.cardTitle}>Delivery Notes</h3>
             <div className="bg-orange-50 dark:bg-orange-500/10 border border-orange-100 dark:border-orange-500/20 p-4 rounded-xl">
               <p className="text-sm text-slate-700 dark:text-slate-300 font-medium italic">
                 "Please ring the doorbell and leave the package on the small table near the door. Beware of dog."
