@@ -4,7 +4,7 @@ import { FOOD_ITEMS } from '../../../data/mockData';
 const OverviewTab = ({ orderItems, orderStep, addToCart, setSelectedCategory, setActiveTab, totalOrders = 0, totalSpent = 0 }) => {
   return (
     <div className="space-y-8 animate-fadeIn duration-500">
-      
+
       {/* Promo banner */}
       <div className="relative rounded-md bg-gradient-to-r from-red-600 via-orange-500 to-amber-500 p-6 md:p-8 text-white shadow-xl overflow-hidden group">
         <div className="absolute right-0 bottom-0 opacity-15 transform translate-x-12 translate-y-12 group-hover:scale-110 transition duration-500">
@@ -51,7 +51,7 @@ const OverviewTab = ({ orderItems, orderStep, addToCart, setSelectedCategory, se
 
       {/* Recommended & Favorite Cuisines */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         {/* Categories Circles */}
         <div className="bg-white dark:bg-slate-900 p-6 rounded-md border border-slate-100 dark:border-slate-800 shadow-sm lg:col-span-2">
           <h3 className="text-lg font-black text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
@@ -92,7 +92,7 @@ const OverviewTab = ({ orderItems, orderStep, addToCart, setSelectedCategory, se
                 <p className="text-sm font-medium text-slate-300">Your order is being tracked live.</p>
                 <h4 className="text-xl font-bold mt-2 text-white">Status: {['Preparing 👨‍🍳', 'In Transit 🛵', 'Arrived 🍕'][orderStep] || 'Placed 🧾'}</h4>
                 <div className="w-full bg-slate-800 h-2 rounded-full mt-4 overflow-hidden">
-                  <div 
+                  <div
                     className="bg-gradient-to-r from-orange-500 to-amber-400 h-full transition-all duration-1000"
                     style={{ width: `${(orderStep + 1) * 25}%` }}
                   ></div>
@@ -128,7 +128,7 @@ const OverviewTab = ({ orderItems, orderStep, addToCart, setSelectedCategory, se
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {FOOD_ITEMS.filter(item => item.rating >= 4.8).slice(0, 3).map(item => (
-            <div 
+            <div
               key={item.id}
               onClick={() => addToCart(item)}
               className="bg-white dark:bg-slate-900 rounded-md overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group transform hover:scale-105 cursor-pointer"
@@ -140,9 +140,8 @@ const OverviewTab = ({ orderItems, orderStep, addToCart, setSelectedCategory, se
                   onError={(e) => { e.target.src = '/default-food.png'; e.target.onerror = null; }}
                   className="w-full h-full object-cover transform group-hover:scale-110 transition duration-500 ease-out"
                 />
-                <span className={`absolute top-4 left-4 px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 backdrop-blur-md shadow-md ${
-                  item.type === 'veg' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'
-                }`}>
+                <span className={`absolute top-4 left-4 px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 backdrop-blur-md shadow-md ${item.type === 'veg' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'
+                  }`}>
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
                   {item.type}
                 </span>
