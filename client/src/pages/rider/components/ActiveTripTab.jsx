@@ -44,7 +44,7 @@ export default function ActiveTripTab() {
                 <i className="bi bi-geo-alt-fill text-xl text-orange-600"></i>
               </button>
 
-              {/* Status Badge */}
+              {/* Status Badge */} 
               <div className="absolute top-4 left-4">
                 <span className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-slate-800 dark:text-white px-4 py-2 rounded-xl text-sm font-black shadow-lg flex items-center gap-2 border border-slate-200/50 dark:border-slate-700/50">
                   <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
