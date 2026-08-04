@@ -7,7 +7,7 @@ export default function EarningsTab() {
     { day: 'Wed', amount: 210, height: 'h-16' },
     { day: 'Thu', amount: 580, height: 'h-40' },
     { day: 'Fri', amount: 890, height: 'h-64' },
-    { day: 'Sat', amount: 1250, height: 'h-[320px]' }, // Highest
+    { day: 'Sat', amount: 1250, height: 'h-[320px]' },
     { day: 'Sun', amount: 980, height: 'h-[240px]' },
   ];
 
