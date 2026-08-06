@@ -96,11 +96,11 @@ html::-webkit-scrollbar-thumb:hover,
 /* Firefox compatibility */
 * {
     scrollbar-width: thin;
-    scrollbar-color: #cbd5e1 transparent;
+    scrollbar-color: #cbd5e1 transparent; 
 }
 
 .dark * {
-    scrollbar-color: #334155 transparent;
+    scrollbar-color: #334155 transparent; 
 }
 
 /* Hide global outer scrollbar */
