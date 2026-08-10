@@ -30,7 +30,7 @@ export const RegisterUser = async (req, res, next) => {
 
         const profilePic = {
             url: photoUrl,
-            publicId: null,
+            publicId: null, 
         };
         const SALT = await bcrypt.genSalt(10);
 
