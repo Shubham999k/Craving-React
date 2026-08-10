@@ -202,7 +202,7 @@ function OrderPage() {
                             <i className="bi bi-cart3 text-orange-600"></i> Selected Items
                         </h3>
 
-                        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700 space-y-4 pr-2">
+                        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700 space-y-4 pr-2">
                             {cart.length > 0 ? (
                                 cart.map(item => (
                                     <div key={item.id} className="flex gap-4 items-center bg-slate-50 dark:bg-slate-800/50 p-3 rounded border border-slate-100 dark:border-slate-800">
