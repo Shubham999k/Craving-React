@@ -16,7 +16,7 @@ function OrderPage() {
             try {
                 setCart(JSON.parse(savedCart));
             } catch {
-                setCart([]);
+                setCart([]); 
             }
         }
     }, []);
